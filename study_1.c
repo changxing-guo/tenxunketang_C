@@ -63,8 +63,9 @@ void g()
 
 void studyTest1()
 {
-    f();
+    test2();
 }
+
 
 //查看程序的结束状态（编译结束后输入）
 // echo %errorlevel%
@@ -72,3 +73,26 @@ void studyTest1()
 //编译.默认为a.exe,如果重命名的话，如下所示
 //gcc main.c -o testmain
 
+//练习
+//输入一个圆的半径，输出周长和面积
+void test1()
+{
+    float r, s, c;
+    printf("please input the radius of the circle : ");
+    scanf("%f", &r);
+    s = 3.14 * r * r;
+    c = 2 * 3.14 * r;
+    printf(" the area is %f , the perimeter is %f .", s, c);
+}
+
+//输入一个小写字母，输出对应的大写字母
+void test2()
+{
+    char num1, num2;
+    printf("请输入一个小写字母 : ");
+    scanf("%c", &num1);
+    //num2 = num1 - 32;
+    num2 = num1 - ('a' - 'A');
+    printf("%c 的大写字母是 %c.", num1, num2);
+
+}
