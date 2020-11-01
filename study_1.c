@@ -1,6 +1,7 @@
 #include "study_1.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 void a()
 {
@@ -162,7 +163,71 @@ void test3()
     printf("s8 is %s\n", s8);   //平凉市
 }
 
+void  testBool() {
+    //c89用int表示bool类型，建议纯c项目还是用int类型表示真假，这样兼容性比较好。 0=假， ！0= 真
+    if(-1) {
+        printf("-1 is true\n");
+    }
+    if(0){
+        printf("0 is false\n");
+    }
+    if(1){
+        printf("1 is true\n");
+    }
+   //c99标准
+    bool ret;
+    ret = 3>5;
+    printf("ret = %d\n", ret);
+    ret = 3<5;
+    printf("ret = %d\n", ret);
+
+    if (true) {
+        printf("true is 真\n");
+    }
+
+    if(false) {
+        printf("false is 假\n");
+    }
+}
+
+/**
+ * 自增自减,只能对变量做这个，常量不可以
+ * x = i++; x = i; i = i+1;
+ * x = ++i; i = i+1, x = i;
+ *
+ */
+
+void testComma()
+{
+    // 逗号表达式
+    int ret1,ret2;
+    ret1 = (2+2, 3+3, 4+4); //8
+    ret2 = 2+2, 3+3, 4+4;   //4
+    printf("ret1 = %d, ret2 = %d\n", ret1, ret2);
+}
+
+//三目运算符
+void testSanMu()
+{
+    int age,day;
+    printf("请输入你的年龄:");
+    scanf("%d", &age);
+    day = age>24 ? 0:1;
+    printf("day is %d\n", day);
+}
+
+//类型转化
+/**
+ * 1，隐式类型转化
+ *      算数类型转换 float ret1; ret1 = 10 *3.14; => 10.0 *.3.14;
+ *      赋值转换 int x; x=3.14; => x=3;
+ *      输出转换 printf("%c\n", 255+50); => 305 -> 49 ('1')
+ *          100110001 -> 00110001 -> 43 -> '1'
+ * 2、强制类型转换
+ *      printf("%d\n", (char)256+100);
+ */
+
 void studyTest1()
 {
-    test3();
+    testSanMu();
 }
