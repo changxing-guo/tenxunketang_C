@@ -5,6 +5,7 @@
 
 void a()
 {
+    system("cls");
     printf("---交换机管理系统---\n");
     printf("1、登陆--\n");
     printf("2、创建账号\n");
