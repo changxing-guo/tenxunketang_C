@@ -227,6 +227,9 @@ void testSanMu()
  *      printf("%d\n", (char)256+100);
  */
 
+//运算符优先级
+// ! > 算数运算符 > 关系运算符 > && > || > 赋值运算符
+// 最低优先级： 逗号运算符
 void studyTest1()
 {
     testSanMu();
