@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <windows.h>
 
 void a()
 {
@@ -231,7 +232,36 @@ void testSanMu()
 //运算符优先级
 // ! > 算数运算符 > 关系运算符 > && > || > 赋值运算符
 // 最低优先级： 逗号运算符
+
+// while test.两种方式根据自己的习惯决定，都可以的
+void test_while1()
+{
+    int i = 1;
+    while(1) {
+        printf("1这儿有%d只羊\n", i);
+        if (10 == i) break;
+        i++;
+        //sleep(1); //这个是linux接口，单位秒
+        Sleep(1000); // 这个是windows接口。单位毫秒。头文件windows.h
+    }
+    printf("我睡着啦\n");
+}
+
+void test_while2()
+{
+    int i = 1;
+    while(i <= 10) {
+        printf("2这儿有%d只羊\n", i);
+        //if (10 == i) break;
+        i++;
+        //sleep(1); //这个是linux接口，单位秒
+        Sleep(1000); // 这个是windows接口。单位毫秒。头文件windows.h
+    }
+    printf("我睡着啦\n");
+}
+
 void studyTest1()
 {
-    testSanMu();
+    test_while1();
+    test_while2();
 }

@@ -4,11 +4,8 @@
 #include "study_1.h"
 #endif
 
-int main()
+int main_project()
 {
-#if 0
-    studyTest1();
-#endif
     while (1) {
         char name[32];
         char passwd[16];
@@ -27,5 +24,12 @@ int main()
         }
     }
     a();
-    return 0;
+    //return 0;
+}
+
+
+int main()
+{
+    //main_project();
+studyTest1();
 }
