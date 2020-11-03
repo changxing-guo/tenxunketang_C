@@ -176,7 +176,7 @@ void  testBool() {
     if(1){
         printf("1 is true\n");
     }
-   //c99标准
+    //c99标准
     bool ret;
     ret = 3>5;
     printf("ret = %d\n", ret);
@@ -260,8 +260,84 @@ void test_while2()
     printf("我睡着啦\n");
 }
 
+//循环练习
+//1、金字塔
+void pyramid()
+{
+    int n;
+    printf("请输入金字塔的层数：");
+    scanf("%d", &n);
+    for(int i=1; i<n+1;i++) {
+        //printf("%d %d\n", i, n);
+        for(int j=0; j<n-i; j++) {
+            printf(" ");
+        }
+        for(int k=0; k<2*i-1; k++) {
+            printf("*");
+        }
+        printf("\n");
+    }
+}
+
+//打印乘法口诀表
+void multiplicationTable()
+{
+    for(int i=1; i<=9; i++) {
+        for(int j=1; j<i+1;j++) {
+            printf("%dX%d=%d\t", i, j, i*j);
+        }
+        printf("\n");
+
+    }
+}
+
+//翻转字符串
+void flipStr()
+{
+    char buff[64];
+    printf("请输入一个字符串：");
+    gets(buff);
+    int len = strlen(buff);
+    printf("the str strlen is %d\n", len);
+    for(int i=0; i<len/2; i++) {
+        char tmp = buff[i];
+        buff[i] = buff[len-i-1];
+        buff[len-i-1] = tmp;
+    }
+    printf("输出：%s", buff);
+
+}
+
+//打印斐波那契数列、
+void printFibonacciSequence()
+{
+    int n;
+    printf("请输入斐波那契数列的长度：");
+    scanf("%d", &n);
+    if(n<1) {
+        printf("最小长度为1\n");
+        return 1;
+    } else if (n == 1) {
+        printf("1\n");
+        return 0;
+    } else if(n == 2) {
+        printf("1,1\n");
+        return 0;
+    }
+    // n > 2
+    printf("1,1");
+    int num1=1,num2=1;
+    int tmp;
+    for(int i=2; i<n; i++){
+        tmp = num1+num2;
+        printf(",%d", tmp);
+        num1 = num2;
+        num2 = tmp;
+    }
+
+}
+
 void studyTest1()
 {
-    test_while1();
-    test_while2();
+    printFibonacciSequence();
 }
