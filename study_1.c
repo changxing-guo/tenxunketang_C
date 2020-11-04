@@ -359,9 +359,27 @@ void printFibonacciSequence()
  *      "ab+"   与“ab”的区别在于，增加了“读”
  */
 
+// 读取users.txt文件并打印出来
+void test_fgetc()
+{
+    FILE *file ;
+    char buff;
 
+    file = fopen("E:\\qtcode\\tenxunketang_C\\users.txt", "r");
+    /*while(1) {
+        buff = fgetc(file);
+        if (buff == EOF) break; // EOF = -1 ，文件结尾有这个标志
+        printf("%c", buff);
+    }*/
+
+    while((buff = fgetc(file)) != EOF) {    //此处 要注意运算符的优先级
+        printf("%c", buff);
+    }
+
+    fclose(file);
+}
 
 void studyTest1()
 {
-    printFibonacciSequence();
+    test_fgetc();
 }
