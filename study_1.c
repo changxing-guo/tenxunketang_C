@@ -379,7 +379,30 @@ void test_fgetc()
     fclose(file);
 }
 
+/**
+ * fgets, fputs
+ * 需求，把这个文件内容复制到study_copyTest.c
+ */
+void testCopy()
+{
+    FILE *sourceFile;
+    FILE *copyFile;
+    char buff;
+
+    sourceFile = fopen("E:\\qtcode\\tenxunketang_C\\study_1.c", "r");
+    copyFile = fopen("E:\\qtcode\\tenxunketang_C\\study_copyTest.c", "w");
+    if (!sourceFile || !copyFile) {
+        printf("sourceFile文件或者copyFile文件打开失败\n");
+    }
+
+    while ((buff = fgetc(sourceFile)) != EOF) {
+        fputc(buff, copyFile);
+    }
+
+    fclose(sourceFile);
+    fclose(copyFile);
+}
 void studyTest1()
 {
-    test_fgetc();
+    testCopy();
 }
