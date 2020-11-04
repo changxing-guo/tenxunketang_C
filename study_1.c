@@ -316,13 +316,13 @@ void printFibonacciSequence()
     scanf("%d", &n);
     if(n<1) {
         printf("最小长度为1\n");
-        return 1;
+        return ;
     } else if (n == 1) {
         printf("1\n");
-        return 0;
+        return ;
     } else if(n == 2) {
         printf("1,1\n");
-        return 0;
+        return ;
     }
     // n > 2
     printf("1,1");
@@ -336,6 +336,30 @@ void printFibonacciSequence()
     }
 
 }
+
+/**
+ * FILE *fopen(const char *fname, const *char mode);
+ * 参数1 ： fname 文件名，绝对路径和相对路径
+ * 参数2 ： mode 打开方式
+ * 返回值： FILE * 文件指针。打开失败返回NULL(就是0)
+ *  mode
+ *      "r"     以“读”的方式打开一个文本文件，只能“读”
+ *      "r+"    与“r”的区别在于，增加了“写”
+ *      "rb"    以“读”的方式打开一个二进制文件
+ *      "rb+"   与“rb”的区别在于，增加了“写”
+ *
+ *      "w"     以“写”的方式创建一个文本文件，如果这个文件已存在，就会覆盖原来的文件
+ *      "w+"    与“w”的区别在于，增加了“读”
+ *      "wb"    以“读”的方式创建一个二进制文件
+ *      "wb+"   与“w+”的区别在于，增加了“读”
+ *
+ *      "a"     以“尾部追加”的方式打开一个文本文件（只能写）
+ *      "a+"    与“a”的区别在于，增加了“读”
+ *      "ab"    以“尾部追加”的方式打开一个二进制文件（只能写）
+ *      "ab+"   与“ab”的区别在于，增加了“读”
+ */
+
+
 
 void studyTest1()
 {
