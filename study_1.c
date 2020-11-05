@@ -380,7 +380,7 @@ void test_fgetc()
 }
 
 /**
- * fgets, fputs
+ * fgetc, fputc
  * 需求，把这个文件内容复制到study_copyTest.c
  */
 void testCopy()
@@ -402,7 +402,64 @@ void testCopy()
     fclose(sourceFile);
     fclose(copyFile);
 }
+
+// fgets
+/**
+ * @brief test_fgets
+ * #include <stdio.h>
+ * char *fgets( char *str, int num, FILE *stream );
+ * 参数：最多读num-1个字符，或者遇到文件结束符EOF为止(即文件读完了)
+ * 返回值：读取失败时，返回NULL
+ *         读取成功时，返回str
+ */
+//需求：打印该文件到屏幕
+void test_fgets()
+{
+    FILE *file;
+    char *buff;
+    file = fopen("E:\\qtcode\\tenxunketang_C\\study_1.c", "r");
+    if(!file) {
+        printf("文件打开失败\n");
+    }
+
+    while(fgets(buff, 128, file)) {
+        printf("%s", buff);
+    }
+    /*char * ret;
+    ret = fgets(buff, 128, file);
+    printf("%s", ret);
+    printf("\n\n%d", NULL);
+    */
+
+    fclose(file);
+}
+
+/**
+ * #include <stdio.h>
+ * int fputs( const char *str, FILE *stream );
+ */
+// 需求，将study_1.c写到filewritetest.txt
+void test_fputs()
+{
+    FILE *file_out;
+    FILE *file_in;
+    char buff[128];
+    file_out = fopen("E:\\qtcode\\tenxunketang_C\\study_1.c", "r");
+    file_in = fopen("E:\\qtcode\\tenxunketang_C\\filewritetest.txt", "w");
+    if (!file_in || !file_out) {
+        printf("文件打开失败\n");
+        return;
+    }
+    while (fgets(buff, sizeof (buff), file_out)) {
+        fputs(buff, file_in);
+    }
+    fclose(file_out);
+    fclose(file_in);
+    printf("文件拷贝完成，加油啊，少年\n");
+
+}
+
 void studyTest1()
 {
-    testCopy();
+    test_fputs();
 }
