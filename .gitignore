@@ -50,3 +50,8 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+#otherfile_mytest
+filewritetest.txt
+tenxunketang_C.pro.user
+
