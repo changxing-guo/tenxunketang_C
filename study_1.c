@@ -459,7 +459,84 @@ void test_fputs()
 
 }
 
+/**
+ * #include <stdio.h>
+ * int fprintf( FILE *stream, const char *format, ... );
+ * 将文件按照格式存储
+ */
+// 需求，将读取到的姓名和年龄按照格式存储
+void test_fprintf_1()
+{
+    FILE *file;
+    //char *ret;
+    char name[32];
+    int age;
+    int age2;
+    char c;
+
+    file = fopen("E:\\qtcode\\tenxunketang_C\\filewritetest.txt", "a");
+    if (!file) {
+        printf("文件打开失败\n");
+    }
+
+    while(1) {
+        printf("请输入你的姓名：");
+        // 假设输入gcx
+        scanf("%s", name);  //此时缓冲区为 g c x \n , scanf 按下回车读取后，缓冲区还有"\n"
+        printf("请输入你的年龄：");
+        // 假设输入 22
+        scanf("%d", &age);  //此时缓冲区为 \n 22 \n, 按下回车键，%d 不读取\n（跳过），所以读到22，缓冲区还有"\n"
+        //此时应清除缓冲区，否则下一个scanf读取字符或者字符串的时候会读取到你的"\n"
+        //清除缓冲区
+        //fflush(stdin); //最简单的方式，如果要兼容性好的话，用下面的试试
+        while ((c=getchar()) != '\n') {} //循环清空缓冲区，当读取到\n的时候跳出循环
+
+        fprintf(file, "name:%s\t\tage:%d\n", name, age);
+        printf("还要继续输入吗？(Y/N)\n");
+        scanf("%c", &c);
+        if (c == 'Y' || c == 'y') {
+            continue;
+        } else {
+            break;
+        }
+    }
+    fclose(file);
+}
+
+//将users.txt中读取到的文本按照格式存储
+void test_fprintf_2()
+{
+    FILE * file_user;
+    FILE * file_test;
+    char line[128];
+    char * ret_line;
+    char name[32];
+    char passwd[32];
+
+    file_user = fopen("E:\\qtcode\\tenxunketang_C\\users.txt", "r");
+    file_test = fopen("E:\\qtcode\\tenxunketang_C\\filewritetest.txt", "a");
+    if (!file_test || !file_user) {
+        printf("文件打开失败\n");
+        return;
+    } else {
+        printf("文件打开成功\n");
+    }
+    printf("文件开始写入\n");
+    while(1) {
+        ret_line = fgets(line, sizeof (line), file_user);
+        if (!ret_line) {
+            break;
+        }
+        sscanf(line, "%s %s", name, passwd);
+        fprintf(file_test, "name:%s\t\tage:%s\n", name, passwd);
+    }
+    printf("文件写入结束\n");
+    fclose(file_user);
+    fclose(file_test);
+
+}
+
 void studyTest1()
 {
-    test_fputs();
+    test_fprintf_2();
 }
