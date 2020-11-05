@@ -11,4 +11,5 @@ HEADERS += \
     study_1.h
 
 DISTFILES += \
-    users.txt
+    users.txt \
+    filewritetest.txt
