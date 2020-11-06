@@ -536,7 +536,51 @@ void test_fprintf_2()
 
 }
 
+// scanf 格式化读取数据
+/**
+ * 例子:输入：name=gcx age=22
+ *      输出name = gcx, age = 22
+ */
+void test_scanf() {
+    char name[32];
+    int age;
+    //scanf("name=%s age=%d", name, &age); //下面的是一样的效果
+    fscanf(stdin, "name=%s age=%d", name, &age);
+    printf("name = %s, age = %d \n", name, age);
+}
+
+/*
+ * 从test_fscanf.txt中格式化读取文本
+ * 目前测试看，文件格式必须统一，不然的话会导致程序错乱
+ */
+void test_fscanf()
+{
+    char name[32];
+    int age;
+    FILE * file;
+    int ret;
+
+    file = fopen("E:\\qtcode\\tenxunketang_C\\test_fscanf.txt", "r");
+    if (!file) {
+        printf("文件打开失败\n");
+        return;
+    }
+    /*while (1) {
+        ret = fscanf(file, "name=%s age=%d\n", name, &age);
+        printf("ret = %d\n", ret);
+        if(ret == EOF) {break;}
+        printf("name = %s, age = %d\n", name ,age);
+    }*/
+
+    while (fscanf(file, "name=%s age=%d\n", name, &age) != EOF) {
+        printf("name = %s, age = %d\n", name ,age);
+    }
+    fclose(file);
+}
+
+
+
 void studyTest1()
 {
-    test_fprintf_2();
+    test_fscanf();
 }
