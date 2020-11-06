@@ -578,9 +578,37 @@ void test_fscanf()
     fclose(file);
 }
 
+/*
+    #include <stdio.h>
+    int fwrite( const void *buffer, // 要写入数据的起始地址，也就是变量的地址
+                size_t size,        // 每块数据的大小
+                size_t count,       // 写入的数据快的个数
+                FILE *stream );     // 写入的文件指针
+    // 需求，把读到的文件以二进制保存到test_fwrite.txt
+*/
+void test_fwrite()
+{
+    char name[32];
+    int age;
+    FILE * file;
+
+    printf("请输入你的姓名：");
+    scanf("%s", name);
+    printf("情输入你的年龄：");
+    scanf("%d", &age);
+    file = fopen("E:\\qtcode\\tenxunketang_C\\test_fwrite.txt", "wb"); // 以二进制写的方式打开
+    if (!file) {
+        printf("文件写入失败\n");
+        return;
+    }
+    fwrite(name, sizeof(char), sizeof (name), file);
+    fwrite(&age, sizeof (int), 1, file);
+    printf("文件写入完成，即将保存文件\n");
+    fclose(file);
+}
 
 
 void studyTest1()
 {
-    test_fscanf();
+    test_fwrite();
 }
