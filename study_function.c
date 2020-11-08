@@ -39,8 +39,26 @@ int sum(int n)
     return sum;
 }
 
+/*
+ * 3、函数的值传递
+ */
+// 求两个数的和
+int add(int a, int b)   // a = x, b = y, 值传递
+{
+    return a + b;
+}
+
 void mainStudyFunction()
 {
+    /*  sum
     int s = sum(10);
     printf("sum = %d\n", s);
+    */
+
+    int x, y, z;
+    x = 100;
+    y = 200;
+    z = add(x, y);  // 函数调用
+    printf("add = %d\n", z);
+
 }
