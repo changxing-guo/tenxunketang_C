@@ -1,28 +1,34 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #ifndef STUDY_1_H
 #include "study_1.h"
 #endif
 
-int main_project()
-{
-    char name[32];      //输入的用户名
-    char passwd[32];    //输入的密码
-    FILE *userNamePasswdFile;         //保存用户账号密码的文件
-    char line[128];
-    char nameCompare[32];   //用于比较的用户名
-    char passwdCompare[32]; //用于比较的密码
-    char *getsUsersTxtLineResult;   //users.txt文件fgets读取一行的返回值
-    int menuChange = 0; //菜单选择
+FILE *userNamePasswdFile;       //保存用户账号密码的文件
 
+// 初始化函数
+void init()
+{
     //打开文件
     userNamePasswdFile = fopen("E:\\qtcode\\tenxunketang_C\\users.txt", "r");
     if(!userNamePasswdFile) {     // 等效于 file = NULL
         printf("文件打开失败\n");
-        return 1;
+        exit(1);
     }
+}
 
+// 用户的账号密码验证
+void login()
+{
+    char name[32];      //输入的用户名
+    char passwd[32];    //输入的密码
+
+    char line[128];
+    char nameCompare[32];   //用于比较的用户名
+    char passwdCompare[32]; //用于比较的密码
+    char *getsUsersTxtLineResult;   //users.txt文件fgets读取一行的返回值
     while (1) {
 
         printf("请输入用户名：");
@@ -62,46 +68,84 @@ int main_project()
             fseek(userNamePasswdFile, 0, SEEK_SET); // 将文件内部的位置指针设置到文件头
         }
     }
+
+}
+
+//主菜单页面
+void show_menu()
+{
+    // 主菜单界面
+    system("cls");
+    printf("---交换机管理系统---\n");
+    printf("1、创建账号\n");
+    printf("2、ip管理\n");
+    printf("3、退出--\n");
+    printf("请选择：");
+}
+
+// 账号管理
+void create_user()
+{
+    system("cls");
+    printf("1、创建账号\n");
+    printf("按任意键返回主菜单\n");
+    getchar();
+}
+
+//ip 管理
+void ip_manager()
+{
+    system("cls");
+    printf("2、ip管理\n");
+    printf("按任意键返回主菜单\n");
+    getchar();
+}
+
+// 退出账号
+void logout()
+{
+    fclose(userNamePasswdFile);
+    system("cls");
+    exit(0);
+}
+
+void input_error()
+{
+    system("cls");
+    printf("请输入有效的菜单选项\n");
+    printf("按任意键返回主菜单\n");
+    getchar();
+}
+
+void main_project()
+{
+    int menuChange = 0; //菜单选择
+
+    init();
+    login();
+
     // 账号密码正确，输出主菜单
     while (1) {
-        // 主菜单界面
-        system("cls");
-        printf("---交换机管理系统---\n");
-        printf("1、创建账号\n");
-        printf("2、ip管理\n");
-        printf("3、退出--\n");
-        printf("请选择：");
+        show_menu();
         scanf("%d", &menuChange);
         fflush(stdin);
-
         // 子功能
         switch (menuChange) {
         case 1:
-            system("cls");
-            printf("1、创建账号\n");
-            printf("按任意键返回主菜单\n");
-            getchar();
+            create_user();
             break;
         case 2:
-            system("cls");
-            printf("2、ip管理\n");
-            printf("按任意键返回主菜单\n");
-            getchar();
+            ip_manager();
             break;
         case 3:
-            system("cls");
-            return 0;
-            //break;
+            logout();
+            break;
         default:
-            system("cls");
-            printf("请输入有效的菜单选项\n");
-            printf("按任意键返回主菜单\n");
-            getchar();
+            input_error();
             break;
         }
 
     }
-    return 0;
 }
 
 
