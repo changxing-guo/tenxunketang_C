@@ -75,24 +75,29 @@ int main_project()
         fflush(stdin);
 
         // 子功能
-        if (menuChange == 1) {
+        switch (menuChange) {
+        case 1:
             system("cls");
             printf("1、创建账号\n");
             printf("按任意键返回主菜单\n");
             getchar();
-        } else if (menuChange == 2) {
+            break;
+        case 2:
             system("cls");
             printf("2、ip管理\n");
             printf("按任意键返回主菜单\n");
             getchar();
-        } else if (menuChange == 3) {
+            break;
+        case 3:
             system("cls");
             return 0;
-        } else {
+            //break;
+        default:
             system("cls");
             printf("请输入有效的菜单选项\n");
             printf("按任意键返回主菜单\n");
             getchar();
+            break;
         }
 
     }
