@@ -713,9 +713,139 @@ void test_getw()
 }
 
 
+// feof
+/**
+ * 检测流上的文件结束符。如果文件结束，则返回非0值，否则返回0，文件结束符只能被clearerr()清除。
+ * int feof(FILE *stream);
+ * feof判断文件结束是通过读取函数fread/fscanf等返回错误来识别的，故而判断文件是否结束应该是在读取函数之后进行判断
+ * 比如，在while循环读取一个文件时，如果是在读取函数之前进行判断，则如果文件最后一行是空白行，可能会造成内存错误。
+ */
+
+// ferror
+/**
+ * int ferror(FILE *stream);
+ * ferror，函数名，在调用各种输入输出函数（如 putc.getc.fread.fwrite等）时，
+ * 如果出现错误，除了函数返回值有所反映外，还可以用ferror函数检查。
+ * 它的一般调用形式为 ferror(fp)；如果ferror返回值为0（假），表示未出错。
+ * 如果返回一个非零值，表示出错。
+ * 应该注意，对同一个文件 每一次调用输入输出函数，均产生一个新的ferror函 数值，
+ * 因此，应当在调用一个输入输出函数后立即检 查ferror函数的值，否则信息会丢失。
+ * 在执行fopen函数时，ferror函数的初始值自动置为0。
+ */
+void test_ferror() {
+    FILE * file;
+    file = fopen("E:\\qtcode\\tenxunketang_C\\users.txt", "r");
+    if(!file){
+        printf("文件打开失败\n");
+        return;
+    }
+    fputc("Y" ,file);
+    if (ferror(file)) {
+        perror("fputc:");   // 用来打印文件错误信息。
+        //eg : fputc:: Bad file descriptor
+    }
+    fclose(file);
+}
+
+// clearerr
+/**
+ * 用 法:void clearerr(FILE *stream);
+ * clearerr的作用是使文件错误标志和文件结束标志置为0.
+ * 假设在调用一个输入输出函数时出现了错误，ferror函数值为一个非零值。在调用clearerr（fp）后，ferror（fp）的值变为0。
+ * 注意：
+ *      clearerr函数的作用是清除由stream指向的文件流的文件尾标识和错误标识。
+ *      它没有返回值，也未定义任何错误。你可以通过使用它从文件流的错误状态中恢复。
+ */
+void test_clearerr()
+{
+    FILE * file;
+    char c;
+
+    file = fopen("E:\\qtcode\\tenxunketang_C\\users.txt", "r");
+    if(!file){
+        printf("文件打开失败\n");
+        return;
+    }
+    fputc('Y' ,file);   // 注意，字符是单引号 ''
+    // 此时发生错误标志，如不清除，会一直存在，我们做个小测试
+    /*
+    if (ferror(file)) {
+        perror("fputc:");   // 用来打印文件错误信息。
+        //eg : fputc:: Bad file descriptor
+    }
+    c = fgetc(file);
+    printf("c = %c\n", c);
+
+    if(ferror(file)) {
+        perror("fgetc");
+    }
+    */
+    /*
+     * 此时输出
+     * fputc:: Bad file descriptor
+     * c = a
+     * fgetc: Bad file descriptor
+     */
+
+    // 下面我们加入clearerr。继续测试
+    if (ferror(file)) {
+        perror("fputc:");   // 用来打印文件错误信息。
+        clearerr(file);
+        //eg : fputc:: Bad file descriptor
+    }
+    c = fgetc(file);
+    printf("c = %c\n", c);
+
+    if(ferror(file)) {
+        perror("fgetc");
+    }
+    /*
+     * 此时输出.
+     * fputc:: Bad file descriptor
+     * c = a
+     */
+    fclose(file);
+}
+
+// 长度复习
+/*
+ * char     1
+ * int      4
+ * long     32位系统  long = int  4
+ *          64位系统              8
+ * long long 不管什么系统         8
+ */
+
+// ftell
+/*
+ * long ftell(FILE *stream);
+ * 使用fseek函数后再调用函数ftell()就能非常容易地确定文件的当前位置。
+ * 因为ftell返回long型，根据long型的取值范围-231~231-1（-2147483648～2147483647），故对大于2.1G的文件进行操作时出错。
+ * 函数 ftell 用于得到文件位置指针当前位置相对于文件首的偏移字节数。
+ * 在随机方式存取文件时，由于文件位置频繁的前后移动，程序不容易确定文件的当前位置。
+ */
+void test_ftell()
+{
+    FILE * file;
+    long offset;
+    char buff[32];
+
+    file = fopen("E:\\qtcode\\tenxunketang_C\\users.txt", "r");
+    if(!file){
+        printf("文件打开失败\n");
+        return;
+    }
+    offset = ftell(file);
+    printf("offset1 = %ld\n", offset);
+
+
+    fgets(buff, 32, file);  // 此函数buff必须数组，否则出错
+    offset = ftell(file);
+    printf("offset1 = %ld\n", offset);
+    fclose(file);
+}
+
 void studyTest1()
 {
-    test_putw();
-    Sleep(1000);
-    test_getw();
+    test_ftell();
 }
