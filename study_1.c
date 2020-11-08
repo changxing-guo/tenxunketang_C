@@ -749,6 +749,7 @@ void test_ferror() {
 
 // clearerr
 /**
+ * #include <stdio.h>
  * 用 法:void clearerr(FILE *stream);
  * clearerr的作用是使文件错误标志和文件结束标志置为0.
  * 假设在调用一个输入输出函数时出现了错误，ferror函数值为一个非零值。在调用clearerr（fp）后，ferror（fp）的值变为0。
@@ -818,6 +819,7 @@ void test_clearerr()
 
 // ftell
 /*
+ * #include <stdio.h>
  * long ftell(FILE *stream);
  * 使用fseek函数后再调用函数ftell()就能非常容易地确定文件的当前位置。
  * 因为ftell返回long型，根据long型的取值范围-231~231-1（-2147483648～2147483647），故对大于2.1G的文件进行操作时出错。
@@ -845,7 +847,66 @@ void test_ftell()
     fclose(file);
 }
 
+// fseek
+/*
+ * #include <stdio.h>
+ * int fseek(FILE *stream, long offset, int fromwhere)
+ * 参数：
+ *     1、第一个参数stream为文件指针
+ *     2、offset： 第二个参数offset为偏移量，正数表示正向偏移，负数表示负向偏移
+ *     3、fromwhere：文件指针的位置，
+ *          1）SEEK_SET  ,文件开始位置，参数offset必须大于0
+ *          2）SEEK_CUR  ,文件当前位置，参数offset可正可负
+ *          3）SEEK_END  ,文件结尾，参数offset必须为负
+ *          其中SEEK_SET,SEEK_CUR和SEEK_END依次为0，1和2.
+ * 返回值：成功，返回0，失败返回非0值，并设置error的值，可以用perror()函数输出错误。
+ * fseek函数的文件指针，应该为已经打开的文件。如果没有打开的文件，那么将会出现错误。
+ * fseek函数也可以这样理解，相当于在文件当中定位。这样在读取规律性存储文件时可以利用其OFFSET偏移量读取文件上任意的内容。
+ * fseek函数一般用于二进制文件，也可以用于文本文件。
+ * 用于文本文件操作时，需特别注意只有fseek(fp, 0, SEEK_SET) 和 fseek(fp, ftell(fp), SEEK_SET)能确保结果符合预期
+ */
+// rewind
+/*
+ * #include <stio.h>
+ * void rewind(FILE *stream);
+ * 将文件内部的位置指针重新指向一个流（数据流/文件）的开头
+ * rewind函数作用等同于 (void)fseek(stream, 0L, SEEK_SET);
+ */
+void test_fseek()
+{
+    FILE * file;
+    char line[128];
+    char c;
+
+    file = fopen("E:\\qtcode\\tenxunketang_C\\users.txt", "r");
+    if (!file) {
+        printf("文件打开失败\n");
+        return;
+    }
+    // 读取文件的最后10个字符
+    fseek(file, -10, SEEK_END);
+    while((c = fgetc(file)) != EOF) {
+        printf("%c", c);
+    }
+
+    // 读取文件的第一行
+    fseek(file, 0, SEEK_SET);
+    // rewind(file);    //此函数相当于fseek(file, 0, SEEK_SET);
+    fgets(line, sizeof (line), file);
+    printf("line = %s\n", line);
+
+    //读取文件的当前位置的前5个字符
+    fseek(file, -5, SEEK_CUR);
+    for (int i=0; i<5; i++) {
+        c= fgetc(file);
+        printf("%c",c);
+    }
+
+fclose(file);
+}
+
+
 void studyTest1()
 {
-    test_ftell();
+    test_fseek();
 }
