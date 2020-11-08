@@ -905,8 +905,68 @@ void test_fseek()
 fclose(file);
 }
 
+// 练习。统计下这个代码本身有多少个字符，有多少行
+void testFileLine()
+{
+    FILE * file;
+    // 要记得初始化变量
+    int count_char = 0;
+    int count_line = 0;
+    char c;
+
+    file = fopen("E:\\qtcode\\tenxunketang_C\\study_1.c", "r");
+    if (!file) {
+        printf("the file is open fail\n");
+        return;
+    }
+    while((c = fgetc(file)) != EOF) {
+        count_char++;
+        if (c == '\n') {    //文件每行末尾有回车符
+            count_line++;
+        }
+    }
+    printf("字符个数是： %d , 行数是: %d", count_char, count_line);
+    fclose(file);
+}
+
+// 练习：从文本中testFoundTel.txt中查找电话号码
+void testFoundTel()
+{
+    FILE *file;
+    char name[32];
+    char tel[32];
+    char addr[32];
+
+    int found = 0;
+    char name_tmp[32];
+
+    file = fopen("E:\\qtcode\\tenxunketang_C\\testFoundTel.txt", "r");
+    if (!file) {
+        printf("电话薄打开失败\n");
+        return;
+    }
+
+    printf("请输入要查找的姓名：");
+    scanf("%s", name);
+
+    while (!feof(file)) {
+        //特别注意，一定要注意换行符，否则一直读第一行
+        fscanf(file, "name:%s tel:%s addr:%s\n", name_tmp, tel, addr);
+        //printf("test %s %s %s \n", name_tmp, tel, addr);
+        if (!strcmp(name, name_tmp)) {
+            found = 1;
+            break;
+        }
+    }
+    if (found) {
+        printf("%s的电话号码是 ： %s， 地址是 ： %s", name, tel, addr);
+    } else {
+        printf("未查找到\n");
+    }
+    fclose(file);
+}
 
 void studyTest1()
 {
-    test_fseek();
+    testFoundTel();
 }

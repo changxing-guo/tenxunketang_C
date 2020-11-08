@@ -13,4 +13,5 @@ HEADERS += \
 DISTFILES += \
     users.txt \
     filewritetest.txt \
-    test_fscanf.txt
+    test_fscanf.txt \
+    testFoundTel.txt
