@@ -607,6 +607,19 @@ void test_fwrite()
     fclose(file);
 }
 
+/*
+ * windows平台下w和wb的小结
+ *
+ *  二进制文件写入补充，fwrite
+    在windows平台下，当使用w方式打开文件时：
+    如果使用fwrite写入数据时，会把'\n'写入为'\r''\n'
+    即把'\n'保存为13 10
+    因为在windows平台下   ，文本文件的回车符'\n',会保存为'\r\n'
+    ('\n'的ASCII 码为10，'\r'的ASCII 码为13)
+
+    当用wb方式打开文件时，
+    如果使用fwrite方式写入数据是，遇到'\n'仍只写入为'\n'
+*/
 
 void studyTest1()
 {
