@@ -902,7 +902,7 @@ void test_fseek()
         printf("%c",c);
     }
 
-fclose(file);
+    fclose(file);
 }
 
 // 练习。统计下这个代码本身有多少个字符，有多少行
@@ -964,6 +964,28 @@ void testFoundTel()
         printf("未查找到\n");
     }
     fclose(file);
+}
+
+// switch 注意事项
+/*
+ * 1、只能用于int、char，long， long long类型
+ * 2、case内部不能定义变量，要定义的话必须加（），这个是作用域的问题
+ */
+void test_switch()
+{
+    int n;
+    scanf("%d", &n);
+    switch (n) {    //只能用于int,short,char，long， long long类型
+    case 1:
+    {
+        int y = 3; // 定义变量时要加括号
+        break;
+    }
+    case 2:
+        break;
+    default:
+        break;
+    }
 }
 
 void studyTest1()
