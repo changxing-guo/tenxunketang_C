@@ -636,9 +636,86 @@ void test_fread()
     fread(name, sizeof (char), sizeof (name), file);
     fread(&age, sizeof (int), 1, file);
     printf("name = %s, age = %d\n", name, age);
+    fclose(file);
 }
+
+// putw 以二进制形式存储一个整数
+/*
+ * 对磁盘文件写一个字（整数）
+ * int putw(int w, FILE *fp);将整型w写进fp指向的文件
+ * 返回输出的整数，如果出错，则返回EOF
+ */
+void test_putw()
+{
+    FILE * file;
+    int a[] = {1,2,-1,4,5};
+    int a_len;
+
+    file = fopen("E:\\qtcode\\tenxunketang_C\\test_putw.txt", "wb");
+    if (!file) {
+        printf("文件打开失败\n");
+        return;
+    }
+    //查看数组的长度。注意使用 sizeof (a) / sizeof (int);不能使用strlen，这个是看字符串的
+    a_len = sizeof (a) / sizeof (int);
+    printf("a_len = %d\n", a_len);
+    for (int i = 0; i < a_len; i++) {
+        putw(a[i], file);
+    }
+    fclose(file);
+}
+
+// getw二进制形式读取整数
+/*
+ * int getw(FILE *fp)
+ * 从fp所指向文件读取下一个字（整数）
+ * 返回输入的整数。如果文件结束或者出错返回-1。
+ */
+void test_getw()
+{
+    printf("the function is test_getw\n");
+    FILE * file;
+    int i;
+    file = fopen("E:\\qtcode\\tenxunketang_C\\test_putw.txt", "rb");
+
+    if(!file) {
+        printf("文件打开失败\n");
+        return;
+    }
+
+    // 这种读取方式有个问题，应为EOF 的值就是-1，所以我们读取上个函数保存的数组是，只能读取两个
+    // 假设读取int a[] = {1,2,-1,4,5}; 此时只能读到 1,2
+    /*
+    while((i = getw(file)) != EOF) {
+        printf("%d ", i);
+    }
+    */
+
+    // 我们接着用下面的文件状态判断函数继续测试
+    // 假设读取int a[] = {1,2,-1,4,5}; 此时却读到1,2,-1,4,5,-1
+    // 因为文件结束符就是-1，所以也会读出来，此种方式还是有瑕疵
+    /*
+    while (!feof(file)) {   // 当文件读取未结束的时候
+        i = getw(file);
+        printf("%d ", i);
+    }
+    */
+
+    // ？ 那我们怎么能只读取到有用的数据
+    while (1) {
+        i = getw(file);
+        if (i == -1 && feof(file)) {
+            break;
+        }
+        printf("%d ", i);
+    }
+    fclose(file);
+}
+
 
 void studyTest1()
 {
-    test_fread();
+    test_putw();
+    Sleep(1000);
+    test_getw();
 }
