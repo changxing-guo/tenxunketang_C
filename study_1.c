@@ -988,7 +988,54 @@ void test_switch()
     }
 }
 
+// 输出每个月有多少天
+void test_switch2() {
+    int month, days;
+    char c;
+    while (1) {
+        printf("请输入要查询的月份:");
+        scanf("%d", &month);
+        fflush(stdin);
+        if (month < 1 || month > 12) {
+            printf("输入的月份有误\n");
+            continue;
+        }
+        switch (month) {
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12:
+            days = 31;
+            break;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+            days = 30;
+            break;
+        case 2:
+            days = 28;
+            break;
+        default:
+            break;
+        }
+        printf("%d 月有 %d 天\n", month, days);
+        printf("请输入q离开\n");
+        c = getchar();
+        if (c == 'q' || c == 'Q') {
+            return;
+        }
+        system("cls");
+
+    }
+}
+
+
+
 void studyTest1()
 {
-    testFoundTel();
+    test_switch2();
 }
