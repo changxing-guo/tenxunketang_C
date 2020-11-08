@@ -67,6 +67,7 @@ int main_project()
 
 int main()
 {
-    main_project();
-    //studyTest1();
+    //main_project();
+    studyTest1();
+    return 0;
 }

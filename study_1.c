@@ -621,7 +621,24 @@ void test_fwrite()
     如果使用fwrite方式写入数据是，遇到'\n'仍只写入为'\n'
 */
 
+// fread 以二进制的形式读取数据
+void test_fread()
+{
+    FILE * file;
+    char name[32];
+    int age;
+
+    file = fopen("E:\\qtcode\\tenxunketang_C\\test_fwrite.txt", "rb");
+    if (!file) {
+        printf("文件打开失败\n");
+        return;
+    }
+    fread(name, sizeof (char), sizeof (name), file);
+    fread(&age, sizeof (int), 1, file);
+    printf("name = %s, age = %d\n", name, age);
+}
+
 void studyTest1()
 {
-    test_fwrite();
+    test_fread();
 }
