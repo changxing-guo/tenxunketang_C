@@ -5,10 +5,12 @@ CONFIG -= qt
 
 SOURCES += \
     study_1.c \
-    main.c
+    main.c \
+    study_function.c
 
 HEADERS += \
-    study_1.h
+    study_1.h \
+    study_function.h
 
 DISTFILES += \
     users.txt \

@@ -6,6 +6,10 @@
 #include "study_1.h"
 #endif
 
+#ifndef STUDY_FUNCTION_H
+#include "study_function.h"
+#endif
+
 FILE *userNamePasswdFile;       //保存用户账号密码的文件
 
 // 初始化函数
@@ -151,7 +155,8 @@ void main_project()
 
 int main()
 {
-    main_project();
+    //main_project();
     //studyTest1();
+    mainStudyFunction();
     return 0;
 }
