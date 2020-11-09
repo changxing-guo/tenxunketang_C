@@ -67,6 +67,14 @@ void recursive()
     printf("退出recursive函数\n");
 }
 
+// 从盗梦空间到递归函数
+int sum1(int n) {
+    if (n == 1) {
+        return 1;
+    }
+    return sum1(n-1) + n;
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -81,6 +89,7 @@ void mainStudyFunction()
     z = add(x, y);  // 函数调用
     printf("add = %d\n", z);
     */
-    recursive();
+    //recursive();
+    printf("sum1 = %d\n", sum1(3));
 
 }
