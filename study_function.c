@@ -48,6 +48,25 @@ int add(int a, int b)   // a = x, b = y, 值传递
     return a + b;
 }
 
+/*
+ * 5、递归函数
+ *  定义：在函数内部，直接或者间接的调用自己
+ *  要点：在定义递归函数时，一定要确定一个结束条件
+ *  使用场合：处理一些特别复杂的问题，难以直接解决
+ *      1）迷宫问题
+ *      2）
+ * 递归函数的缺点，效率很低，能不用就不用，不必纠结
+ *
+ */
+void recursive()
+{
+    printf("进入recursive函数\n");
+    sleep(1);
+    recursive();
+
+    printf("退出recursive函数\n");
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -55,10 +74,13 @@ void mainStudyFunction()
     printf("sum = %d\n", s);
     */
 
+    /*
     int x, y, z;
     x = 100;
     y = 200;
     z = add(x, y);  // 函数调用
     printf("add = %d\n", z);
+    */
+    recursive();
 
 }
