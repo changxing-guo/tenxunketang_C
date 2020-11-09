@@ -75,6 +75,59 @@ int sum1(int n) {
     return sum1(n-1) + n;
 }
 
+// 练习金字塔自定义类型
+void show_pyramid(char c, int n)
+{
+    if (n < 1) {
+        printf("金字塔的层数必须大于0\n");
+        return;
+    }
+    if (c == ' ' || c == '\n' || c == '\t') {
+        printf("非法的金字塔字符\n");
+        return;
+    }
+    for(int i=1; i<n+1; i++) {
+        for(int j=0; j<n-i; j++) {
+            printf(" ");
+        }
+        for(int j=1; j<2*i; j++) {
+            printf("%c", c);
+        }
+        printf("\n");
+    }
+}
+
+// 用递归函数实现1+2+3+ .... + n;
+int recursive_sum(int n) {
+    if (n == 1) {
+        return 1;
+    }
+    return sum(n-1) + n;
+}
+
+// 用递归函数实现汉姆塔
+/*
+ * A柱有n个盘子，移动到c柱
+ *  如果 n>1 时
+ *      1）把n-1个盘从A柱移动到B柱
+ *      2）把n盘从A柱移动到c柱
+ *      3）把 n-1个盘子从B柱移动到C柱
+ *  如果n=1时，
+ *      把盘子直接移动到C柱
+ */
+// 想不明白就就证明没这个天赋，洗洗睡吧
+int hannuota(int n, char name_A[], char name_B[], char name_C[])
+{
+    if (n == 1) {
+        printf("11111   %s 移动到 %s \n", name_A, name_C);
+        return 0;
+    }
+    // 从 A 移动 B, C是中转
+    hannuota(n-1, name_A, name_C, name_B);
+    printf("22222  %s 移动到 %s \n", name_A, name_C);
+    hannuota(n-1, name_B, name_A, name_C);
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -90,6 +143,8 @@ void mainStudyFunction()
     printf("add = %d\n", z);
     */
     //recursive();
-    printf("sum1 = %d\n", sum1(3));
-
+    //printf("sum1 = %d\n", sum1(3));
+    //show_pyramid('%', 20);
+    //printf("recursive_sum = %d\n", recursive_sum(10));
+    hannuota(2, "A柱", "B柱", "C柱");
 }
