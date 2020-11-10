@@ -12,6 +12,21 @@
 
 FILE *userNamePasswdFile;       //保存用户账号密码的文件
 
+// 使用“结构”来定义“端口类型”
+struct prot {
+    char name[16];
+    int status; // 1 激活 2 禁止
+    char ip[16];
+    char type[4]; // wan , lan
+};
+
+// 定义5个端口, 全局变量
+struct prot port1;
+struct prot port2;
+struct prot port3;
+struct prot port4;
+struct prot port5;
+
 // 初始化函数
 void init()
 {
