@@ -10,50 +10,50 @@
 #include "study_function.h"
 #endif
 
-FILE *userNamePasswdFile;       //±£´æÓÃ»§ÕËºÅÃÜÂëµÄÎÄ¼ş
+FILE *userNamePasswdFile;       //ä¿å­˜ç”¨æˆ·è´¦å·å¯†ç çš„æ–‡ä»¶
 
-// ³õÊ¼»¯º¯Êı
+// åˆå§‹åŒ–å‡½æ•°
 void init()
 {
-    //´ò¿ªÎÄ¼ş
+    //æ‰“å¼€æ–‡ä»¶
     userNamePasswdFile = fopen("E:\\qtcode\\tenxunketang_C\\users.txt", "r");
-    if(!userNamePasswdFile) {     // µÈĞ§ÓÚ file = NULL
-        printf("ÎÄ¼ş´ò¿ªÊ§°Ü\n");
+    if(!userNamePasswdFile) {     // ç­‰æ•ˆäº file = NULL
+        printf("æ–‡ä»¶æ‰“å¼€å¤±è´¥\n");
         exit(1);
     }
 }
 
-// ÓÃ»§µÄÕËºÅÃÜÂëÑéÖ¤
+// ç”¨æˆ·çš„è´¦å·å¯†ç éªŒè¯
 void login()
 {
-    char name[32];      //ÊäÈëµÄÓÃ»§Ãû
-    char passwd[32];    //ÊäÈëµÄÃÜÂë
+    char name[32];      //è¾“å…¥çš„ç”¨æˆ·å
+    char passwd[32];    //è¾“å…¥çš„å¯†ç 
 
     char line[128];
-    char nameCompare[32];   //ÓÃÓÚ±È½ÏµÄÓÃ»§Ãû
-    char passwdCompare[32]; //ÓÃÓÚ±È½ÏµÄÃÜÂë
-    char *getsUsersTxtLineResult;   //users.txtÎÄ¼şfgets¶ÁÈ¡Ò»ĞĞµÄ·µ»ØÖµ
+    char nameCompare[32];   //ç”¨äºæ¯”è¾ƒçš„ç”¨æˆ·å
+    char passwdCompare[32]; //ç”¨äºæ¯”è¾ƒçš„å¯†ç 
+    char *getsUsersTxtLineResult;   //users.txtæ–‡ä»¶fgetsè¯»å–ä¸€è¡Œçš„è¿”å›å€¼
     while (1) {
 
-        printf("ÇëÊäÈëÓÃ»§Ãû£º");
+        printf("è¯·è¾“å…¥ç”¨æˆ·åï¼š");
         scanf("%s", name);
-        printf(("ÇëÊäÈëÃÜÂë£º"));
+        printf(("è¯·è¾“å…¥å¯†ç ï¼š"));
         scanf("%s", passwd);
-        // Çå¿Õ»º³åÇø
+        // æ¸…ç©ºç¼“å†²åŒº
         fflush(stdin);
 
-        // ÓëÌØ¶¨µÄÕËºÅºÍÃÜÂë½øĞĞ±È½Ï
+        // ä¸ç‰¹å®šçš„è´¦å·å’Œå¯†ç è¿›è¡Œæ¯”è¾ƒ
         /*if(strcmp(name, "admin") == 0 && strcmp(passwd, "123456") ==0) {
             break;
         } else {
-            printf("ÓÃ»§Ãû»òÕßÃÜÂë´íÎó\n");
+            printf("ç”¨æˆ·åæˆ–è€…å¯†ç é”™è¯¯\n");
             system("pause");
             system("cls");
         }*/
 
-        // ´ÓÎÄ¼şÖĞ¶ÁÈ¡ÕËºÅ£¬²¢½øĞĞÅĞ¶Ï
+        // ä»æ–‡ä»¶ä¸­è¯»å–è´¦å·ï¼Œå¹¶è¿›è¡Œåˆ¤æ–­
         while (1) {
-            // ¶ÁÒ»ĞĞ
+            // è¯»ä¸€è¡Œ
             getsUsersTxtLineResult = fgets(line, sizeof (line), userNamePasswdFile);       // line :   "admin   12345\n"
             sscanf(line, "%s %s", nameCompare, passwdCompare);
             if(!getsUsersTxtLineResult) {
@@ -63,50 +63,50 @@ void login()
                 break;
             }
         }
-        if (getsUsersTxtLineResult) {   //ÓÃ»§ÃûÃÜÂëÆ¥Åä³É¹¦
+        if (getsUsersTxtLineResult) {   //ç”¨æˆ·åå¯†ç åŒ¹é…æˆåŠŸ
             break;
-        } else {    //Æ¥ÅäÊ§°Ü
-            printf("ÓÃ»§Ãû»òÕßÃÜÂë´íÎó\n");
+        } else {    //åŒ¹é…å¤±è´¥
+            printf("ç”¨æˆ·åæˆ–è€…å¯†ç é”™è¯¯\n");
             system("pause");
             system("cls");
-            fseek(userNamePasswdFile, 0, SEEK_SET); // ½«ÎÄ¼şÄÚ²¿µÄÎ»ÖÃÖ¸ÕëÉèÖÃµ½ÎÄ¼şÍ·
+            fseek(userNamePasswdFile, 0, SEEK_SET); // å°†æ–‡ä»¶å†…éƒ¨çš„ä½ç½®æŒ‡é’ˆè®¾ç½®åˆ°æ–‡ä»¶å¤´
         }
     }
 
 }
 
-//Ö÷²Ëµ¥Ò³Ãæ
+//ä¸»èœå•é¡µé¢
 void show_menu()
 {
-    // Ö÷²Ëµ¥½çÃæ
+    // ä¸»èœå•ç•Œé¢
     system("cls");
-    printf("---½»»»»ú¹ÜÀíÏµÍ³---\n");
-    printf("1¡¢´´½¨ÕËºÅ\n");
-    printf("2¡¢ip¹ÜÀí\n");
-    printf("3¡¢¶Ë¿Ú¹ÜÀí\n");
-    printf("4¡¢--ÍË³ö--\n");
-    printf("ÇëÑ¡Ôñ£º");
+    printf("---äº¤æ¢æœºç®¡ç†ç³»ç»Ÿ---\n");
+    printf("1ã€åˆ›å»ºè´¦å·\n");
+    printf("2ã€ipç®¡ç†\n");
+    printf("3ã€ç«¯å£ç®¡ç†\n");
+    printf("4ã€--é€€å‡º--\n");
+    printf("è¯·é€‰æ‹©ï¼š");
 }
 
-// ÕËºÅ¹ÜÀí
+// è´¦å·ç®¡ç†
 void create_user()
 {
     system("cls");
-    printf("1¡¢´´½¨ÕËºÅ\n");
-    printf("°´ÈÎÒâ¼ü·µ»ØÖ÷²Ëµ¥\n");
+    printf("1ã€åˆ›å»ºè´¦å·\n");
+    printf("æŒ‰ä»»æ„é”®è¿”å›ä¸»èœå•\n");
     getchar();
 }
 
-//ip ¹ÜÀí
+//ip ç®¡ç†
 void ip_manager()
 {
     system("cls");
-    printf("2¡¢ip¹ÜÀí\n");
-    printf("°´ÈÎÒâ¼ü·µ»ØÖ÷²Ëµ¥\n");
+    printf("2ã€ipç®¡ç†\n");
+    printf("æŒ‰ä»»æ„é”®è¿”å›ä¸»èœå•\n");
     getchar();
 }
 
-// ÍË³öÕËºÅ
+// é€€å‡ºè´¦å·
 void logout()
 {
     fclose(userNamePasswdFile);
@@ -117,39 +117,39 @@ void logout()
 void input_error()
 {
     system("cls");
-    printf("ÇëÊäÈëÓĞĞ§µÄ²Ëµ¥Ñ¡Ïî\n");
-    printf("°´ÈÎÒâ¼ü·µ»ØÖ÷²Ëµ¥\n");
+    printf("è¯·è¾“å…¥æœ‰æ•ˆçš„èœå•é€‰é¡¹\n");
+    printf("æŒ‰ä»»æ„é”®è¿”å›ä¸»èœå•\n");
     getchar();
 }
 
-// ²é¿´¶Ë¿Ú
+// æŸ¥çœ‹ç«¯å£
 void show_prots()
 {
     system("cls");
-    printf("---¶Ë¿Ú×´Ì¬---\n");
-    printf("---´ıÊµÏÖ---\n");
+    printf("---ç«¯å£çŠ¶æ€---\n");
+    printf("---å¾…å®ç°---\n");
     system("pause");
 }
-// ÉèÖÃ¶Ë¿Ú
+// è®¾ç½®ç«¯å£
 void set_prots()
 {
     system("cls");
-    printf("---ÉèÖÃ¶Ë¿Ú---\n");
-    printf("---´ıÊµÏÖ---\n");
+    printf("---è®¾ç½®ç«¯å£---\n");
+    printf("---å¾…å®ç°---\n");
     system("pause");
 }
 
-// ¶Ë¿Ú¹ÜÀí
+// ç«¯å£ç®¡ç†
 void port_admin()
 {
     char c;
     while (1) {
         system("cls");
-        printf("----¶Ë¿Ú¹ÜÀí----\n");
-        printf("1¡¢²é¿´¶Ë¿Ú\n");
-        printf("2¡¢ÉèÖÃ¶Ë¿Ú\n");
-        printf("3¡¢·µ»Ø\n");
-        printf("ÇëÑ¡Ôñ£º");
+        printf("----ç«¯å£ç®¡ç†----\n");
+        printf("1ã€æŸ¥çœ‹ç«¯å£\n");
+        printf("2ã€è®¾ç½®ç«¯å£\n");
+        printf("3ã€è¿”å›\n");
+        printf("è¯·é€‰æ‹©ï¼š");
         fflush(stdin);
         c = getchar();
         switch (c) {
@@ -170,17 +170,17 @@ void port_admin()
 
 void main_project()
 {
-    int menuChange = 0; //²Ëµ¥Ñ¡Ôñ
+    int menuChange = 0; //èœå•é€‰æ‹©
 
     init();
     login();
 
-    // ÕËºÅÃÜÂëÕıÈ·£¬Êä³öÖ÷²Ëµ¥
+    // è´¦å·å¯†ç æ­£ç¡®ï¼Œè¾“å‡ºä¸»èœå•
     while (1) {
         show_menu();
         scanf("%d", &menuChange);
         fflush(stdin);
-        // ×Ó¹¦ÄÜ
+        // å­åŠŸèƒ½
         switch (menuChange) {
         case 1:
             create_user();
