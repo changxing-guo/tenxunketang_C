@@ -83,7 +83,8 @@ void show_menu()
     printf("---交换机管理系统---\n");
     printf("1、创建账号\n");
     printf("2、ip管理\n");
-    printf("3、退出--\n");
+    printf("3、端口管理\n");
+    printf("4、--退出--\n");
     printf("请选择：");
 }
 
@@ -121,6 +122,52 @@ void input_error()
     getchar();
 }
 
+// 查看端口
+void show_prots()
+{
+    system("cls");
+    printf("---端口状态---\n");
+    printf("---待实现---\n");
+    system("pause");
+}
+// 设置端口
+void set_prots()
+{
+    system("cls");
+    printf("---设置端口---\n");
+    printf("---待实现---\n");
+    system("pause");
+}
+
+// 端口管理
+void port_admin()
+{
+    char c;
+    while (1) {
+        system("cls");
+        printf("----端口管理----\n");
+        printf("1、查看端口\n");
+        printf("2、设置端口\n");
+        printf("3、返回\n");
+        printf("请选择：");
+        fflush(stdin);
+        c = getchar();
+        switch (c) {
+        case '1':
+            show_prots();
+            break;
+        case '2':
+            set_prots();
+            break;
+        case '3':
+            return;
+        default:
+            input_error();
+            break;
+        }
+    }
+}
+
 void main_project()
 {
     int menuChange = 0; //菜单选择
@@ -142,6 +189,9 @@ void main_project()
             ip_manager();
             break;
         case 3:
+            port_admin();
+            break;
+        case 4:
             logout();
             break;
         default:
@@ -155,8 +205,8 @@ void main_project()
 
 int main()
 {
-    //main_project();
+    main_project();
     //studyTest1();
-    mainStudyFunction();
+    //mainStudyFunction();
     return 0;
 }

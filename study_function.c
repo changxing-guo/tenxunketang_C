@@ -116,6 +116,7 @@ int recursive_sum(int n) {
  *      把盘子直接移动到C柱
  */
 // 想不明白就就证明没这个天赋，洗洗睡吧
+// c 从入门到放弃
 int hannuota(int n, char name_A[], char name_B[], char name_C[])
 {
     if (n == 1) {
