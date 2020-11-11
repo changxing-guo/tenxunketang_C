@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <study_function.h>
+#include <string.h>
 
 /*
  * 1、为什么要使用函数
@@ -147,6 +148,34 @@ int hannuota(int n, char name_A[], char name_B[], char name_C[])
  *      成员类型 成员名；
  *      ...
  * }
+ */
+
+// 4、结构体的初始化
+struct student {
+    char name[16];
+    int age;
+};
+void init_struct()
+{
+    // 一般就这两种初始化方式
+    // 成员比较少的时候可以这样，但是不建议
+    struct student s1 = {
+        "gcx", 22
+    };
+    // 这样表示比较清楚明了，也可以不按顺序初始化成员变量
+    struct student s2 = {
+        .name = "gcx1",
+        .age = 22
+    };
+
+    struct student s3;
+    strcpy(s3.name, "杨过");
+    s3.age = 44;
+
+    printf("name = %s , age = %d \n", s1.name, s1.age);
+    printf("name = %s , age = %d \n", s2.name, s2.age);
+    printf("name = %s , age = %d \n", s3.name, s3.age);
+}
 
 
 void mainStudyFunction()
@@ -167,5 +196,7 @@ void mainStudyFunction()
     //printf("sum1 = %d\n", sum1(3));
     //show_pyramid('%', 20);
     //printf("recursive_sum = %d\n", recursive_sum(10));
-    hannuota(2, "A柱", "B柱", "C柱");
+    //hannuota(2, "A柱", "B柱", "C柱");
+
+    init_struct();
 }
