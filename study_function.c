@@ -129,6 +129,26 @@ int hannuota(int n, char name_A[], char name_B[], char name_C[])
     hannuota(n-1, name_B, name_A, name_C);
 }
 
+// 1、为什么要使用结构体
+/*
+ * 表示一些赋值信息时，使用单纯的数据类型很不方便
+ * 比如：学生信息（name, age, sex,tel,grade)
+ */
+
+// 2、什么是结构
+/*
+ * 程序员自定义的一种“数据类型”
+ * 是使用多个基本数据类型、或者其他结构，组合而成的一种新的“数据类型”
+ */
+
+// 3、结构的定义
+/*
+ * struct 结构名 {
+ *      成员类型 成员名；
+ *      ...
+ * }
+
+
 void mainStudyFunction()
 {
     /*  sum
