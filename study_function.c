@@ -165,7 +165,7 @@ void init_struct()
     // 这样表示比较清楚明了，也可以不按顺序初始化成员变量
     struct student s2 = {
         .name = "gcx1",
-        .age = 22
+                .age = 22
     };
 
     struct student s3;
@@ -183,6 +183,38 @@ void init_struct()
  *      一般不建议把结构体作为函数参数，因为结构体的size比较大，直接传递，消耗性能；
  *      解决方案，使用指针
  */
+
+// 11、全局变量和 局部变量
+
+void east_travel(void); // 东游记
+char master[16] = "女娲"; // 定义了一个全局变量，表示老大
+void west_travel(void)  // 西游记
+{
+    // 局部变量master的作用域，覆盖了全局master的作用域
+    char master[16] = "唐僧";
+    printf("[西游] 的老大是： %s\n", master);
+}
+
+void north_travel(void)
+{
+    char master[16] = "牛魔王";
+    printf("[北方] 的老大是： %s\n", master);
+    char c;
+    printf("是否进入女儿国？（Y/N) \n");
+    fflush(stdin);
+    scanf("%c", &c);
+    if (c == 'Y' || c == 'y') { // 一个大括号就是一个作用域
+        // 女儿国的国境
+        char master[16] = "女王";
+        printf("[女儿国] 的老大是： %s\n", master);
+
+        {
+            // 这个又是一个作用域，如果重新定义master，又是一个新的
+        }
+    }
+    printf("[北方] 的老大是： %s\n", master);
+    east_travel();
+}
 
 
 void mainStudyFunction()
@@ -205,5 +237,7 @@ void mainStudyFunction()
     //printf("recursive_sum = %d\n", recursive_sum(10));
     //hannuota(2, "A柱", "B柱", "C柱");
 
-    init_struct();
+    //init_struct();
+
+    north_travel();
 }

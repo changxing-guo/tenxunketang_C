@@ -1033,6 +1033,12 @@ void test_switch2() {
     }
 }
 
+extern char master[16];
+void east_travel()
+{
+    printf("[东游] 的老大是： %s\n", master);
+}
+
 
 
 void studyTest1()
