@@ -177,6 +177,13 @@ void init_struct()
     printf("name = %s , age = %d \n", s3.name, s3.age);
 }
 
+// 结构体作为函数参数
+/*
+ * 注意：
+ *      一般不建议把结构体作为函数参数，因为结构体的size比较大，直接传递，消耗性能；
+ *      解决方案，使用指针
+ */
+
 
 void mainStudyFunction()
 {
