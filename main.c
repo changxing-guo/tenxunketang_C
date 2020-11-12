@@ -13,19 +13,23 @@
 FILE *userNamePasswdFile;       //保存用户账号密码的文件
 
 // 使用“结构”来定义“端口类型”
-struct prot {
+struct port {
     char name[16];
     int status; // 1 激活 2 禁止
     char ip[16];
     char type[4]; // wan , lan
 };
 
-// 定义5个端口, 全局变量
-struct prot port1;
-struct prot port2;
-struct prot port3;
-struct prot port4;
-struct prot port5;
+// 端口初始化
+void init_ports(struct port ports[])
+{
+    for (int i=0; i<5; i++) {
+        strcpy(ports[i].name, "null");
+        strcpy(ports[i].ip, "0.0.0.0");
+        strcpy(ports[i].type, "WAN");
+        ports[i].status = 2;
+    }
+}
 
 // 初始化函数
 void init()
@@ -138,24 +142,54 @@ void input_error()
 }
 
 // 查看端口
-void show_prots()
+void show_port(struct port port)
+{
+    printf("name:%-16s\t status:%d\t ip:%-16s\t type:%-4s \n", port.name,
+           port.status, port.ip, port.type);
+}
+void show_ports(struct port ports[])
 {
     system("cls");
-    printf("---端口状态---\n");
-    printf("---待实现---\n");
+    for (int i=0; i<5; i++) {
+        printf("PORT%d\t", i+1);
+        show_port(ports[i]);
+    }
     system("pause");
 }
+
 // 设置端口
-void set_prots()
+void set_port(struct port ports[], int index)
 {
+    printf("请输入端口的名称：");
+    scanf("%s", ports[index].name);
+    printf("请输入端口的状态：");
+    scanf("%d", &ports[index].status);
+    printf("请输入端口的ip：");
+    scanf("%s", ports[index].ip);
+    printf("请输入端口的类型：");
+    scanf("%s", ports[index].type);
+
+}
+void set_ports(struct port ports[])
+{
+    char change;
     system("cls");
-    printf("---设置端口---\n");
-    printf("---待实现---\n");
+    printf("====端口设置====\n");
+    for (int i=0; i<5; i++) {
+        printf("%d.PORT%d\n", i+1, i+1);
+    }
+    fflush(stdin);
+    printf("请选择：");
+    change = getchar();
+    if (change >= '1' && change <= '5') {
+        printf("change is %c \n", change);
+        set_port(ports, change - '1');
+    }
     system("pause");
 }
 
 // 端口管理
-void port_admin()
+void port_admin(struct port ports[])
 {
     char c;
     while (1) {
@@ -169,10 +203,10 @@ void port_admin()
         c = getchar();
         switch (c) {
         case '1':
-            show_prots();
+            show_ports(ports);
             break;
         case '2':
-            set_prots();
+            set_ports(ports);
             break;
         case '3':
             return;
@@ -186,7 +220,8 @@ void port_admin()
 void main_project()
 {
     int menuChange = 0; //菜单选择
-
+    struct port ports[5];
+    init_ports(ports);
     init();
     login();
 
@@ -204,7 +239,7 @@ void main_project()
             ip_manager();
             break;
         case 3:
-            port_admin();
+            port_admin(ports);
             break;
         case 4:
             logout();
