@@ -217,6 +217,35 @@ void north_travel(void)
 }
 
 
+// 结构体练习
+/* 1、独立完成项目交换机---端口管理
+ *   main.c实现
+ * 2、定义一个结构体，输入内容，然后输出
+ * 3、
+ */
+struct hero {
+    char name[16];
+    char sex;
+    int power;
+};
+
+void create_hero() {
+    struct hero h1;
+    printf("请输入角色的名称：");
+    scanf("%s", h1.name);
+    fflush(stdin);
+    printf("请输入角色的性比：");
+    scanf("%c", &h1.sex);
+    printf("请输入角色的武力值：");
+    scanf("%d", &h1.power);
+
+    printf("\n\n====角色信息====\n");
+    printf("[角色姓名]：%s\n", h1.name);
+    printf("[角色性别]：%c\n", h1.sex);
+    printf("[角色武力值]：%d\n", h1.power);
+}
+
+
 void mainStudyFunction()
 {
     /*  sum
@@ -239,5 +268,6 @@ void mainStudyFunction()
 
     //init_struct();
 
-    north_travel();
+    //north_travel();
+    create_hero();
 }
