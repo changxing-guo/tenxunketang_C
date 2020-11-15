@@ -261,9 +261,9 @@ struct position{
 void show_position()
 {
     struct position ps[10] = {
-        {.x = 10, .y = 20},
-        {.x = 30, .y = 40},
-    };
+    {.x = 10, .y = 20},
+    {.x = 30, .y = 40},
+};
     for (int i=0; i<10; i++) {
         printf("x = %d, y = %d\n", ps[i].x, ps[i].y);
     }
@@ -310,7 +310,7 @@ void show_score()
         {4, 5, 6},
         {7, 8, 9},
         {10, 11, 12},
-       // {13, 14, 15}  // 如果不赋值，会默认为0；
+        // {13, 14, 15}  // 如果不赋值，会默认为0；
     };
 
     // 方式3。当行数比较多的时候，指定行数进行赋值
@@ -357,6 +357,34 @@ void show_info()
 
 }
 
+/*
+ * 10，多维数组
+ */
+void multidimension_array()
+{
+    // 格式1
+    int data[2][3][2] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    // 格式2
+    int data1[2][3][2] = {
+        {   // data1[0]
+            {1,2},
+            {3,4},
+            {5,6}
+        },
+        {   // data1[1]
+            {7,8},
+            {9,10},
+            {11,12}
+        }
+    };
+    for (int i=0; i<2; i++) {
+        for (int j=0; j<3; j++) {
+            for (int k=0; k<2; k++)
+                printf("data[%d][%d][%d] = %d\n", i, j, k, data1[i][j][k]);
+        }
+    }
+}
+
 
 void mainStudyFunction()
 {
@@ -384,5 +412,6 @@ void mainStudyFunction()
     //create_hero();
     //show_position();
     //show_score();
-    show_info();
+    //show_info();
+    multidimension_array();
 }
