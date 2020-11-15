@@ -245,6 +245,35 @@ void create_hero() {
     printf("[角色武力值]：%d\n", h1.power);
 }
 
+/*
+ * 1、为什么要使用数组
+ *  使用场合：需要保存很多同类型的数据，而且这些数据有严格的顺序
+ *  数组的存储方式：按地址递增的方向，依次存储
+ */
+
+/*
+ * 2、数组的定义
+ */
+struct position{
+    int x;
+    int y;
+};
+void show_position()
+{
+    struct position ps[10] = {
+        {.x = 10, .y = 20},
+        {.x = 30, .y = 40},
+    };
+    for (int i=0; i<10; i++) {
+        printf("x = %d, y = %d\n", ps[i].x, ps[i].y);
+    }
+}
+
+/*
+ * 3、变长数组
+ *  在全局变量中不能使用变长数组
+ */
+
 
 void mainStudyFunction()
 {
@@ -269,5 +298,6 @@ void mainStudyFunction()
     //init_struct();
 
     //north_travel();
-    create_hero();
+    //create_hero();
+    show_position();
 }
