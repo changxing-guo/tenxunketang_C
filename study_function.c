@@ -274,6 +274,62 @@ void show_position()
  *  在全局变量中不能使用变长数组
  */
 
+/*
+ * 5、二维数组的使用场景
+ */
+
+/*
+ * 6、二维数组的定义
+ */
+
+/*
+ * 7、二维数组的存储方式
+ *  一行一行的存储，先存储完第一行，再存储第二行，依次存储
+ */
+
+/*
+ * 8、二维数组的初始化
+ */
+void show_score()
+{
+    /*
+     * 一个班有三门课，五个同学
+     */
+    // 方式1
+    int score[5][3] = {
+        1, 2, 3,
+        4, 5, 6,
+        7, 8, 9,
+        10, 11, 12,
+        13, 14, 15
+    };
+
+    // 方式2
+    int score1[5][3] = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9},
+        {10, 11, 12},
+       // {13, 14, 15}  // 如果不赋值，会默认为0；
+    };
+
+    // 方式3。当行数比较多的时候，指定行数进行赋值
+    int score2[5][3] = {
+        [1] = {1, 2, 3},
+        [2] = {4, 5, 6},
+    };
+
+    for (int i=0; i<5; i++) {
+        for (int j=0; j<3; j++) {
+            //printf("score[%d][%d] = %d\n", i, j, score[i][j]);
+            //printf("score[%d][%d] = %d\n", i, j, score1[i][j]);
+            printf("score[%d][%d] = %d\n", i, j, score2[i][j]);
+        }
+
+    }
+
+}
+
 
 void mainStudyFunction()
 {
@@ -299,5 +355,6 @@ void mainStudyFunction()
 
     //north_travel();
     //create_hero();
-    show_position();
+    //show_position();
+    show_score();
 }
