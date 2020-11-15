@@ -385,6 +385,30 @@ void multidimension_array()
     }
 }
 
+/*
+ * 11、数组作为函数参数
+ *  某班有5名学生，每个学生有一个考试成绩
+ *  1、定义一个函数、计算平均成绩
+ *  2、定义一个函数，如果某个成绩低于60分，就增加5分
+ */
+
+float average(int n, int data[])
+{
+    float sum=0;
+    for (int i=0; i<n; i++) {
+        sum += data[i];
+    }
+    return sum / n;
+}
+
+void add_score(int n, int data[])
+{
+    for (int i=0; i<n; i++) {
+        if (data[i] < 60) {
+            data[i] += 5;
+        }
+    }
+}
 
 void mainStudyFunction()
 {
@@ -413,5 +437,11 @@ void mainStudyFunction()
     //show_position();
     //show_score();
     //show_info();
-    multidimension_array();
+    //multidimension_array(); // 11.10
+    int data[5] = {65, 60, 55, 50, 77};
+    printf("average = %.2f\n", average(5, data));
+    add_score(5, data);
+    for (int i=0; i<5; i++) {
+        printf("%d\t", data[i]);
+    }
 }
