@@ -330,6 +330,33 @@ void show_score()
 
 }
 
+/*
+ * 9、二维数组的使用
+ *  数组不能直接赋值
+ * 总结：
+ *      1、不能对二维数组的数组名，直接设置值
+ *          int data1[2][3] = {1, 2, 3};
+ *          int data2[2][3];
+ *
+ *          // 这样是不允许的，错误的(以下三条）。总结1
+ *          data2 = data1;
+ *          data2[1] = data1[1];
+ *          data2[1] = {1, 2};
+ *      2、char类型的二维数组，可以存储多个字符串
+ *          例子：show_info();
+ */
+void show_info()
+{
+    char info[3][16];
+    printf("please input your name:");
+    scanf("%s", info[0]);
+    printf("please input your age:");
+    scanf("%s", info[1]);
+
+    printf("name = %s, age = %s \n", info[0], info[1]);
+
+}
+
 
 void mainStudyFunction()
 {
@@ -356,5 +383,6 @@ void mainStudyFunction()
     //north_travel();
     //create_hero();
     //show_position();
-    show_score();
+    //show_score();
+    show_info();
 }
