@@ -410,6 +410,171 @@ void add_score(int n, int data[])
     }
 }
 
+/*
+ * 11.12 项目练习
+ *  1、有四名学员，每个学员有三名课程
+ *      要求输入这四名成员的所有成绩，并分别计算每个课程平均成绩，和所有课程的平均成绩
+ *      提示：要求用二维数组保存成绩
+ *  2、定义一个函数，实现矩阵的逆转
+ *  3、打印顺时针螺旋矩阵
+ */
+// 练习12.12.1
+void calculate_score()
+{
+    int score[4][3] = {0};
+    for (int i=0; i<4; i++) {
+        printf("请依次输入第%d个学员的成绩，以空格分开\n", i+1);
+        scanf("%d%d%d", &score[i][0], &score[i][1], &score[i][2]);
+    }
+    float sumall = 0;   // 总成绩
+    for (int i=0; i<3; i++) {
+        float sum = 0;  // 单科总成绩
+        for (int j=0; j<4; j++) {
+            sum += score[j][i];
+            //sumall += score[j][i];
+        }
+        printf("第%d列的平均成绩为%.2f\n", i,  sum/4);
+        sumall += sum;  // 优化
+    }
+    printf("所有课程的平均成绩为%.2f\n", sumall/12);
+}
+
+// 练习12.12.2
+/*  例子：将行转成列
+ * 1    2   3   4           1   5   9   13
+ * 5    6   7   8   =>      2   6   10  14
+ * 9    10  11  12  =>      3   7   11  15
+ * 13   13  15  16          4   8   12  16
+ */
+void matrix_reverse()
+{
+    int s1[3][3] = {1,2,3,4,5,6,7,8,9};
+    int s2[3][3] = {0};
+    // 第一种赋值法
+    for (int i=0; i<3; i++) {
+        for (int j=0; j<3; j++) {
+            s2[j][i] = s1[i][j];
+        }
+    }
+    // 第二种
+    int tmp;
+    for (int i=0; i<3-1; i++) { //不要重复赋值，由对角线可知，< n-1行就行。
+        for (int j=i+1; j<3; j++) { // 也是不要重复赋值，由对角线知，大于对角线就行
+            tmp = s1[i][j];
+            s1[i][j] = s1[j][i];
+            s1[j][i] = tmp;
+        }
+    }
+
+    printf("====================\n");
+    for (int i=0; i<3; i++) {
+        for (int j=0; j<3; j++) {
+            printf("%d\t", s1[i][j]);
+        }
+        printf("\n");
+    }
+    printf("====================\n");
+    for (int i=0; i<3; i++) {
+        for (int j=0; j<3; j++) {
+            printf("%d\t", s2[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// 11.12.3
+/*
+ *      1   2   3   4
+ *      12  13  14  5
+ *      11  16  15  6
+ *      10  9   8   7
+ */
+void matrix_spiral(int n)
+{
+    int s[n][n] ;
+    int num = 1;
+    int m=n;
+    if (m%2 != 0) m++;
+    //n = m;
+    for (int i=0; i<m/2; i++) {
+        for (int j=i; j<n-i;j++) {
+            s[i][j] = num ++;
+        }
+        for (int j=i+1; j<n-i;j++) {
+            s[j][n-i-1] = num ++;
+        }
+        for (int j=n-i-2; j>=i;j--) {
+            s[n-i-1][j] = num ++;
+        }
+        for (int j=n-i-2; j>i;j--) {
+            s[j][i] = num ++;
+        }
+    }
+    for (int i=0; i<n; i++) {
+        for (int j=0; j<n; j++) {
+            printf("%d\t", s[i][j]);
+        }
+        printf("\n");
+    }
+}
+void matrix_spiral2()
+{
+    int n;
+    int i = 0, j = -1;
+    printf("请输入你要的行数：");
+    scanf("%d", &n);
+    int val = 1;
+    int max = n * n;
+    int data[n][n];
+
+    for (int i=0; i<n; i++) {
+        for (int j=0; j<n; j++) {
+            data[i][j] = 0;
+        }
+    }
+
+    while (1) {
+        // 向右走
+        j++; // 定义为-1，需要进入
+        while (j<n && data[i][j] == 0) {
+            printf("向[右]走 data[%d][%d] = %d\n", i, j, val);
+            data[i][j++] = val++;
+        }
+        j--; // 由于多走了一步，所以要退一步
+        if (val > max) break;
+
+        i++;
+        while (i<n && data[i][j] == 0) {
+            printf("向[下]走 data[%d][%d] = %d\n", i, j, val);
+            data[i++][j] = val++;
+        }
+        i--;
+        if (val > max) break;
+
+        j--;
+        while (j>=0 && data[i][j] == 0) {
+            printf("向[左]走 data[%d][%d] = %d\n", i, j, val);
+            data[i][j--] = val++;
+        }
+        j++;
+        if (val > max) break;
+
+        i--;
+        while (i>=0 && data[i][j] == 0) {
+            printf("向[上]走 data[%d][%d] = %d\n", i, j, val);
+            data[i--][j] = val++;
+        }
+        i++;
+        if (val > max) break;
+    }
+    for (int i=0; i<n; i++) {
+        for (int j=0; j<n; j++) {
+            printf("%d\t", data[i][j]);
+        }
+        printf("\n\n");
+    }
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -438,10 +603,15 @@ void mainStudyFunction()
     //show_score();
     //show_info();
     //multidimension_array(); // 11.10
+    /*
     int data[5] = {65, 60, 55, 50, 77};
     printf("average = %.2f\n", average(5, data));
     add_score(5, data);
     for (int i=0; i<5; i++) {
         printf("%d\t", data[i]);
     }
+    */
+    //matrix_reverse();
+    //matrix_spiral(9);
+    matrix_spiral2();
 }
