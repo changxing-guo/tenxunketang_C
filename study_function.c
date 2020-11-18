@@ -607,10 +607,13 @@ void pointers_definition()
 
 // 12.3 指针的初始化
 // 12.4 指针的访问
+// 12.5 2进制 ，16进制
+// 12.6 指针的访问：访问指针所指向的内容
 void pointer_init()
 {
     int mygirl = 26;
-    int *p1 = mygirl;
+    // 在定义指针的时候，使用*p，表示p是一个指针变量
+    int *p1 = &mygirl;
     int *p2 = p1;
 
     // 1、访问（读，写）指针变量本身的值（和其他普通变量的访问形式一样）
@@ -625,10 +628,16 @@ void pointer_init()
     printf("p1 = 0x%p, p2 = 0x%p, p3 = 0x%p\n", p1, p2, p3);
     printf("p1 = 0x%x, p2 = 0x%x, p3 = 0x%x\n", p1, p2, p3);
     printf("p1 = 0x%X, p2 = 0x%X, p3 = 0x%X\n\n", p1, p2, p3);
+
+    // 2、访问指针所指向的内容
+    int x;
+    // 除了定义指针变量以外，对变量执行*操作，就是读取这个指针所指向的变量
+    x = *p1;    // *是一个特殊的运算符，*p表示读取指针p所指向的变量的值
+    printf("x = %d\n", x);
+
+    mygirl++;
+    printf("*p = %d\n", *p1);
 }
-
-// 12.5 2进制 ，16进制
-
 
 void mainStudyFunction()
 {
