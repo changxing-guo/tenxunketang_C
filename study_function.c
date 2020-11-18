@@ -646,8 +646,9 @@ void pointer_init()
  * 2、访问空指针的后果
  *      导致程序崩溃
  * 3、空指针的使用
- *      指针初始化为空指针 int *p = 0;
- *      建议这样使用 int *p = NULL;
+ *      1)指针初始化为空指针 int *p = 0;建议这样使用 int *p = NULL;目的就是避免访问非法数据
+ *      2)指针不再使用时，设置为空指针
+ *      3)表示这个指针还没有具体的指向
  */
 void nullPointer()
 {
@@ -659,6 +660,28 @@ void nullPointer()
     printf("*p = %d\n", *p);    // 将读取地址为0的int类型变量
 
     printf("程序结束\n");
+}
+
+// 12.8 指向结构体的指针
+struct friend {
+    char name[32];
+    char sex[4];
+    int age;
+};
+void struct_pointer()
+{
+    struct friend f1 = {"迪丽热巴", "女", 26};
+    struct friend *mygirl = &f1;
+
+    // 直接通过结构体变量来访问该结构体内部的成员
+    printf("name = %s , sex = %s, age = %d\n\n", f1.name, f1.sex, f1.age);
+
+    // 通过指针p来访问结构体内部的成员,
+    // 方式1， 很少使用此方式
+    printf("name = %s , sex = %s, age = %d\n\n", (*mygirl).name, (*mygirl).sex, (*mygirl).age);
+    // 方式2, -> 相当于取地址后再加.
+    printf("name = %s , sex = %s, age = %d\n\n", mygirl->name, mygirl->sex, mygirl->age);
+
 }
 
 void mainStudyFunction()
@@ -702,5 +725,6 @@ void mainStudyFunction()
     //matrix_spiral2();
     //pointers_definition();
     //pointer_init();
-    nullPointer();
+    //nullPointer();
+    struct_pointer();
 }
