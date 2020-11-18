@@ -575,6 +575,36 @@ void matrix_spiral2()
     }
 }
 
+// 12、交换机后台管理之端口管理的再次优化（一）
+
+/*
+ *  12.1 为什么要使用指针
+ *      函数的值传递，无法通过调用函数，来修改函数的实参
+ */
+
+/*
+ * 12.2 指针的定义
+ *      本质是一个地址值
+ */
+void pointers_definition()
+{
+    int age;
+    /* 定义了一个指针
+     * 指针是一个变量
+     * 这个变量的名称是p
+     * 这个指针，可以用来指向一个整数
+     * 就是说，p的值是一个整数的地址
+     */
+    int * p;
+    /*
+     * 指针p指向了age
+     * p的值，就只age的地址
+     */
+    p = &age;
+    scanf("%d", p);
+    printf("age is %d\n", age);
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -613,5 +643,6 @@ void mainStudyFunction()
     */
     //matrix_reverse();
     //matrix_spiral(9);
-    matrix_spiral2();
+    //matrix_spiral2();
+    pointers_definition();
 }
