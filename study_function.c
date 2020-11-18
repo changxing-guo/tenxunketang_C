@@ -639,6 +639,28 @@ void pointer_init()
     printf("*p = %d\n", *p1);
 }
 
+// 12.7 空指针
+/*
+ * 1、什么是空指针
+ *      空指针，就是值为0的指针
+ * 2、访问空指针的后果
+ *      导致程序崩溃
+ * 3、空指针的使用
+ *      指针初始化为空指针 int *p = 0;
+ *      建议这样使用 int *p = NULL;
+ */
+void nullPointer()
+{
+    int *p;
+    p = 0;  // p 就是一个空指针
+
+    printf("%p\n", p);
+    // 访问空指针的值，将导致程序奔溃
+    printf("*p = %d\n", *p);    // 将读取地址为0的int类型变量
+
+    printf("程序结束\n");
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -679,5 +701,6 @@ void mainStudyFunction()
     //matrix_spiral(9);
     //matrix_spiral2();
     //pointers_definition();
-    pointer_init();
+    //pointer_init();
+    nullPointer();
 }
