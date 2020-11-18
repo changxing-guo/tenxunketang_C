@@ -605,6 +605,31 @@ void pointers_definition()
     printf("age is %d\n", age);
 }
 
+// 12.3 指针的初始化
+// 12.4 指针的访问
+void pointer_init()
+{
+    int mygirl = 26;
+    int *p1 = mygirl;
+    int *p2 = p1;
+
+    // 1、访问（读，写）指针变量本身的值（和其他普通变量的访问形式一样）
+    int *p3;
+    p3 = p1; // 读指针p1的值，写入p3的值
+    printf("p1 = %d, p2 = %d, p3 = %d\n\n", p1, p2, p3);  // 不建议使用此格式，不准确，例如：补码
+    // 使用16进制打印，把地址值当做一个无符号数来处理的
+    printf("p1 = %p, p2 = %p, p3 = %p\n", p1, p2, p3);
+    printf("p1 = %x, p2 = %x, p3 = %x\n", p1, p2, p3);
+    printf("p1 = %X, p2 = %X, p3 = %X\n\n", p1, p2, p3);
+    // 优化
+    printf("p1 = 0x%p, p2 = 0x%p, p3 = 0x%p\n", p1, p2, p3);
+    printf("p1 = 0x%x, p2 = 0x%x, p3 = 0x%x\n", p1, p2, p3);
+    printf("p1 = 0x%X, p2 = 0x%X, p3 = 0x%X\n\n", p1, p2, p3);
+}
+
+// 12.5 2进制 ，16进制
+
+
 void mainStudyFunction()
 {
     /*  sum
@@ -644,5 +669,6 @@ void mainStudyFunction()
     //matrix_reverse();
     //matrix_spiral(9);
     //matrix_spiral2();
-    pointers_definition();
+    //pointers_definition();
+    pointer_init();
 }
