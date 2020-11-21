@@ -711,6 +711,39 @@ void test_0()
     }
 }
 
+// 12.10 指针的自减运算
+/*
+ * 让用户输入一个字符串，然后反向输出（不能改变原来的字符串）
+ */
+void test_1()
+{
+    // 方法一：改变字符串本身
+    char str[] = "12345";
+    int len = strlen(str);
+    int tmp = 0;
+    for(int i=0; i<len/2; i++) {
+        tmp = str[i];
+        str[i] = str[len-1-i];
+        str[len-1-i] = tmp;
+    }
+    printf("%s\n\n", str);
+
+    // 方法2：不改变字符串
+    char str1[] = "12345";
+    int len1 = strlen(str1);
+    for (int i=len1-1; i>=0; i--) {
+        printf("%c", str1[i]);
+    }
+    printf("\n\n");
+    // 方法三。改用指针的形式
+    char str2[] = "12345";
+    int len2 = strlen(str1);
+    for (char *p = str2+len2-1; p >= str2; p--) {
+        printf("%c", *p);
+    }
+    printf("\n\n");
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -754,5 +787,5 @@ void mainStudyFunction()
     //pointer_init();
     //nullPointer();
     //struct_pointer();
-    test_0();
+    test_1();
 }
