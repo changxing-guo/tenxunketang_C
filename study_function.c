@@ -744,6 +744,33 @@ void test_1()
     printf("\n\n");
 }
 
+// 12.11 指针与整数之间的加减运算
+/*
+ * 地址加操作就是在原来的指针地址的基础上加上一定的地址偏移，得到新地址
+ * 从而通过*取得地址里面存储的内容
+ * 比如指针+1， 并不是在指指针地址的基础之上加 1个地址，而是在这个指针地址的基础上加1个元素所占的字节数
+ * 如果指针的类型是char *，那么这个时候1代表1个字节地址
+ * 如果指针的类型是int *,那么这个时候1代表4个字节地址
+ *
+ * 结论：
+ * p + n 实际指向的地址：p基地址（p里面存的值） + n*sizeof(数据类型)
+ */
+void test_2()
+{
+    char pikaqiu[] = {'1', '2', '3', '4'};
+    char *p = pikaqiu;
+    printf("%c 内存地址是 %p\n", *p, p);
+    printf("%c 内存地址是 %p\n", *(p+1), p+1);
+    printf("%c 内存地址是 %p\n", *(p+2), p+2);
+
+    int ages[] = {22, 23, 24, 35, 66, 64, 31, 23};
+    int *p1 = ages;
+    printf("%d 内存地址是 %p\n", *p1, p1);
+    printf("%d 内存地址是 %p\n", *(p1+1), p1+1);
+    printf("%d 内存地址是 %p\n", *(p1+2), p1+2);
+    printf("%d 内存地址是 %p\n", *(p1+4), p1+4);
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -787,5 +814,5 @@ void mainStudyFunction()
     //pointer_init();
     //nullPointer();
     //struct_pointer();
-    test_1();
+    test_2();
 }
