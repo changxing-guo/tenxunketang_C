@@ -684,6 +684,33 @@ void struct_pointer()
 
 }
 
+// 12.9 指针的自增运算
+void test_0()
+{
+    int ages[] = {1,2,3,4,5,6,7,8,9,10};
+    int len = sizeof (ages) / sizeof (ages[0]);
+    // 使用数组的形式来访问
+    printf("数组的形式访问\n");
+    for (int i=0; i<len; i++) {
+        printf("%d\t", ages[i]);
+    }
+
+    // 使用指针来访问
+    printf("\n使用指针来访问\n");
+    int *p = ages;
+    for (int i=0; i<len; i++) {
+        printf("%d\t", *p);
+        p++;
+    }
+
+    // 优化
+    printf("\n使用指针来访问---优化\n");
+    for (int *p=ages;  p<ages+len; p++)
+    {
+        printf("%d\t", *p);
+    }
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -726,5 +753,6 @@ void mainStudyFunction()
     //pointers_definition();
     //pointer_init();
     //nullPointer();
-    struct_pointer();
+    //struct_pointer();
+    test_0();
 }
