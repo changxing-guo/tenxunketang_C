@@ -898,6 +898,88 @@ void test_6(unsigned char *name)
 
 }
 
+// 13、复位指定端口
+/*
+ * 13.1 项目练习
+ * 实现以下函数实现功能：
+ * 如果英雄是攻击性英雄，每升一级血量+1000，攻击力+200
+ * 如果英雄是防御性英雄，每升一级血量+2000，攻击力+50
+ * 其他英雄暂不做处理
+ * 类型定义：1：攻击性英雄 2：防御性英雄
+ */
+struct hero_stat{
+    int blood;
+    int power;
+    int level;
+    char name[64];
+    char details[128];
+};
+
+struct hero_stat upgrade(struct hero_stat hero, int type) {
+    switch (type) {
+    case 1:
+        hero.blood += 1000;
+        hero.power += 200;
+        hero.level++;
+        break;
+    case 2:
+        hero.blood += 2000;
+        hero.power += 50;
+        hero.level++;
+        break;
+    default:
+        break;
+    }
+    return hero;
+}
+
+/*
+ * 函数参数使用指针的场景
+ * 1、函数内部需要修改外部变量的值
+ * 2、被调用函数需要提供更多的返回值，给调用函数
+ * 3、减少值传递时带来的额外开销，提高代码执行效率
+ */
+// 需要函数返回值判断有没有修改成功
+int upgrade1(struct hero_stat *hero, int type)
+{
+    int ret = 0;
+    switch (type) {
+    case 1:
+        hero->blood += 1000;
+        hero->power += 200;
+        hero->level++;
+        ret = 1;
+        break;
+    case 2:
+        hero->blood += 2000;
+        hero->power += 50;
+        hero->level++;
+        ret = 1;
+        break;
+    default:
+        ret = 0;
+        break;
+    }
+    return ret;
+}
+
+void test_7()
+{
+    struct hero_stat gcx;
+    strcpy(gcx.name, "张德帅");
+    gcx.blood = 3000;
+    gcx.power = 400;
+    gcx.level = 10;
+    struct hero_stat *p = &gcx;
+    if (upgrade1(p, 3)) {
+        printf("gcx blood = %d, power = %d, level = %d\n", gcx.blood, gcx.power, gcx.level);
+    } else {
+        printf("类型不匹配\n");
+    }
+
+}
+
+
 void mainStudyFunction()
 {
     /*  sum
@@ -942,5 +1024,6 @@ void mainStudyFunction()
     //nullPointer();
     //struct_pointer();
     //test_5("12345678");
-    test_6("my name is 张德帅，oyeah!");
+    //test_6("my name is 张德帅，oyeah!");
+    test_7();
 }
