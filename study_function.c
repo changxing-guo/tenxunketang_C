@@ -852,6 +852,52 @@ void test_4()
     printf("\n\n");
 }
 
+// 12.16 项目练习
+/*
+ * 字符串的逆转: 12345678  -->    87654321
+ */
+void test_5(unsigned char *ch)
+{
+    // 英文字符串的逆转很简单
+    int len = strlen(ch);
+    unsigned char tmp[len+1];
+    unsigned char *p1 = ch;
+    unsigned char *p2 = tmp + len;
+    *p2-- = 0;
+    while(*p1 != 0) {
+        /*p2 = *p1;
+        p2--;
+        p1++;*/
+       *p2-- = *p1++;
+    }
+    printf("%s\n", tmp);
+}
+//中文字符串的逆转(utf-8)
+//中英文结合用ANSI编码格式参考12.16_ANSI.c(代码根目录下）
+void test_6(unsigned char *name)
+{
+    int len = strlen(name);
+    // 此时在utf-8编码格式时候一个汉字占三个字节，如果是ANSI编码，则占两个字节
+    printf("len = %d\n", len);
+    unsigned char tmp[len+1];
+    unsigned char *p1 = name;
+    unsigned char *p2 = tmp + len;
+    *p2-- = 0;
+    while(*p1) {
+        if(*p1 < 0xA0) {
+           *p2-- = *p1++;
+        } else {
+            *p2 = *(p1+2);
+            *(p2 - 1) = *(p1 + 1);
+            *(p2 - 2) = *p1;
+            p2-=3;
+            p1+=3;
+        }
+    }
+    printf("%s\n", tmp);
+
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -895,5 +941,6 @@ void mainStudyFunction()
     //pointer_init();
     //nullPointer();
     //struct_pointer();
-    test_4();
+    //test_5("12345678");
+    test_6("my name is 张德帅，oyeah!");
 }
