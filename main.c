@@ -142,32 +142,33 @@ void input_error()
 }
 
 // 查看端口
-void show_port(struct port port)
+void show_port(struct port *port)
 {
-    printf("name:%-16s\t status:%d\t ip:%-16s\t type:%-4s \n", port.name,
-           port.status, port.ip, port.type);
+    printf("name:%-16s\t status:%d\t ip:%-16s\t type:%-4s \n", port->name,
+           port->status, port->ip, port->type);
 }
-void show_ports(struct port ports[])
+void show_ports(struct port *ports)
 {
+    struct port *port = ports;
     system("cls");
     for (int i=0; i<5; i++) {
         printf("PORT%d\t", i+1);
-        show_port(ports[i]);
+        show_port(ports++);
     }
     system("pause");
 }
 
 // 设置端口
-void set_port(struct port ports[], int index)
+void set_port(struct port *port)
 {
     printf("请输入端口的名称：");
-    scanf("%s", ports[index].name);
+    scanf("%s", port->name);
     printf("请输入端口的状态：");
-    scanf("%d", &ports[index].status);
+    scanf("%d", &(port->status));
     printf("请输入端口的ip：");
-    scanf("%s", ports[index].ip);
+    scanf("%s", port->ip);
     printf("请输入端口的类型：");
-    scanf("%s", ports[index].type);
+    scanf("%s", &port->type);
 
 }
 void set_ports(struct port ports[])
@@ -183,7 +184,7 @@ void set_ports(struct port ports[])
     change = getchar();
     if (change >= '1' && change <= '5') {
         printf("change is %c \n", change);
-        set_port(ports, change - '1');
+        set_port(ports + change - '1');
     }
     system("pause");
 }
