@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <study_function.h>
 #include <string.h>
+#include <time.h>
 
 /*
  * 1、为什么要使用函数
@@ -979,6 +980,30 @@ void test_7()
 
 }
 
+// 13.2 减少值传递时带来的额外开销，提高代码执行效率。代码测试
+void test_8()
+{
+    struct hero_stat gcx;
+    strcpy(gcx.name, "张德帅");
+    gcx.blood = 3000;
+    gcx.power = 400;
+    gcx.level = 10;
+    time_t start,end;
+    time(&start);
+    for (long long i=0; i<300000000; i++) {
+        upgrade1(&gcx, 1);
+    }
+    time(&end);
+    printf("gcx blood = %d, power = %d, level = %d, time = %d\n", gcx.blood, gcx.power, gcx.level, end-start);
+
+    time(&start);
+    for (long long i=0; i<300000000; i++) {
+        upgrade(gcx, 1);
+    }
+    time(&end);
+     printf("gcx blood = %d, power = %d, level = %d, time = %d\n", gcx.blood, gcx.power, gcx.level, end-start);
+}
+
 
 void mainStudyFunction()
 {
@@ -1025,5 +1050,5 @@ void mainStudyFunction()
     //struct_pointer();
     //test_5("12345678");
     //test_6("my name is 张德帅，oyeah!");
-    test_7();
+    test_8();
 }
