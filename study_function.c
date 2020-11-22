@@ -793,6 +793,56 @@ void test_3()
     // 目前指针的加法没有什么意义。
 }
 
+// 12.13 指向一维数组的指针
+void test_4()
+{
+    int beauty[4][5];
+    int k = 1;
+    // 数组初始化
+    for (int i=0; i<4; i++) {
+        for (int j=0; j<5; j++) {
+            beauty[i][j] = k++;
+        }
+    }
+    // 打印数组
+    for (int i=0; i<4; i++) {
+        for (int j=0; j<5; j++) {
+            printf("%d\t", &beauty[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n\n");
+
+    // 定义一维数组指针
+    int (*p)[5];
+    p = beauty[2]; // ==> p = &buauty[2];
+
+    for (int i=0; i<5; i++) {
+        printf("%d\t", (*p)[i]);
+    }
+    printf("\n\n");
+    p--;
+    for (int i=0; i<5; i++) {
+        printf("%d\t", (*p)[i]);
+    }
+    printf("\n\n");
+
+    /*
+    // 有个问题没搞明白，这个地址打印出来并不是元素所在的地址
+    for (int i=0; i<5; i++) {
+        printf("%d\t", (p)[i]);
+    }
+    printf("\n\n");
+    for (int i=0; i<5; i++) {
+        printf("%d\t", &beauty[1][i]);
+    }
+    printf("\n\n");
+    // 输出为：
+    //  6421844 6421864 6421884 6421904 6421924
+    //  6421844 6421848 6421852 6421856 6421860
+    */
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -836,5 +886,5 @@ void mainStudyFunction()
     //pointer_init();
     //nullPointer();
     //struct_pointer();
-    test_3();
+    test_4();
 }
