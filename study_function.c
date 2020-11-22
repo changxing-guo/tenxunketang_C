@@ -771,6 +771,28 @@ void test_2()
     printf("%d 内存地址是 %p\n", *(p1+4), p1+4);
 }
 
+// 12.12 指针与指针之间的加减运算
+/*
+ * 1、使用“指针-指针”的方式计算整数数组元素的偏移值
+ * 2、使用“指针-指针”的方式计算字符串元素的 偏移值
+ * 结论：
+ *      1）指针和指针可以做减法操作，但不适合做加法操作
+ *      2）指针和指针适合做减法的场合，两个指针都指向同一个数组，相减结果作为两个指针之间的元素数目，
+ *         而不是两个指针之间相差的字节数
+ */
+void test_3()
+{
+    int ages[] = {20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30};
+    int *rock = ages + 2;
+    int *margin = ages + 4;
+    //printf("sizeof(int) = %d", sizeof (int));
+    // 指针-指针 指的偏移值 （p1 - p1) / sizeof(int)
+    printf("\n 指针-指针测试 : %p, %p, %d\n", margin, rock, margin -rock);
+    printf("\n 指针-指针测试 : %p, %p, %d\n", margin, rock, rock - margin);
+
+    // 目前指针的加法没有什么意义。
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -814,5 +836,5 @@ void mainStudyFunction()
     //pointer_init();
     //nullPointer();
     //struct_pointer();
-    test_2();
+    test_3();
 }
