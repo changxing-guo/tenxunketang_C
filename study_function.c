@@ -794,6 +794,7 @@ void test_3()
 }
 
 // 12.13 指向一维数组的指针
+// 12.14 指向二维数组的指针
 void test_4()
 {
     int beauty[4][5];
@@ -814,7 +815,7 @@ void test_4()
     printf("\n\n");
 
     // 定义一维数组指针
-    int (*p)[5];
+    int (*p)[5];    // 规定，一定要带上括号（int * p[5],表示指针数组， p[0], p[1] ...)
     p = beauty[2]; // ==> p = &buauty[2];
 
     for (int i=0; i<5; i++) {
@@ -830,7 +831,7 @@ void test_4()
     /*
     // 有个问题没搞明白，这个地址打印出来并不是元素所在的地址
     for (int i=0; i<5; i++) {
-        printf("%d\t", (p)[i]);
+        printf("%d\t", (p)[i]);     // 这个表示可能是当做指针数组来显示了，
     }
     printf("\n\n");
     for (int i=0; i<5; i++) {
@@ -841,6 +842,14 @@ void test_4()
     //  6421844 6421864 6421884 6421904 6421924
     //  6421844 6421848 6421852 6421856 6421860
     */
+    int (*p1)[4][5] = beauty;
+    for (int i=0; i<4; i++) {
+        for (int j=0; j<5; j++) {
+            printf("%d\t", (*p1)[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n\n");
 }
 
 void mainStudyFunction()
