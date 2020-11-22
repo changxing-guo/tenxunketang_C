@@ -15,20 +15,18 @@ FILE *userNamePasswdFile;       //保存用户账号密码的文件
 // 使用“结构”来定义“端口类型”
 struct port {
     char name[16];
-    int status; // 1 激活 2 禁止
+    int status; // 1 激活 0 禁止
     char ip[16];
     char type[4]; // wan , lan
 };
 
 // 端口初始化
-void init_ports(struct port ports[])
+void init_port(struct port *port)
 {
-    for (int i=0; i<5; i++) {
-        strcpy(ports[i].name, "null");
-        strcpy(ports[i].ip, "0.0.0.0");
-        strcpy(ports[i].type, "WAN");
-        ports[i].status = 2;
-    }
+    strcpy(port->name, "--NULL--");
+    strcpy(port->ip, "0.0.0.0");
+    strcpy(port->type, "LAN");
+    port->status = 0;
 }
 
 // 初始化函数
@@ -144,8 +142,8 @@ void input_error()
 // 查看端口
 void show_port(struct port *port)
 {
-    printf("name:%-16s\t status:%d\t ip:%-16s\t type:%-4s \n", port->name,
-           port->status, port->ip, port->type);
+    printf("name:%-16s\t status:%s\t ip:%-16s\t type:%-4s \n", port->name,
+           port->status ? "激活" : "禁止", port->ip, port->type);
 }
 void show_ports(struct port *ports)
 {
@@ -222,7 +220,9 @@ void main_project()
 {
     int menuChange = 0; //菜单选择
     struct port ports[5];
-    init_ports(ports);
+    for (int i=0; i<5; i++) {
+        init_port(&ports[i]);
+    }
     init();
     login();
 
