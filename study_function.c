@@ -1004,6 +1004,14 @@ void test_8()
      printf("gcx blood = %d, power = %d, level = %d, time = %d\n", gcx.blood, gcx.power, gcx.level, end-start);
 }
 
+// 项目14
+/*
+ * 14.1 动态内存分配
+ * void *malloc(size_t size);
+ * 在内存的动态存储中分配一块长度为size字节的连续区域，返回该区域的首地址
+ * 生死由你控制，消失的时候，只需要free他 void *free(void *);
+ */
+
 
 void mainStudyFunction()
 {

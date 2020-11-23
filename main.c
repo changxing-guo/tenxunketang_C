@@ -21,12 +21,19 @@ struct port {
 };
 
 // 端口初始化
-void init_port(struct port *port)
+struct port* init_port()
 {
-    strcpy(port->name, "--NULL--");
-    strcpy(port->ip, "0.0.0.0");
-    strcpy(port->type, "LAN");
-    port->status = 0;
+    struct port *ports = NULL, *port = NULL;
+    ports = malloc(sizeof (struct port) * 5);
+    port = ports;
+    for (int i=0; i<5; i++,port++)
+    {
+        strcpy(port->name, "--NULL--");
+        strcpy(port->ip, "0.0.0.0");
+        strcpy(port->type, "LAN");
+        port->status = 0;
+    }
+    return ports;
 }
 
 // 初始化函数
@@ -142,12 +149,14 @@ void input_error()
 // 查看端口
 void show_port(struct port *port)
 {
-    printf("name:%-16s\t status:%s\t ip:%-16s\t type:%-4s \n", port->name,
-           port->status ? "激活" : "禁止", port->ip, port->type);
+    printf("name:%-16s\t status:%s\t ip:%-16s\t type:%-4s \n",
+           port->name,
+           port->status ? "激活" : "禁止",
+           port->ip,
+           port->type);
 }
 void show_ports(struct port *ports)
 {
-    struct port *port = ports;
     system("cls");
     for (int i=0; i<5; i++) {
         printf("PORT%d\t", i+1);
@@ -188,7 +197,7 @@ void set_ports(struct port ports[])
 }
 
 // 端口管理
-void port_admin(struct port ports[])
+void port_admin(struct port *ports)
 {
     char c;
     while (1) {
@@ -219,10 +228,8 @@ void port_admin(struct port ports[])
 void main_project()
 {
     int menuChange = 0; //菜单选择
-    struct port ports[5];
-    for (int i=0; i<5; i++) {
-        init_port(&ports[i]);
-    }
+    struct port *ports = NULL;
+    ports = init_port();   // 初始化端口
     init();
     login();
 
@@ -249,7 +256,10 @@ void main_project()
             input_error();
             break;
         }
-
+    }
+    if (ports) {
+        free(ports);
+        ports = NULL;
     }
 }
 
