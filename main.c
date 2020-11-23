@@ -11,6 +11,7 @@
 #endif
 
 FILE *userNamePasswdFile;       //保存用户账号密码的文件
+unsigned int port_num = 0;
 
 // 使用“结构”来定义“端口类型”
 struct port {
@@ -158,7 +159,10 @@ void show_port(struct port *port)
 void show_ports(struct port *ports)
 {
     system("cls");
-    for (int i=0; i<5; i++) {
+    if (port_num == 0) {
+      printf("暂时没有端口，请设置\n");
+    }
+    for (int i=0; i<port_num; i++) {
         printf("PORT%d\t", i+1);
         show_port(ports++);
     }
@@ -170,34 +174,71 @@ void set_port(struct port *port)
 {
     printf("请输入端口的名称：");
     scanf("%s", port->name);
-    printf("请输入端口的状态：");
+    printf("请输入端口的状态[0:禁止, 1:激活]：");
     scanf("%d", &(port->status));
     printf("请输入端口的ip：");
     scanf("%s", port->ip);
-    printf("请输入端口的类型：");
+    printf("请输入端口的类型[lan:wan]：");
     scanf("%s", &port->type);
 
 }
-void set_ports(struct port ports[])
+
+/**
+ * @brief add_ports
+ * 1、如果没有端口，则动态分配端口所需内存空间
+ * 2、如果有端口，扩充内存空间
+ */
+struct port *add_ports(struct port *ports)
+{
+    // 1、没有端口时
+    struct port *new_port = NULL;
+    if (port_num == 0) {
+        new_port = malloc(sizeof (struct port));
+        set_port(new_port);
+        port_num++;
+        return new_port;
+    } else if (port_num > 0){
+        new_port = malloc((port_num+1) * sizeof (struct port));
+        memcpy(new_port, ports, port_num * sizeof (struct port));
+        set_port(new_port + port_num);
+        port_num++;
+        free(ports);
+        return new_port;
+    } else {
+        printf("waring : ports_num < 0\n");
+    }
+    return NULL;
+}
+
+struct port *set_ports(struct port *ports)
 {
     char change;
     system("cls");
     printf("====端口设置====\n");
-    for (int i=0; i<5; i++) {
+    for (int i=0; i<port_num; i++) {
         printf("%d.PORT%d\n", i+1, i+1);
     }
-    fflush(stdin);
+    printf("[q] 返回\n");
+    printf("[+] 增加端口\n");
     printf("请选择：");
+    fflush(stdin);
     change = getchar();
-    if (change >= '1' && change <= '5') {
-        printf("change is %c \n", change);
+    if (change == '+' && port_num < 10) {
+        ports = add_ports(ports);
+    } else if (change >= '1' && change <= '1' + port_num) {
+        //printf("change is %c \n", change);
         set_port(ports + change - '1');
+    } else if (change == 'q' || change == 'Q') {
+
+    } else {
+        input_error();
     }
     system("pause");
+    return ports;
 }
 
 // 端口管理
-void port_admin(struct port *ports)
+struct port *port_admin(struct port *ports)
 {
     char c;
     while (1) {
@@ -214,22 +255,23 @@ void port_admin(struct port *ports)
             show_ports(ports);
             break;
         case '2':
-            set_ports(ports);
+            ports = set_ports(ports);
             break;
         case '3':
-            return;
+            return ports;
         default:
             input_error();
             break;
         }
     }
+    return ports;
 }
 
 void main_project()
 {
     int menuChange = 0; //菜单选择
     struct port *ports = NULL;
-    ports = init_port();   // 初始化端口
+    //ports = init_port();   // 初始化端口
     init();
     login();
 
@@ -247,7 +289,7 @@ void main_project()
             ip_manager();
             break;
         case 3:
-            port_admin(ports);
+            ports = port_admin(ports);
             break;
         case 4:
             logout();
