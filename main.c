@@ -10,6 +10,8 @@
 #include "study_function.h"
 #endif
 
+static int debug = 1;
+
 FILE *userNamePasswdFile;       //保存用户账号密码的文件
 unsigned int port_num = 0;
 
@@ -223,11 +225,26 @@ struct port *set_ports(struct port *ports)
     printf("请选择：");
     fflush(stdin);
     change = getchar();
-    if (change == '+' && port_num < 10) {
+    if (change == '+') {
         ports = add_ports(ports);
-    } else if (change >= '1' && change <= '1' + port_num) {
-        //printf("change is %c \n", change);
-        set_port(ports + change - '1');
+    } else if (change >= '1' && change <= '9') {
+        int num;
+        num = change - '0';
+        do {
+            change = getchar();
+            if (change >= '0' && change <= '9') {
+                num = num * 10 + change - '0';
+            } else {
+                break;
+            }
+        } while(1);
+        if (debug) printf("inpu num is %d\n", num);
+        if (num <= port_num) {
+            set_port(ports + num - 1);
+        } else {
+            printf("这个端口不存在");
+        }
+
     } else if (change == 'q' || change == 'Q') {
 
     } else {
