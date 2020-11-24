@@ -1012,6 +1012,18 @@ void test_8()
  * 生死由你控制，消失的时候，只需要free他 void *free(void *);
  */
 
+/*
+ * 项目15 内存管理
+ */
+/*
+ * 15.1 主要内容
+ *  1）作用域 全局/局部变量或函数的作用区域
+ *  2）修饰符 auto/register/extern/static等的使用
+ *  3）变量初始化，养成对变量进行初始化的好习惯
+ *  4）内存布局，代码区/静态区/堆区/栈区
+ *  5）内存动态分配， malloc/calloc/realloc/free 四个函数
+ */
+
 
 void mainStudyFunction()
 {
