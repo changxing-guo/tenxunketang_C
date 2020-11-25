@@ -1039,6 +1039,11 @@ void east_travel()
     printf("[东游] 的老大是： %s\n", master);
 }
 
+int g_a = 10;
+void test_11()
+{
+    printf("this is a test function of extren\n");
+}
 
 
 void studyTest1()
