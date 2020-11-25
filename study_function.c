@@ -1136,6 +1136,17 @@ void test_12()
     printf("g_b = %d\n", get_g_b());
 }
 
+/*
+ * 15.7 static 修饰函数-静态函数
+ *    在函数返回类型前加上关键字static，函数就定义为静态函数，静态函数只是在定义它的文件中可见，不能被其他文件所用。
+ *    准确的说，是从定义处开始，文件结尾时结束
+ * 使用原则：
+ *  1）某一个函数不想被其他模块所引用，则使用static进行修饰
+ *  2）不用的文件可能函数命名有相同，此时使用static修饰可以解决重命名的问题
+ */
+
+extern void test_13();
+
 void mainStudyFunction()
 {
     /*  sum
@@ -1181,5 +1192,5 @@ void mainStudyFunction()
     //struct_pointer();
     //test_5("12345678");
     //test_6("my name is 张德帅，oyeah!");
-    test_12();
+    test_13();
 }

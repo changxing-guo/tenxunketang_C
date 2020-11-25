@@ -6,7 +6,8 @@ CONFIG -= qt
 SOURCES += \
     study_1.c \
     main.c \
-    study_function.c
+    study_function.c \
+    study_2.c
 
 HEADERS += \
     study_1.h \

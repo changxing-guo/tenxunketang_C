@@ -1050,6 +1050,17 @@ int get_g_b() {
     return g_b;
 }
 
+static void printf_static()
+{
+    printf("printf_static is called\n");
+}
+
+static void test_13()
+{
+    printf("this is study_1.c.test\n");
+    printf_static();
+}
+
 void studyTest1()
 {
     test_switch2();
