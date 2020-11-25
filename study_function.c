@@ -1147,6 +1147,44 @@ void test_12()
 
 extern void test_13();
 
+/*
+ * 15.8 static 修饰局部变量
+ * 在局部变量之前加上关键字static，局部变量就变成了局部静态变量
+ * 作用域：作用域仍为局部作用域，当定义他的函数或者语句块结束的时候，作用域结束。
+ *        但是当局部静态变量离开作用域后，并没有销毁，而是仍然驻留在内存之中，该函数再次被调用，并且其值和前次退出时一样
+ * 生命周期：
+ *        局部变量定义在栈上，函数退出后变量就被销毁
+ *        局部静态变量定义在静态区，其在程序开始运行时就已经在内存里面
+ *
+ * 注意：
+ * 相同点：局部静态变量和局部变量的作用域是一样的
+ * 不同点：局部变量会被销毁，局部静态变量不会
+ */
+
+void test_14()
+{
+    //int s_call_count = 0;
+    // 值被初始化了一次。他的生命周期和函数退出没有关系
+    static int s_call_count = 0;
+    printf("s_call_count = %d , mem = %p\n", s_call_count, &s_call_count);
+    ++s_call_count;
+    printf("++s_call_count = %d , mem = %p\n", s_call_count, &s_call_count);
+
+    // 作用域测试:局部静态变量和局部变量的作用域是一样的
+    {
+        static int s_call_count = 10;
+        printf("s_call_count 111 = %d , mem = %p\n", s_call_count, &s_call_count);
+        ++s_call_count;
+        printf("++s_call_count 111 = %d , mem = %p\n", s_call_count, &s_call_count);
+    }
+}
+void test_15()
+{
+    test_14();
+    test_14();
+    test_14();
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -1192,5 +1230,5 @@ void mainStudyFunction()
     //struct_pointer();
     //test_5("12345678");
     //test_6("my name is 张德帅，oyeah!");
-    test_13();
+    test_15();
 }
