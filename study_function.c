@@ -869,7 +869,7 @@ void test_5(unsigned char *ch)
         /*p2 = *p1;
         p2--;
         p1++;*/
-       *p2-- = *p1++;
+        *p2-- = *p1++;
     }
     printf("%s\n", tmp);
 }
@@ -886,7 +886,7 @@ void test_6(unsigned char *name)
     *p2-- = 0;
     while(*p1) {
         if(*p1 < 0xA0) {
-           *p2-- = *p1++;
+            *p2-- = *p1++;
         } else {
             *p2 = *(p1+2);
             *(p2 - 1) = *(p1 + 1);
@@ -1001,7 +1001,7 @@ void test_8()
         upgrade(gcx, 1);
     }
     time(&end);
-     printf("gcx blood = %d, power = %d, level = %d, time = %d\n", gcx.blood, gcx.power, gcx.level, end-start);
+    printf("gcx blood = %d, power = %d, level = %d, time = %d\n", gcx.blood, gcx.power, gcx.level, end-start);
 }
 
 // 项目14
@@ -1066,7 +1066,7 @@ void test_9()
 }
 
 /*
- * 15.4 修饰符
+ * 15.4 auto，register 修饰符
  *  修饰局部变量的两个：auto ,register
  *  auto：
  *      1)只能用于修饰局部变量，表示该变量存储在栈上stack
@@ -1076,6 +1076,7 @@ void test_9()
  *        存储cpu的变量，速度快但数量有限，通常用来优化，
  *      2）使用register修饰的变量不能去取地址
  *
+ * 15.5 extern 修饰符
  *  extern 修饰变量
  *      1）用来修饰变量或者函数，extren可置于变量前或者函数前，已表示变量或者函数定义在别的文件中，提示编译器遇到此变量
  *         和函数时在其他模块中寻找其定义
@@ -1106,13 +1107,34 @@ void test_9()
  *  这些要记住， c++编译器编译比较严谨，声明变量不加extern会默认识别为定义。
  */
 
+
+
 extern int g_a;
 void test_10()
 {
     printf("g_a = %d\n", g_a);
 }
 
-extern void test_11();
+extern void test_11(void);
+
+/*
+ *  15.6 static 修饰符
+ *      1）限定作用域
+ *          修饰全局变量-全局静态变量
+ *          修饰函数，静态函数
+ *      2）保持变量内容持久化
+ *          修饰局部变量-局部静态变量
+ *  修饰全局变量-全局静态变量：
+ *      在全局变量前加上关键字static，全局变量就变成了一个全局静态变量（限定作用域）
+ *      全局静态变量作用域被限定，只能在定义他的文件内可见，准确的说就是从定义处开始，到文件结尾
+ *
+ */
+// 由于g_b定义时使用了static，所以不能再此文件进行声明，从而进行引用
+extern int get_g_b(void);
+void test_12()
+{
+    printf("g_b = %d\n", get_g_b());
+}
 
 void mainStudyFunction()
 {
@@ -1159,5 +1181,5 @@ void mainStudyFunction()
     //struct_pointer();
     //test_5("12345678");
     //test_6("my name is 张德帅，oyeah!");
-    test_11();
+    test_12();
 }

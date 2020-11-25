@@ -1045,6 +1045,10 @@ void test_11()
     printf("this is a test function of extren\n");
 }
 
+static int g_b = 10;
+int get_g_b() {
+    return g_b;
+}
 
 void studyTest1()
 {
