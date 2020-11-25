@@ -1034,6 +1034,49 @@ void test_8()
  * 2）全局变量的作用域，起始于定义处，知道本文件结束
  */
 
+/*
+ * 15.3 作用域叠加
+ * 全局变量同局部变量的作用域叠加，在不同的作用域总，可以有重名的标识符，
+ * 局部变量会覆盖全局变量的作用域（同一个作用域的变量名不能重名)
+ * 就近原则：当全局变量和局部变量同名时，在局部范围内全局变量会被“屏蔽”，不再起作用。
+ * 全局变量命名污染：函数是全局变量，要防止命名污染，全局变量的使用更要避免命名重名，尽量少用全局变量
+ */
+
+int test_15_3 = 100;
+void testprint_9()
+{
+    printf("testprint_9_ = %d\n", test_15_3);
+}
+void test_9()
+{
+    testprint_9();
+    printf("a = %d\n", test_15_3);
+    int test_15_3 = 10;
+    testprint_9();
+    printf("a = %d\n", test_15_3);
+    {
+        testprint_9();
+        printf("a = %d\n", test_15_3);
+        int test_15_3 = 1;
+        printf("a = %d\n", test_15_3);
+        testprint_9();
+    }
+    printf("a = %d\n", test_15_3);
+    testprint_9();
+}
+
+/*
+ * 15.4 修饰符
+ *  修饰局部变量的两个：auto ,register
+ *  auto：
+ *      1)只能用于修饰局部变量，表示该变量存储在栈上stack
+ *      2)局部变量默认的修饰符就是auto类型，所以通常将其省略
+ *  register：
+ *      1)只能修饰局部变量，将内存中的变量升级到cpu寄存器中去存储，这样访问速度会很快。
+ *        存储cpu的变量，速度快但数量有限，通常用来优化，
+ *      2）使用register修饰的变量不能去取地址
+ */
+
 
 void mainStudyFunction()
 {
@@ -1080,5 +1123,5 @@ void mainStudyFunction()
     //struct_pointer();
     //test_5("12345678");
     //test_6("my name is 张德帅，oyeah!");
-    test_8();
+    test_9();
 }
