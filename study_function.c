@@ -1191,6 +1191,27 @@ void test_15()
  *  2）局部变量没有默认值
  */
 
+/*
+ * 15.10 内存布局-代码区
+ *  通常是指用来存放程序执行代码的一块内存区域，这部分的大小在程序运行前就已经确定，并且内存区域通常属于只读
+ *  在代码段中，也有包含一些只读的常数变量，例如字符串常量
+ */
+/**
+ * @brief test_16 测试字符串常量属于哪个区
+ */
+void test_16()
+{
+    char name[] = "zhangsan";
+    char *p_name = "zhangsan";
+    printf("%p\t%p\t%p\n", name, p_name, test_16);
+
+    name[0] = "1";
+    printf("updata name = %s\n", name);
+
+    //*p_name = "1";    // 这句代码导致程序崩溃
+    printf("p_name = %s\n", p_name);
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -1236,5 +1257,5 @@ void mainStudyFunction()
     //struct_pointer();
     //test_5("12345678");
     //test_6("my name is 张德帅，oyeah!");
-    test_15();
+    test_16();
 }
