@@ -1328,6 +1328,37 @@ void test_malloc()
     }
 }
 
+/*
+ * 15.14 calloc 动态内存分配并清零
+ * #include <stdlib.h>
+ * void* calloc( size_t num, size_t size );
+ * 1）和malloc的区别
+ *      （1）传入参数不一样
+ *      （2）calloc申请的内存是有将其值初始化为0；而malloc是随机的
+ * 2）和malloc的相同点
+ *      （1）都是要用free去释放申请的内存
+ *      （2）这段内存被free掉后都不要去操作该段内存（不管读还是写）
+ * 3）什么时候使用malloc或者calloc呢？
+ *      （1）如果你把申请的内存区域初始化为0。可以使用calloc。初始化为0是要花时间的
+ *      （2）如果你的应用在内存申请后会手动赋值，可以使用malloc
+ *          即使你用了malloc，也可以使用memset去初始化，一般都是用malloc的
+ */
+void test_calloc()
+{
+    //int *p1 = (int *)malloc(10 * sizeof (int));
+    int *p2 = (int *)calloc(10, sizeof (int));
+    if(!p2) {
+        printf("p2 is null \n");
+        exit(1);
+    }
+    printf("\n\n打印出初始化后的值\n");
+    for (int i=0; i<10; i++) {
+        printf("%d  ", *(p2+i));
+    }
+    //free(p1);
+    free(p2);
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -1373,5 +1404,6 @@ void mainStudyFunction()
     //struct_pointer();
     //test_5("12345678");
     //test_6("my name is 张德帅，oyeah!");
-    test_malloc();
+    //test_malloc();
+    test_calloc();
 }
