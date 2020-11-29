@@ -1359,6 +1359,61 @@ void test_calloc()
     free(p2);
 }
 
+/*
+ * 15.15 realloc 动态内存调整
+ * #include <stdlib.h>
+ * void *realloc( void *ptr, size_t size );
+ * 给一个已经分配了地址的指针重新分配空间，参数ptr为原有的空间地址，size是重新申请的地址长度
+ */
+
+void test_realloc()
+{
+    int *p_a = (int *)malloc(10*sizeof (int));
+    if(!p_a) {
+        printf("p2 is null \n");
+        exit(1);
+    }
+    //赋值
+    printf("\n扩充之前p_a  = %p \n", p_a);
+    for (int i=0; i<10; i++) {
+        *(p_a+i) = i;
+    }
+    for (int i=0; i<10; i++) {
+        printf("%d  ", *(p_a+i));
+    }
+
+    //扩充数据
+    /*
+     * 1、先检查p_a的连续空间是否满足60个字节，
+     *    如果不满足：
+     *      1）系统重新申请一段空间 int *p_b = (int *)malloc(15*sizeof (int));
+     *      2）把原来10字节的内容拷贝到p_b指向的前40字节内存
+     *      3）把p_a指向的空间释放掉，归还给系统
+     *      4）return p_b；把p_b指向的地址返回给调用者
+     *      实际 = malloc + memcpy + free
+     */
+    p_a = (int *)realloc(p_a, 20*sizeof (int));
+    printf("\n\n扩充之后p_a  = %p \n", p_a);
+    for (int i=0; i<20; i++) {
+        printf("%d  ", *(p_a+i));   // 原来的内容没变化，但是扩充之后的没变化
+        if(i == 10) {}
+    }
+
+    /*
+     * 缩减内存空间，指针一般不会变化
+     * 缩减后被缩减的部分的数据不能在使用。属于越界操作，程序会崩溃
+     */
+    p_a = (int *)realloc(p_a, 5*sizeof (int));
+    printf("\n\n缩减之后p_a  = %p \n", p_a);
+    for (int i=0; i<5; i++) {
+        printf("%d  ", *(p_a+i));   // 原来的内容没变化，但是扩充之后的没变化
+        if(i == 10) {}
+    }
+
+    free(p_a);
+    p_a = NULL;
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -1405,5 +1460,6 @@ void mainStudyFunction()
     //test_5("12345678");
     //test_6("my name is 张德帅，oyeah!");
     //test_malloc();
-    test_calloc();
+    //test_calloc();
+    test_realloc();
 }
