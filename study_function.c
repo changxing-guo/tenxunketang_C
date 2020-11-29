@@ -4,6 +4,7 @@
 #include <study_function.h>
 #include <string.h>
 #include <time.h>
+#include <stdlib.h>
 
 /*
  * 1、为什么要使用函数
@@ -1274,6 +1275,58 @@ void test_18()
     test_heap();
     test_stack();
 }
+//#################内存动态分配################
+/*
+ * 15.13 malloc
+ *  #include <stdlib.h>
+ *  void *malloc( size_t size );
+ *  函数malloc()返回一个指针，指向一个大小为size的内存块，如果有错误，则返回NULL。
+ *  指向的内存将位于堆上，而不是堆栈上，因此请确保在使用完毕后释放它。
+ */
+void test_malloc()
+{
+    //1、malloc返回的是void类型，gcc编译器要求我们需要类型转换，比如这里转换为int *
+    int *p_a = (int *)malloc(10*sizeof (int));
+    // 在工程上，我们一定要做判断看指针是否为空
+    if (!p_a) {
+        printf("malloc失败, p_a = %p\n", p_a);
+        exit(1);
+    }
+    // 2、malloc分配的内存他的值是随机
+    for (int i=0; i<10; i++) {
+        printf("%d  ", *(p_a+i));
+    }
+
+    //赋值
+    for (int i=0; i<10; i++) {
+        *(p_a+i) = i;
+    }
+
+    printf("\n\n打印出初始化后的值\n");
+    for (int i=0; i<10; i++) {
+        printf("%d  ", *(p_a+i));
+    }
+    printf("\n free前p指向的内存 = %p\n", p_a);
+    // 3、 free掉后就不要再去操作这片内存区域了（不管读和写).建议free掉后，将指针赋值为NULL；，我们这儿只是测试
+    free(p_a);
+    //p_a = NULL;
+
+    printf("\n free后p指向的内存 = %p\n", p_a);
+    printf("\n\n测试free后指向的内存区域值\n");
+    for (int i=0; i<10; i++) {
+        printf("%d  ", *(p_a+i));
+    }
+
+    // 4、free掉后还往指向的内存空间写数据是不允许的，会导致程序崩溃
+    printf("\n\n 测试free后还往指向的内存空间写数据\n");
+    for (int i=0; i<10; i++) {
+        *(p_a+i) = i+10;
+    }
+    printf("\n\n测试打印free后还往指向的内存空间写数据\n");
+    for (int i=0; i<10; i++) {
+        printf("%d  ", *(p_a+i));
+    }
+}
 
 void mainStudyFunction()
 {
@@ -1320,5 +1373,5 @@ void mainStudyFunction()
     //struct_pointer();
     //test_5("12345678");
     //test_6("my name is 张德帅，oyeah!");
-    test_18();
+    test_malloc();
 }
