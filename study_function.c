@@ -5,7 +5,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
-
+#include <windows.h>
 
 /*
  * 1、为什么要使用函数
@@ -1520,7 +1520,7 @@ void test_16_3()
 }
 
 /*
- * 16.3 函数指针类型匹配
+ * 16.4 函数指针类型匹配
  */
 
 int del_16_4(int a, int b)
@@ -1552,6 +1552,47 @@ void test_16_4()
     p_opt = add_16_3;
     ret = p_opt(100,300);
     printf("p_opt del  ret = %d\n", ret);
+}
+
+/*
+ * 16.5 函数指针的用途
+ *  回调函数：callback function 指通过函数指针调用的函数
+ *  意义：可以提供统一的调用接口，把具体要做的事放在回调函数；比如线程的创建，但线程具体的工作要在回调函数中指定
+ */
+void test_16_5_1(int a, int b, int type)
+{
+    if (0 == type) {
+        printf("add = %d\n", add_16_3(a,b));
+    } else if (1 == type) {
+        printf("add = %d\n", del_16_4(a,b));
+    } else if (2 == type) {
+        //
+    }
+    // .... 假如还有很多运算
+    else {
+        printf("运算错误\n");
+    }
+}
+// 作用：提供统一接口
+void test_16_5_2(int a, int b, int (*callback)(int,int))
+{
+
+    if (callback) { // 如果callbak != NULL
+        printf("callback = %d\n", callback(a, b));
+    }
+}
+
+void test_16_5()
+{
+    test_16_5_1(100,200, 0);
+    test_16_5_1(100,200, 1);
+
+    test_16_5_2(300, 400, add_16_3);
+    test_16_5_2(300, 350, del_16_4);
+
+    // 不同的线程要做不同的任务，但是接口是统一的，那我们怎么做不同的任务
+    // 这个时候回调函数就起作用了，
+    // 在创建线程的时候，我们要设置回调函数，让不同的线程做不同的事情
 }
 
 void mainStudyFunction()
@@ -1602,5 +1643,5 @@ void mainStudyFunction()
     //test_malloc();
     //test_calloc();
     //test_realloc();
-    test_16_4();
+    test_16_5();
 }
