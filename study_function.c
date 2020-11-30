@@ -1478,6 +1478,48 @@ void test_16_1()
     printf("main test_16_1_4 = 0x%x\n", *p2);
 }
 
+/*
+ * 16.3 函数指针的定义
+ *  函数：完成某一特定功能的代码块
+ *  指针：他是一种特殊的变量，用来保存地址值，指针是有类型的，某类型的指针指向某类型的地址
+ *  函数指针：通过一个指针，指向函数
+ */
+
+int add_16_3(int a, int b)
+{
+    return a + b;
+}
+int square_16_3(int a)
+{
+    return a * a;
+}
+// 以上两段代码在编译后存储在代码区，而这段代码其实可以取到地址，而其地址就是代码名
+// 我们可以通过指针存储函数的地址----函数指针
+
+void tesst__16_3()
+{
+    // 我们要定义一个指针变量，指向函数，就是所谓的函数指针
+    // 使用函数指针的目的：最终通过这个函数指针调用该函数
+    // 函数指针定义的重点是类型匹配
+    // 函数指针是强类型指针，必须百分百类型匹配；
+    // 函数指针类型，返回值对应函数指针类型，
+    // 对应的指针定义
+    //int (*p_add)(int a, int b) = NULL;
+    int (*p_add)(int, int) = NULL;  // 可以简写成这样
+    printf("p_add = %p\n",p_add);   // 如果不初始化就去用会导致程序崩溃
+    p_add = add_16_3;   // p指向函数add_16_3的地址
+    int a = p_add(1,1);
+    printf("a = %d\n", a);
+
+    int (*p_square)(int) = NULL;
+    p_square = square_16_3;
+    int b = p_square(11);
+    printf("b = %d\n", b);
+
+    printf("add = %p, square = %p", add_16_3, square_16_3);
+}
+
+
 void mainStudyFunction()
 {
     /*  sum
@@ -1526,5 +1568,5 @@ void mainStudyFunction()
     //test_malloc();
     //test_calloc();
     //test_realloc();
-    test_16_1();
+    tesst__16_3();
 }
