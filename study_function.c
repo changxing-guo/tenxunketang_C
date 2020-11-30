@@ -1496,7 +1496,7 @@ int square_16_3(int a)
 // 以上两段代码在编译后存储在代码区，而这段代码其实可以取到地址，而其地址就是代码名
 // 我们可以通过指针存储函数的地址----函数指针
 
-void tesst__16_3()
+void test_16_3()
 {
     // 我们要定义一个指针变量，指向函数，就是所谓的函数指针
     // 使用函数指针的目的：最终通过这个函数指针调用该函数
@@ -1519,6 +1519,40 @@ void tesst__16_3()
     printf("add = %p, square = %p", add_16_3, square_16_3);
 }
 
+/*
+ * 16.3 函数指针类型匹配
+ */
+
+int del_16_4(int a, int b)
+{
+    return a - b;
+}
+
+void test_16_4()
+{
+    int (*p_add)(int, int) = NULL;
+    int (*p_del)(int, int) = NULL;
+    int (*p_opt)(int, int) = NULL;
+    int ret;
+
+    p_add = add_16_3;
+    ret = p_add(100,300);
+    printf("p_add ret = %d\n", ret);
+
+    p_del = del_16_4;
+    ret = p_del(100,300);
+    printf("p_del ret = %d\n", ret);
+
+    // 不同的函数其函数指针类型可能是一样，具体看(1)返回值，以及(2)参数类型，如果不匹配会导致程序出现意外的结果
+    // 如果函数类型匹配，函数指针可以不同的函数;比如add_16_3，add_16_3
+    p_opt = add_16_3;
+    ret = p_opt(100,300);
+    printf("p_opt add  ret = %d\n", ret);
+
+    p_opt = add_16_3;
+    ret = p_opt(100,300);
+    printf("p_opt del  ret = %d\n", ret);
+}
 
 void mainStudyFunction()
 {
@@ -1568,5 +1602,5 @@ void mainStudyFunction()
     //test_malloc();
     //test_calloc();
     //test_realloc();
-    tesst__16_3();
+    test_16_4();
 }
