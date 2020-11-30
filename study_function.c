@@ -6,6 +6,7 @@
 #include <time.h>
 #include <stdlib.h>
 
+
 /*
  * 1、为什么要使用函数
  *  已经有main函数，为什么还要自定义函数
@@ -130,6 +131,7 @@ int hannuota(int n, char name_A[], char name_B[], char name_C[])
     hannuota(n-1, name_A, name_C, name_B);
     printf("22222  %s 移动到 %s \n", name_A, name_C);
     hannuota(n-1, name_B, name_A, name_C);
+    return 0;
 }
 
 // 1、为什么要使用结构体
@@ -1414,6 +1416,68 @@ void test_realloc()
     p_a = NULL;
 }
 
+/*
+ * 项目16： 通用的路由表算法
+ */
+
+/*
+ * 16.1 内存布局-生命周期-作用域总结
+ *  生命周期和作用域是没有必然关系的
+ */
+// 测试常量字符串--代码区
+char *test_16_1_1()
+{
+    // str是局部变量，是常量字符串，其在代码区分配
+    char *str = "this is a test 1 张德帅";
+    printf("test_16_1_1 %s\n", str);
+    return str;
+
+}
+// 测试常量字符串--栈区
+char *test_16_1_2()
+{
+    // str是局部变量，是常量字符串，其在栈上分配
+    char str[] = "this is a test 2 张德帅";
+    char *p = str;
+    printf("test_16_1_2 %s\n", p);
+    return p;
+}
+
+void test_16_1_3()
+{
+    char *p = NULL;
+    {
+        char str[] = "测试作用域";
+        p = str;
+    }// 此时str的作用域已经结束
+    printf("test_16_1_3 %s\n", p);
+}
+
+int *test_16_1_4()
+{
+    static int a = 0x123456;// 局部静态变量，生命周期从程序运行开始到结束
+    int *p = &a;
+    return p;
+}
+int *test_16_1_5()
+{
+    int a = 0x123456;   // 局部变量，声明周期短
+    int *p = &a;
+    return p;
+}
+void test_16_1()
+{
+    //printf("main test1111 = %s\n", test_16_1_1());
+    //printf("main test2222 = %s\n", test_16_1_2());
+    //test_16_1_3();
+
+    // 变量的生命周期测试，由内存分配及释放的时间点决定
+    int *p1 = test_16_1_4();
+    int *p2 = test_16_1_5();
+    printf("main test_16_1_4 = 0x%x\n", *p1);
+    printf("main test_16_1_4 = 0x%x\n", *p2);
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -1461,5 +1525,6 @@ void mainStudyFunction()
     //test_6("my name is 张德帅，oyeah!");
     //test_malloc();
     //test_calloc();
-    test_realloc();
+    //test_realloc();
+    test_16_1();
 }
