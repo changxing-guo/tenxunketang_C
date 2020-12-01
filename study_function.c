@@ -1595,6 +1595,79 @@ void test_16_5()
     // 在创建线程的时候，我们要设置回调函数，让不同的线程做不同的事情
 }
 
+/*
+ * 16.6 typedef
+ */
+
+// (1)常规变量类型定义
+typedef unsigned char uint8_t;  // 0-255
+typedef unsigned int uint32_t;
+typedef int int32_t;
+// (2) 数组类型定义
+typedef int array_t[2];
+typedef int array2_t[2][2];
+// (3) 指针类型定义
+typedef int *pointer;
+// (4) 函数指针
+typedef int(*fun)(int, int);
+// (5) 结构体定义
+typedef struct teacher{
+    int age;
+    char name[16];
+}teacher_t, *teacher_pt; // 等价于下面的
+//typedef struct teacher teacher_t;
+//typedef teacher_t *teacher_pt; // 相当于 struct teacher *teacher_pt
+
+/* typedef 总结
+ * （1）用typedef只是对已经存在的类型指定一个新的别名，而没有创新新的类型
+ * （2）用typedef声明类型，只要该类型可以被声明变量，那就可以用typedef来取别名，使得编程更加方便
+ */
+void test_16_6()
+{
+    uint8_t a = 255;
+    uint32_t b = 255;
+
+    unsigned char c = 255;
+    char d = 255;
+
+    printf("a = %d, b = %d, c = %d, d = %d\n", a, b, c, d);
+
+    array_t arr1 = {0,1};// 等价于 int arr1[2] = {0,1};
+    for (int i=0; i<2; i++) {
+        printf("arr1[%d] = %d\n", i, arr1[i]);
+    }
+
+    array2_t arr2 = {{3, 4,},{ 5, 6}};// 等价于 int arr2[2][2] = {{3, 4,},{ 5, 6}};;
+    for (int i=0; i<2; i++) {
+        for (int j=0; j<2; j++) {
+            printf("arr2[%d][%d] = %d\n", i, j, arr2[i][j]);
+        }
+    }
+
+    int num = 3;
+    pointer p = &num; // pointer === int *
+    printf("num = %d\n", *p);
+
+    fun f1 = del_16_4;      // fun等价于 int (*f2)(int, int)
+    int (*f2)(int, int) = del_16_4;
+
+    printf("f1 test del = %d\n", f1(2,1));
+    printf("f2 test del = %d\n", f2(5,3));
+
+    teacher_t  t1;;
+    t1.age = 20;
+
+    teacher_t  t2;;
+    t2.age = 20;
+
+    teacher_pt t3;
+    t3 = &t1;
+
+    printf("t1 age = %d\n", t1.age);
+    printf("t2 age = %d\n", t2.age);
+    printf("t3 age = %d\n", t3->age);
+}
+
 void mainStudyFunction()
 {
     /*  sum
@@ -1643,5 +1716,5 @@ void mainStudyFunction()
     //test_malloc();
     //test_calloc();
     //test_realloc();
-    test_16_5();
+    test_16_6();
 }
