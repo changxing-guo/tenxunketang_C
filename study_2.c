@@ -59,7 +59,148 @@ void test_17_2()
 
 }
 
+/*
+ * 17.3 链表的基本操作-插入
+ *
+ * （用火车头，车厢举例，实际c语言中没有这个说法）
+ *  1）初始化节点
+ *      创建头节点，就是创建一个火车头
+ *  2）在尾部插入节点
+ *  3）遍历节点
+ *  4）删除尾部节点
+ *  5）清除节点
+ *      这个清除节点不包括头结点，即只是清除车厢
+ *  6）销毁链表
+ *      包括头结点，以及其他节点，即包括火车头，车厢
+ */
+
+//初始化链表，即创建头节点
+list_node_pt list_init(void)
+{
+    list_node_pt head_node = (list_node_pt)malloc(sizeof (list_node_t));
+    if (head_node) {
+        head_node->next = NULL;
+    } else {
+        printf("初始化链表失败\n");
+    }
+    return head_node;
+}
+
+/* 在尾部插入节点。返回1表示成功，返回0表示插入失败
+ *  a:先找到最后一个节点，
+ *  b:最后一个节点通过next指针指向新插入的节点
+ *  c:新插入的节点就就成了最后一个节点
+ *  d:最后一个节点他的next一定是NULL
+ */
+int list_insert_last(list_node_pt p_head, int data)
+{
+    if (NULL == p_head) {
+        printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+    list_node_pt p_insert = (list_node_pt)malloc(sizeof (list_node_t));
+    p_insert->next = NULL;
+    p_insert->data = data;
+
+    while (NULL != p_head->next) {
+        p_head = p_head->next;
+    }
+    p_head->next = p_insert;
+    return 1;
+}
+
+/*
+ * 17.4 链表的基本操作--遍历
+ */
+// 遍历节点
+void list_traverse(list_node_pt p_head)
+{
+    if (NULL == p_head) {
+        printf("%s[%d] : p is null\n", __FUNCTION__, __LINE__);
+    }
+    printf("#############     遍历节点    ########\n");
+    list_node_pt list_node = p_head->next;
+    while (list_node != NULL) {
+        printf("address is %p, data = %d\n", list_node, list_node->data);
+        list_node = list_node->next;
+    }
+}
+
+/*
+ * 17.5 链表的基本操作--删除尾部节点
+ */
+/* 删除尾部节点
+ *  a: 找到最后一个节点,获取此节点的值
+ *  b: 找到最后节点的前一个节点,将next置为NULL（等价于最后一个节点的next）
+ */
+/**
+ * @brief list_delete_last
+ * @param p_head
+ * @param data 将删除的节点的值返回到一个变量中
+ * @return
+ */
+int list_delete_last(list_node_t *p_head, int *data)
+{
+    if (NULL == p_head) {
+        printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+    if (NULL == p_head->next) {
+        printf("%s[%d] : p_frist is null\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+    list_node_t *list_del = p_head->next;
+    list_node_t *list_tmp = p_head;
+    while (list_del->next != NULL) {
+        list_del = list_del->next;
+        list_tmp = list_tmp->next;  // 指向list_del的前一个节点
+    }
+    *data = list_del->data;
+    // 指向最后一个节点的下一个节点（也是NULL），引申为假如后面还有节点，那就可以链接上（假如删除中间的节点）
+    //list_tmp->next = NULL;
+    // b: 找到最后节点的前一个节点,将next置为NULL（等价于最后一个节点的next）,这个是更为通用的方式
+    list_tmp->next = list_del->next;
+    free(list_del);
+    return 1;
+}
+
+void test_17_3()
+{
+    list_node_pt head_list = NULL; // 定义一个头节点指针
+    head_list = list_init();
+    if (NULL == head_list) {
+        printf("list_init fail !\n");
+        exit(1);
+    }
+
+    // 增加节点
+    for (int i=1; i<10; i++) {
+        list_insert_last(head_list, i);
+    }
+
+    printf("未删除前遍历节点\n\n");
+    list_traverse(head_list);
+
+
+    printf("\n删除节点中。。。。\n");
+    int a ;
+    // 将节点4的值返回出来
+    list_delete_last(head_list, &a);
+    printf("删除的节点是 = %d\n", a);
+
+    // 将节点3的值返回出来
+    list_delete_last(head_list, &a);
+    printf("删除的节点是 = %d\n", a);
+    printf("删除节点完成。。。。\n\n");
+
+    printf("删除后重新遍历节点\n");
+    list_traverse(head_list);
+    free(head_list);
+}
+
 
 void test_study_2(void) {
-    test_17_2();
+    test_17_3();
+    printf("\ngame is over\n");
+
 }
