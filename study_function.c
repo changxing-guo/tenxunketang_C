@@ -1668,6 +1668,8 @@ void test_16_6()
     printf("t3 age = %d\n", t3->age);
 }
 
+extern void test_study_2(void);
+
 void mainStudyFunction()
 {
     /*  sum
@@ -1716,5 +1718,6 @@ void mainStudyFunction()
     //test_malloc();
     //test_calloc();
     //test_realloc();
-    test_16_6();
+    //test_16_6();
+    test_study_2();
 }
