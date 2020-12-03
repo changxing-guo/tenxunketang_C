@@ -180,12 +180,45 @@ int list_delete_first(list_node_t *p_head, int *data)
     }
     // 能跑到这里说明首节点是存在的
     list_node_t *node_first = p_head->next;
-    *data = node_first->data;   // 获取数目
+    if (data != NULL) {
+        *data = node_first->data;   // 获取数目
+    }
     p_head->next = node_first->next;    // 将首节点的下一个节点的值赋给头节点的next
     free(node_first);
     return 1;
 
 }
+
+/*
+ * 17.7 链表的基本操作--清空链表节点
+ */
+int list_clear(list_node_t *p_head)
+{
+    if (NULL == p_head) {
+        printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+
+    // 第一种方式
+    list_node_t *del = p_head->next;
+    while(del != NULL) {
+        p_head->next = del->next;  // 将头节点的next指向删除节点的next；
+        printf("清空链表节点[%d]\n", del->data);
+        free(del);  // 释放节点占用的内存
+        del = p_head->next;
+    }
+    // 第二种方式
+    /*
+    int a;
+    while (p_head->next != NULL) {
+       list_delete_first(p_head, &a);
+       printf("清空链表节点[%d]\n", a);
+    }
+    */
+
+    return 1;
+}
+
 
 void test_17_3()
 {
@@ -222,6 +255,10 @@ void test_17_3()
 
     printf("删除后重新遍历节点\n");
     list_traverse(head_list);
+
+    list_clear(head_list);
+    //printf("data is %d\n", head_list->next->data);
+
     free(head_list);
 }
 
