@@ -164,6 +164,29 @@ int list_delete_last(list_node_t *p_head, int *data)
     return 1;
 }
 
+/*
+ * 17.6 链表的基本操作--删除首节点
+ */
+int list_delete_first(list_node_t *p_head, int *data)
+{
+    if (NULL == p_head) {
+        printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+    // 判断首节点是否存在
+    if (NULL == p_head->next) {
+        printf("%s[%d] : p_frist is null\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+    // 能跑到这里说明首节点是存在的
+    list_node_t *node_first = p_head->next;
+    *data = node_first->data;   // 获取数目
+    p_head->next = node_first->next;    // 将首节点的下一个节点的值赋给头节点的next
+    free(node_first);
+    return 1;
+
+}
+
 void test_17_3()
 {
     list_node_pt head_list = NULL; // 定义一个头节点指针
@@ -191,6 +214,10 @@ void test_17_3()
     // 将节点3的值返回出来
     list_delete_last(head_list, &a);
     printf("删除的节点是 = %d\n", a);
+
+    list_delete_first(head_list, &a);
+    printf("删除的节点是 = %d\n", a);
+
     printf("删除节点完成。。。。\n\n");
 
     printf("删除后重新遍历节点\n");
