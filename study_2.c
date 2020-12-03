@@ -219,6 +219,26 @@ int list_clear(list_node_t *p_head)
     return 1;
 }
 
+/*
+ * 17.8 链表的基本操作--销毁链表
+ */
+
+/*
+ * 在这儿为什么用二级指针，不太清楚，一级指针完全可以实现此功能，无非就是传入头节点的存储地址而已
+ * 其实就是malloc是返回的指针，他里面存储的就是头节点的地址；
+ * list_node_t *head_list = list_init();
+ * 其实传入head_list就可以，
+ */
+
+void  list_deinit(list_node_t **p_head)
+{
+    // 1、清空清空链表节点
+    list_clear(*p_head);
+    // 2、清空首节点
+    free(*p_head);
+    *p_head = NULL;
+    printf("\n销毁链表完成\n");
+}
 
 void test_17_3()
 {
@@ -256,8 +276,13 @@ void test_17_3()
     printf("删除后重新遍历节点\n");
     list_traverse(head_list);
 
-    list_clear(head_list);
-    //printf("data is %d\n", head_list->next->data);
+    // 17.7 链表的基本操作--清空链表节点
+    //list_clear(head_list);
+
+    // 销毁链表
+    list_deinit(&head_list);
+
+
 
     free(head_list);
 }
