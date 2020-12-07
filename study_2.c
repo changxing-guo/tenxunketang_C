@@ -240,7 +240,6 @@ void  list_deinit(list_node_t **p_head)
     printf("\n销毁链表完成\n");
 }
 
-
 /*
  * 17.9 链表的基本操作--判断链表是否为空
  */
@@ -253,7 +252,7 @@ int list_is_empty(list_node_t *p_head)
 {
     if (NULL == p_head) {
         printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
-        return 0;
+        return 1;
     }
     if (NULL == p_head->next) {
         printf("%s[%d] : 链表为空\n", __FUNCTION__, __LINE__);
@@ -261,6 +260,24 @@ int list_is_empty(list_node_t *p_head)
     }
     printf("%s[%d] : 链表不为空\n", __FUNCTION__, __LINE__);
     return 0;
+}
+
+/*
+ * 17.10 链表的基本操作--链表节点个数
+ */
+int list_size(list_node_t *p_head)
+{
+    int node_size = 0;
+    if (NULL == p_head) {
+        printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
+        return node_size;
+    }
+    while(p_head->next != NULL) {
+        node_size+=1;
+        p_head = p_head->next;
+    }
+    printf("%s[%d] : 链表节点的个数是 %d\n", __FUNCTION__, __LINE__, node_size);
+    return node_size;
 }
 
 void test_17_3()
@@ -276,6 +293,8 @@ void test_17_3()
     for (int i=1; i<10; i++) {
         list_insert_last(head_list, i);
     }
+
+    list_size(head_list);
 
     printf("未删除前遍历节点\n\n");
     list_traverse(head_list);
@@ -305,6 +324,8 @@ void test_17_3()
     list_clear(head_list);
 
     list_is_empty(head_list);
+
+    list_size(head_list);
 
     // 销毁链表
     list_deinit(&head_list);
