@@ -280,6 +280,54 @@ int list_size(list_node_t *p_head)
     return node_size;
 }
 
+/*
+ * 17.11 链表的基本操作--删除指定位置节点
+ */
+/**
+ * @brief list_delete_pos
+ * @param p_head 头节点
+ * @param pos   指定节点
+ * @param data  此节点保存的值
+ * @return  0表示失败，1表示成功
+ */
+int list_delete_pos(list_node_t *p_head, unsigned int pos, int *data)
+{
+    if (NULL == p_head) {
+        printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+    if (NULL == p_head->next) {
+        printf("%s[%d] : 链表为空\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+    // 不管你要删除那个节点，一定要找到他的前驱节点,也就是找到要删除节点的本身
+    // 目前有两种情况 pos大于你节点的个数，pos小于你节点的个数
+    list_node_t *p_cur = p_head;
+    list_node_pt p_del = p_head->next;
+    unsigned int i = 0;
+    while (p_del != NULL) {
+        i++;
+        // 当要删除的节点下标存在时，就退出循环，获取当前要删除的节点，如果不存在，继续遍历
+        if (i == pos) {
+            break;
+        }
+        p_cur = p_cur->next;
+        p_del = p_del->next;
+    }
+    // 当遍历结束时，此时i 和pos不相等，证明要删除的这个节点不存在。此时就不能删除，返回0
+    if (i != pos) {
+        printf("%s[%d] : 此节点不存在，无法删除\n", __FUNCTION__, __LINE__, *data);
+        return 0;
+    }
+    // 反之，如果相等的话，证明已找到此节点，我们只需要删除此节点，释放内存就行
+    // 将前驱节点和后一个节点连接起来
+    p_cur->next = p_del->next;
+    *data = p_del->data;
+    free(p_del);
+    printf("%s[%d] : data = %d\n", __FUNCTION__, __LINE__, *data);
+    return 1;
+}
+
 void test_17_3()
 {
     list_node_pt head_list = NULL; // 定义一个头节点指针
@@ -331,10 +379,38 @@ void test_17_3()
     list_deinit(&head_list);
 }
 
+void test_17_11()
+{
+
+    list_node_pt head_list = NULL; // 定义一个头节点指针
+    head_list = list_init();
+    if (NULL == head_list) {
+        printf("list_init fail !\n");
+        exit(1);
+    }
+
+    // 增加节点
+    for (int i=1; i<6; i++) {
+        list_insert_last(head_list, i);
+    }
+
+    // 遍历节点
+    list_traverse(head_list);
+
+    int data;
+    list_delete_pos(head_list, 7, &data);
+    list_delete_pos(head_list, 4, &data);
+    list_delete_pos(head_list, 2, &data);
+
+    // 销毁链表
+    list_deinit(&head_list);
+
+}
+
 
 void test_study_2(void) {
-    printf("\########       程序开始        #########\n");
-    test_17_3();
-    printf("\########       程序结束        #########\n");
+    printf("\n########       程序开始        #########\n");
+    test_17_11();
+    printf("\n########       程序结束        #########\n");
 
 }
