@@ -423,6 +423,40 @@ void test_17_3()
     list_deinit(&head_list);
 }
 
+/*
+ * 17.13 链表的基本操作--链表逆转
+ */
+int list_reverse(list_node_t *p_head)
+{
+    if (NULL == p_head) {
+        printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+    // 这个操作主要是一个一个遍历.假设有三个节点，p1,p2,p3，头节点p
+    // (1)首先    p.next = NULL;
+    // (2)第1步   p1.next = p.next, p.next = p1
+    // (3)第2步   p2.next = p1,     p.next = p2
+    // (4)第3步   p3.next = p2,     p.next = p3
+    // p->p3->p2->p1->null;
+    // 经过以上步骤，就将链表逆转了
+    list_node_t *p_cur = NULL;  // 指向首节点
+    list_node_t *p_new = NULL;  // 指向首节点的下一个节点，遍历的新节点
+    // 首先对首节点和头节点的next进行赋值
+    p_new = p_head->next;
+    p_head->next = p_cur;
+    while (p_new != NULL) {
+        // 更新当前节点
+        p_cur = p_new;
+        // 更新下一个新节点
+        p_new = p_new->next;
+        // 当前节点指向旧的节点
+        p_cur->next = p_head->next;
+        // 头节点每次都指向新的节点。（作为首节点）
+        p_head->next = p_cur;
+    }
+    return 1;
+}
+
 void test_17_11()
 {
 
@@ -447,9 +481,13 @@ void test_17_11()
     list_delete_pos(head_list, 2, &data);
     */
 
-    list_insert_pos(head_list, 4, 11);
+    /*list_insert_pos(head_list, 4, 11);
     list_insert_pos(head_list, 1, 22);
     list_insert_pos(head_list, 1, 33);
+
+    list_traverse(head_list);*/
+
+    list_reverse(head_list);
 
     list_traverse(head_list);
 
