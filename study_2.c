@@ -328,6 +328,50 @@ int list_delete_pos(list_node_t *p_head, unsigned int pos, int *data)
     return 1;
 }
 
+/*
+ * 17.12 链表的基本操作--在指定的位置插入节点
+ */
+int list_insert_pos(list_node_t *p_head, int pos, int data)
+{
+    if (NULL == p_head) {
+        printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+
+    // 首先分析一下，pos允许的值为链表节点的个数+1(list_size() + 1)
+    list_node_t *list_pre = p_head;
+    list_node_t *list_cur = p_head->next;
+    int i = 1;
+    // 简单分析下
+    while(list_cur != NULL) {
+        // 1，如果插入的pos <= list_size()  pos == i时，break,
+        // 假设pos = 1，此时直接返回，我们就将头节点和新插入的节点连接起来
+        // 假设pos > 1,此时我们进行遍历
+        if (i == pos) {
+            break;
+        }
+        // 遍历, 如果此时list_pre->next == NULL， 不会再进入此循环，但是我们还是能添加，所以i++
+        // pos允许的值为链表节点的个数+1(list_size() + 1)
+        i++;
+        list_pre = list_pre->next;
+        list_cur = list_cur->next;
+    }
+    // 如果不等于，证明 pos > list_size() + 1,
+    // 假设 链表节点个数为3，pos = 5，此时就不能添加，所以直接return
+    if (i != pos) {
+        printf("%s[%d] : 插入失败， 最大能插入的为 %d \n", __FUNCTION__, __LINE__, i);
+        return 0;
+    }
+    // 遍历结束后，我们判断pos是否等于i,如果等于 说明 pos <= list_size() + 1,此时可以插入
+    list_node_t *list_insert = (list_node_t *)malloc(sizeof (list_node_t));
+    list_insert->data = data;
+    // 前驱节点
+    list_pre->next = list_insert;
+    // 插入节点的next = 当前节点
+    list_insert->next = list_cur;
+    return 1;
+}
+
 void test_17_3()
 {
     list_node_pt head_list = NULL; // 定义一个头节点指针
@@ -390,17 +434,24 @@ void test_17_11()
     }
 
     // 增加节点
-    for (int i=1; i<6; i++) {
+    for (int i=1; i<4; i++) {
         list_insert_last(head_list, i);
     }
 
     // 遍历节点
     list_traverse(head_list);
 
-    int data;
+    /*int data;
     list_delete_pos(head_list, 7, &data);
     list_delete_pos(head_list, 4, &data);
     list_delete_pos(head_list, 2, &data);
+    */
+
+    list_insert_pos(head_list, 4, 11);
+    list_insert_pos(head_list, 1, 22);
+    list_insert_pos(head_list, 1, 33);
+
+    list_traverse(head_list);
 
     // 销毁链表
     list_deinit(&head_list);
