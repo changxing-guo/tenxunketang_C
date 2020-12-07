@@ -240,6 +240,29 @@ void  list_deinit(list_node_t **p_head)
     printf("\n销毁链表完成\n");
 }
 
+
+/*
+ * 17.9 链表的基本操作--判断链表是否为空
+ */
+/**
+ * @brief list_is_empty
+ * @param p_head
+ * @return  1 is null;
+ */
+int list_is_empty(list_node_t *p_head)
+{
+    if (NULL == p_head) {
+        printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+    if (NULL == p_head->next) {
+        printf("%s[%d] : 链表为空\n", __FUNCTION__, __LINE__);
+        return 1;
+    }
+    printf("%s[%d] : 链表不为空\n", __FUNCTION__, __LINE__);
+    return 0;
+}
+
 void test_17_3()
 {
     list_node_pt head_list = NULL; // 定义一个头节点指针
@@ -276,20 +299,21 @@ void test_17_3()
     printf("删除后重新遍历节点\n");
     list_traverse(head_list);
 
+    list_is_empty(head_list);
+
     // 17.7 链表的基本操作--清空链表节点
-    //list_clear(head_list);
+    list_clear(head_list);
+
+    list_is_empty(head_list);
 
     // 销毁链表
     list_deinit(&head_list);
-
-
-
-    free(head_list);
 }
 
 
 void test_study_2(void) {
+    printf("\########       程序开始        #########\n");
     test_17_3();
-    printf("\ngame is over\n");
+    printf("\########       程序结束        #########\n");
 
 }
