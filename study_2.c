@@ -496,10 +496,64 @@ void test_17_11()
 
 }
 
+/*
+ * 17.14 链表的基本操作--向升序链表插入节点
+ */
+int list_insert_order(list_node_t *p_head, int data)
+{
+    if (NULL == p_head) {
+        printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+
+    list_node_t *p_pre = (list_node_t *)malloc(sizeof (list_node_t));
+    list_node_t *p_pos = (list_node_t *)malloc(sizeof (list_node_t));
+
+    p_pre = p_head;
+    p_pos = p_head->next;
+
+    while (p_pos != NULL) {
+        if (data <= p_pos->data) {
+            break;
+        }
+        p_pre = p_pre->next;
+        p_pos = p_pos->next;
+    }
+
+    list_node_t *p_insert = (list_node_t *)malloc(sizeof (list_node_t));
+    p_insert->data = data;
+
+    p_pre->next = p_insert;
+    p_insert->next = p_pos;
+    return 1;
+}
+
+void test_17_14()
+{
+    list_node_pt head_list = NULL; // 定义一个头节点指针
+    head_list = list_init();
+    if (NULL == head_list) {
+        printf("list_init fail !\n");
+        exit(1);
+    }
+
+    list_insert_order(head_list, 2);
+    list_insert_order(head_list, 5);
+    list_insert_order(head_list, 3);
+    list_insert_order(head_list, 6);
+    list_insert_order(head_list, 0);
+    list_insert_order(head_list, 3);
+    list_insert_order(head_list, 4);
+
+    list_traverse(head_list);
+
+    // 销毁链表
+    list_deinit(&head_list);
+}
 
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
-    test_17_11();
+    test_17_14();
     printf("\n########       程序结束        #########\n");
 
 }
