@@ -1,42 +1,82 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
 #ifndef STUDY_1_H
 #include "study_1.h"
 #endif
-
 #ifndef STUDY_FUNCTION_H
 #include "study_function.h"
 #endif
 
+#define CLEAR_SCREEN() system("cls")    // 宏定义的方式
+#define PAUSE_SCREEN() system("pause");
 static int debug = 1;
-
-FILE *userNamePasswdFile;       //保存用户账号密码的文件
-unsigned int port_num = 0;
+static FILE *userNamePasswdFile;       //保存用户账号密码的文件
+static unsigned int port_num = 0;
 
 // 使用“结构”来定义“端口类型”
-struct port {
+typedef struct port {
     char name[16];
     int status; // 1 激活 0 禁止
     char ip[16];
     char type[4]; // wan , lan
-};
+}port_t;
 
-// 端口初始化
-struct port* init_port()
+typedef port_t *elem_t;     // 指向端口
+
+typedef struct list_node {
+    elem_t data;
+    struct list_node *next; // 指向下一个节点
+}list_node_t;
+
+//
+//初始化链表，即创建头节点
+static list_node_t *list_init(void)
 {
-    struct port *ports = NULL, *port = NULL;
-    ports = malloc(sizeof (struct port) * 5);
-    port = ports;
-    for (int i=0; i<5; i++,port++)
-    {
-        strcpy(port->name, "--NULL--");
-        strcpy(port->ip, "0.0.0.0");
-        strcpy(port->type, "LAN");
-        port->status = 0;
+    list_node_t *head_node = (list_node_t *)malloc(sizeof (list_node_t));
+    if (head_node) {
+        head_node->next = NULL;
+    } else {
+        if (debug) printf("初始化链表失败\n");
     }
-    return ports;
+    return head_node;
+}
+
+// 遍历节点
+static void list_traverse(list_node_t *p_head)
+{
+    if (NULL == p_head) {
+        if (debug) printf("%s[%d] : p is null\n", __FUNCTION__, __LINE__);
+    }
+    list_node_t *list_node = p_head->next;
+    while (list_node != NULL) {
+        list_node = list_node->next;
+    }
+}
+
+static int list_clear(list_node_t *p_head)
+{
+    if (NULL == p_head) {
+        if (debug) printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+
+    // 第一种方式
+    list_node_t *del = p_head->next;
+    while(del != NULL) {
+        p_head->next = del->next;  // 将头节点的next指向删除节点的next；
+        free(del);  // 释放节点占用的内存
+        del = p_head->next;
+    }
+    return 1;
+}
+
+// 销毁链表
+static void list_deinit(list_node_t **p_head)
+{
+    list_clear(*p_head);
+    free(*p_head);
+    *p_head = NULL;
 }
 
 // 初始化函数
@@ -55,30 +95,18 @@ void login()
 {
     char name[32];      //输入的用户名
     char passwd[32];    //输入的密码
-
     char line[128];
     char nameCompare[32];   //用于比较的用户名
     char passwdCompare[32]; //用于比较的密码
     char *getsUsersTxtLineResult;   //users.txt文件fgets读取一行的返回值
-    while (1) {
 
+    while (1) {
         printf("请输入用户名：");
         scanf("%s", name);
         printf(("请输入密码："));
         scanf("%s", passwd);
         // 清空缓冲区
         fflush(stdin);
-
-        // 与特定的账号和密码进行比较
-        /*if(strcmp(name, "admin") == 0 && strcmp(passwd, "123456") ==0) {
-            break;
-        } else {
-            printf("用户名或者密码错误\n");
-            system("pause");
-            system("cls");
-        }*/
-
-        // 从文件中读取账号，并进行判断
         while (1) {
             // 读一行
             getsUsersTxtLineResult = fgets(line, sizeof (line), userNamePasswdFile);       // line :   "admin   12345\n"
@@ -94,8 +122,8 @@ void login()
             break;
         } else {    //匹配失败
             printf("用户名或者密码错误\n");
-            system("pause");
-            system("cls");
+            PAUSE_SCREEN();
+            CLEAR_SCREEN();
             fseek(userNamePasswdFile, 0, SEEK_SET); // 将文件内部的位置指针设置到文件头
         }
     }
@@ -134,16 +162,17 @@ void ip_manager()
 }
 
 // 退出账号
-void logout()
+void logout(list_node_t *p_head)
 {
     fclose(userNamePasswdFile);
-    system("cls");
+    list_deinit(&p_head);
+    CLEAR_SCREEN();
     exit(0);
 }
 
 void input_error()
 {
-    system("cls");
+    CLEAR_SCREEN();
     printf("请输入有效的菜单选项\n");
     printf("按任意键返回主菜单\n");
     getchar();
@@ -158,17 +187,27 @@ void show_port(struct port *port)
            port->ip,
            port->type);
 }
-void show_ports(struct port *ports)
+void show_ports(list_node_t *p_head)
 {
-    system("cls");
+    CLEAR_SCREEN();
     if (port_num == 0) {
       printf("暂时没有端口，请设置\n");
     }
     for (int i=0; i<port_num; i++) {
         printf("PORT%d\t", i+1);
-        show_port(ports++);
+        //show_port(ports++);
     }
-    system("pause");
+    PAUSE_SCREEN();
+}
+
+void add_ports(list_node_t *p_head)
+{
+
+}
+
+void del_ports(list_node_t *p_head)
+{
+
 }
 
 // 设置端口
@@ -184,114 +223,57 @@ void set_port(struct port *port)
     scanf("%s", &port->type);
 
 }
-
-/**
- * @brief add_ports
- * 1、如果没有端口，则动态分配端口所需内存空间
- * 2、如果有端口，扩充内存空间
- */
-struct port *add_ports(struct port *ports)
+void modify_port(list_node_t *p_head)
 {
-    // 1、没有端口时
-    struct port *new_port = NULL;
-    if (port_num == 0) {
-        new_port = malloc(sizeof (struct port));
-        set_port(new_port);
-        port_num++;
-        return new_port;
-    } else if (port_num > 0){
-        new_port = malloc((port_num+1) * sizeof (struct port));
-        memcpy(new_port, ports, port_num * sizeof (struct port));
-        set_port(new_port + port_num);
-        port_num++;
-        free(ports);
-        return new_port;
-    } else {
-        printf("waring : ports_num < 0\n");
-    }
-    return NULL;
-}
 
-struct port *set_ports(struct port *ports)
-{
-    char change;
-    system("cls");
-    printf("====端口设置====\n");
-    for (int i=0; i<port_num; i++) {
-        printf("%d.PORT%d\n", i+1, i+1);
-    }
-    printf("[q] 返回\n");
-    printf("[+] 增加端口\n");
-    printf("请选择：");
-    fflush(stdin);
-    change = getchar();
-    if (change == '+') {
-        ports = add_ports(ports);
-    } else if (change >= '1' && change <= '9') {
-        int num;
-        num = change - '0';
-        do {
-            change = getchar();
-            if (change >= '0' && change <= '9') {
-                num = num * 10 + change - '0';
-            } else {
-                break;
-            }
-        } while(1);
-        if (debug) printf("inpu num is %d\n", num);
-        if (num <= port_num) {
-            set_port(ports + num - 1);
-        } else {
-            printf("这个端口不存在");
-        }
-
-    } else if (change == 'q' || change == 'Q') {
-
-    } else {
-        input_error();
-    }
-    system("pause");
-    return ports;
 }
 
 // 端口管理
-struct port *port_admin(struct port *ports)
+void port_admin(list_node_t *p_head)
 {
     char c;
     while (1) {
         system("cls");
         printf("----端口管理----\n");
         printf("1、查看端口\n");
-        printf("2、设置端口\n");
-        printf("3、返回\n");
+        printf("2、增加端口\n");
+        printf("3、删除端口\n");
+        printf("4、修改端口\n");
+        printf("q: 返回主菜单\n");
         printf("请选择：");
+
         fflush(stdin);
-        c = getchar();
+        c = (char)getchar();
         switch (c) {
         case '1':
-            show_ports(ports);
+            show_ports(p_head);
             break;
         case '2':
-            ports = set_ports(ports);
+            add_ports(p_head);
             break;
         case '3':
-            return ports;
+            del_ports(p_head);
+        case '4':
+            modify_port(p_head);
         default:
             input_error();
             break;
         }
     }
-    return ports;
+    //return ports;
 }
 
 void main_project()
 {
-    int menuChange = 0; //菜单选择
-    struct port *ports = NULL;
-    //ports = init_port();   // 初始化端口
-    init();
-    login();
+    init();     // 初始化
+    login();    // 登陆
+    list_node_t *router_head = list_init(); // 初始化链表
+    if (NULL == router_head) {
+        printf("链表初始化失败!\n");
+        exit(1);
+    }
 
+    int menuChange = 0; //菜单选择
     // 账号密码正确，输出主菜单
     while (1) {
         show_menu();
@@ -306,19 +288,15 @@ void main_project()
             ip_manager();
             break;
         case 3:
-            ports = port_admin(ports);
+            port_admin(router_head);
             break;
         case 4:
-            logout();
+            logout(router_head);
             break;
         default:
             input_error();
             break;
         }
-    }
-    if (ports) {
-        free(ports);
-        ports = NULL;
     }
 }
 

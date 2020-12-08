@@ -75,7 +75,7 @@ void test_17_2()
  */
 
 //初始化链表，即创建头节点
-list_node_pt list_init(void)
+static list_node_pt list_init(void)
 {
     list_node_pt head_node = (list_node_pt)malloc(sizeof (list_node_t));
     if (head_node) {
@@ -92,7 +92,7 @@ list_node_pt list_init(void)
  *  c:新插入的节点就就成了最后一个节点
  *  d:最后一个节点他的next一定是NULL
  */
-int list_insert_last(list_node_pt p_head, int data)
+static int list_insert_last(list_node_pt p_head, int data)
 {
     if (NULL == p_head) {
         printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
@@ -113,7 +113,7 @@ int list_insert_last(list_node_pt p_head, int data)
  * 17.4 链表的基本操作--遍历
  */
 // 遍历节点
-void list_traverse(list_node_pt p_head)
+static void list_traverse(list_node_pt p_head)
 {
     if (NULL == p_head) {
         printf("%s[%d] : p is null\n", __FUNCTION__, __LINE__);
@@ -139,7 +139,7 @@ void list_traverse(list_node_pt p_head)
  * @param data 将删除的节点的值返回到一个变量中
  * @return
  */
-int list_delete_last(list_node_t *p_head, int *data)
+static int list_delete_last(list_node_t *p_head, int *data)
 {
     if (NULL == p_head) {
         printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
@@ -167,7 +167,7 @@ int list_delete_last(list_node_t *p_head, int *data)
 /*
  * 17.6 链表的基本操作--删除首节点
  */
-int list_delete_first(list_node_t *p_head, int *data)
+static int list_delete_first(list_node_t *p_head, int *data)
 {
     if (NULL == p_head) {
         printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
@@ -192,7 +192,7 @@ int list_delete_first(list_node_t *p_head, int *data)
 /*
  * 17.7 链表的基本操作--清空链表节点
  */
-int list_clear(list_node_t *p_head)
+static int list_clear(list_node_t *p_head)
 {
     if (NULL == p_head) {
         printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
@@ -230,7 +230,7 @@ int list_clear(list_node_t *p_head)
  * 其实传入head_list就可以，
  */
 
-void  list_deinit(list_node_t **p_head)
+static void  list_deinit(list_node_t **p_head)
 {
     // 1、清空清空链表节点
     list_clear(*p_head);
