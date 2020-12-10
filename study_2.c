@@ -290,7 +290,7 @@ int list_size(list_node_t *p_head)
  * @param data  此节点保存的值
  * @return  0表示失败，1表示成功
  */
-int list_delete_pos(list_node_t *p_head, unsigned int pos, int *data)
+static int list_delete_pos(list_node_t *p_head, unsigned int pos, int *data)
 {
     if (NULL == p_head) {
         printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
@@ -331,7 +331,7 @@ int list_delete_pos(list_node_t *p_head, unsigned int pos, int *data)
 /*
  * 17.12 链表的基本操作--在指定的位置插入节点
  */
-int list_insert_pos(list_node_t *p_head, int pos, int data)
+static int list_insert_pos(list_node_t *p_head, int pos, int data)
 {
     if (NULL == p_head) {
         printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
