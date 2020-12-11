@@ -41,7 +41,7 @@ static void show_port(port_t *port)
 }
 
 // 设置端口数据
-static void set_port(port_t *port)
+static void set_port(elem_t port)
 {
     printf("请输入端口的名称：");
     scanf("%s", port->name);
@@ -52,6 +52,21 @@ static void set_port(port_t *port)
     printf("请输入端口的类型[lan:wan]：");
     scanf("%s", port->type);
 }
+
+// 释放端口申请的内存
+void free_port(elem_t port)
+{
+    if (port) {
+        if (debug) {
+            printf("释放端口数据：");
+            show_port(port);
+        }
+        free(port);
+    }
+}
+
+// 函数指针，为回调做准备
+typedef void (*free_elem_func_t)(elem_t);
 
 //初始化链表，即创建头节点
 static list_node_t *list_init(void)
@@ -134,9 +149,42 @@ static int list_insert_pos(list_node_t *p_head, int pos, elem_t data)
 }
 
 // 指定位置删除节点
-static int list_delete_pos(list_node_t *p_head, int index)
+// 由于当前data数据申请的内存也要释放，所以添加一个回调函数，free掉new port时申请的内存
+static int list_delete_pos(list_node_t *p_head, int pos, free_elem_func_t free_elem)
 {
-
+    if (NULL == p_head) {
+        printf("%s[%d] : p_head is null\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+    if (NULL == p_head->next) {
+        printf("%s[%d] : 链表为空\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+    // 不管你要删除那个节点，一定要找到他的前驱节点,也就是找到要删除节点的本身
+    // 目前有两种情况 pos大于你节点的个数，pos小于你节点的个数
+    list_node_t *p_cur = p_head;
+    list_node_t *p_del = p_head->next;
+    int i = 0;
+    while (p_del != NULL) {
+        i++;
+        // 当要删除的节点下标存在时，就退出循环，获取当前要删除的节点，如果不存在，继续遍历
+        if (i == pos) {
+            break;
+        }
+        p_cur = p_cur->next;
+        p_del = p_del->next;
+    }
+    // 当遍历结束时，此时i 和pos不相等，证明要删除的这个节点不存在。此时就不能删除，返回0
+    if (i != pos) {
+        printf("%s[%d] : 此节点不存在，无法删除\n", __FUNCTION__, __LINE__);
+        return 0;
+    }
+    // 反之，如果相等的话，证明已找到此节点，我们只需要删除此节点，释放内存就行
+    // 将前驱节点和后一个节点连接起来
+    p_cur->next = p_del->next;
+    free_elem(p_del->data);     // 回调函数释放端口所占的内存
+    free(p_del);
+    return 1;
 }
 
 // 遍历节点
@@ -162,6 +210,7 @@ static int list_clear(list_node_t *p_head)
     list_node_t *del = p_head->next;
     while(del != NULL) {
         p_head->next = del->next;  // 将头节点的next指向删除节点的next；
+        free_port(del->data);
         free(del);  // 释放节点占用的内存
         del = p_head->next;
     }
@@ -319,13 +368,104 @@ void add_ports(list_node_t *p_head)
 
 }
 
+// 删除端口
 void del_ports(list_node_t *p_head)
 {
-
+    char n;
+    while (1) {
+        CLEAR_SCREEN();
+        if (port_num > 0) {
+            printf("----已添加的端口----\n");
+            for (int i=0; i<port_num; i++) {
+                show_port(list_find_pos(p_head, i+1));
+            }
+        } else {
+            printf("----目前没有端口----\n");
+        }
+        printf("n. 删除端口\n");
+        printf("q. 返回\n");
+        printf("请选择： ");
+        fflush(stdin);
+        scanf("%c", &n);
+        if (n >= '1' && n <= '9') {
+            int num = n - '0';
+            do {
+                scanf("%c", &n);
+                if (n >= '0' && n <= '9') {
+                    num = num * 10 + (n - '0');
+                } else {
+                    break;
+                }
+            } while(1);
+            if (debug) {
+                printf("num = %d\n", num);
+            }
+            if (num >= 1 && num <= port_num) {
+                list_delete_pos(p_head, num, free_port);
+                port_num--;
+            } else {
+                printf("要删除的端口号不存在\n");
+            }
+            fflush(stdin);
+        } else if ('q' == n) {
+            break;
+        } else {
+            input_error();
+        }
+        PAUSE_SCREEN();
+    }
 }
 
+// 修改端口
 void modify_port(list_node_t *p_head)
 {
+    char n;
+    while (1) {
+        CLEAR_SCREEN();
+        if (port_num > 0) {
+            printf("----已添加的端口----\n");
+            for (int i=0; i<port_num; i++) {
+                show_port(list_find_pos(p_head, i+1));
+            }
+        } else {
+            printf("----目前没有可以修改的端口----\n");
+        }
+        printf("n. 修改端口\n");
+        printf("q. 返回\n");
+        printf("请选择： ");
+        fflush(stdin);
+        scanf("%c", &n);
+        if (n >= '1' && n <= '9') {
+            int num = n - '0';
+            do {
+                scanf("%c", &n);
+                if (n >= '0' && n <= '9') {
+                    num = num * 10 + (n - '0');
+                } else {
+                    break;
+                }
+            } while(1);
+            if (debug) {
+                printf("num = %d\n", num);
+            }
+            if (num >= 1 && num <= port_num) {
+                elem_t port = list_find_pos(p_head, num);
+                if (port) {
+                    set_port(port);
+                } else {
+                    printf("修改端口失败\n");
+                }
+            } else {
+                printf("要删除的端口号不存在\n");
+            }
+            fflush(stdin);
+        } else if ('q' == n) {
+            break;
+        } else {
+            input_error();
+        }
+        PAUSE_SCREEN();
+    }
 
 }
 
@@ -354,8 +494,10 @@ void port_admin(list_node_t *p_head)
             break;
         case '3':
             del_ports(p_head);
+            break;
         case '4':
             modify_port(p_head);
+            break;
         case 'q':
             return;
         default:
@@ -371,7 +513,6 @@ void logout(list_node_t *p_head)
 {
     fclose(userNamePasswdFile);
     list_deinit(&p_head);
-    CLEAR_SCREEN();
 }
 
 // ------------------------    主函数入口  ------------------------
@@ -404,7 +545,7 @@ void main_project()
             break;
         case 4:
             logout(router_head);
-            break;
+            return;
         default:
             input_error();
             break;
