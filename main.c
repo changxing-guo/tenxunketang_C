@@ -327,9 +327,12 @@ void show_ports(list_node_t *p_head)
 {
     fflush(stdin);
     CLEAR_SCREEN();
-    list_traverse(p_head);
-    printf("按任意键返回主菜单\n");
-    getchar();
+    if (port_num > 0) {
+        list_traverse(p_head);
+    } else {
+        printf("目前没有添加端口\n");
+    }
+    PAUSE_SCREEN();
 
 }
 
@@ -484,7 +487,7 @@ void port_admin(list_node_t *p_head)
         printf("请选择：");
 
         fflush(stdin);
-        c = (char)getchar();
+        scanf("%c", &c);
         switch (c) {
         case '1':
             show_ports(p_head);
