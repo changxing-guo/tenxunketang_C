@@ -667,10 +667,67 @@ static void test_18_3()
     printf("~1ULL = %llx\n", ~1ULL);    // 对8个字节取反
 }
 
+// 18.4 数据类型转换2-自动转换
+/*
+ * 转换原则：低字节向高字节转换，极限范围小的想极限范围大的转换
+ * 强制转换：当你对于类型不确定时，请自己手动进行强制转换
+ */
+static void test_18_4()
+{
+    char        test_char = 1;
+    short       test_short = 2;
+    int         test_int = 3;
+    long        test_long = 4;
+    long long   test_llong = 5;
+    float       test_float = 6.66666666;
+    double      test_double = 7.77777777777;
+
+    printf("sizeof(char + short)    = %d\n", sizeof (test_char + test_short));
+    printf("sizeof(char + int)      = %d\n", sizeof (test_char + test_int));
+    printf("sizeof(short + int)     = %d\n", sizeof (test_short + test_int));
+
+    printf("sizeof(char + long long)    = %d\n", sizeof (test_char + test_llong));
+    printf("sizeof(short + long long)   = %d\n", sizeof (test_short + test_llong));
+    printf("sizeof(int + long long)     = %d\n", sizeof (test_int + test_llong));
+
+    printf("\nfloat test\n");
+    printf("sizeof(char + float)        = %d\n", sizeof (test_char + test_float));
+    printf("sizeof(short + float)       = %d\n", sizeof (test_short + test_float));
+    printf("sizeof(int + float)         = %d\n", sizeof (test_int + test_float));
+    printf("sizeof(float + long long)   = %d\n", sizeof (test_float + test_llong));
+    printf("sizeof(float + double)      = %d\n", sizeof (test_float + test_double));
+
+    int a = -10;
+    unsigned b = 5;
+    if (a + b > 0) {
+        printf("这是真的吗? a + b = %u\n", a + b);
+    } else {
+        printf("这是假的\n");
+    }
+    if ((int)(a + b) > 0) {
+        printf("这是真的吗? a + b = %d\n", (int)(a + b));
+    } else {
+        printf("这是假的\n");
+    }
+
+    // 由高往低赋值时要注意
+    unsigned int c = 0x123456;
+    unsigned char d = c;
+    unsigned short e = c;
+    printf("c = 0x%x, d = 0x%x, e = 0x%x\n", c, d, e);
+    // 打印结果为：c = 0x123456, d = 0x56, e = 0x3456
+    // 所以我们赋值的时候要注意
+
+    double f = 1.123456789;
+    float g = f;
+    printf("f = %0.10lf, g = %0.10f\n", f, g);
+
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
-    test_18_3();
+    test_18_4();
     printf("\n########       程序结束        #########\n");
 
 }
