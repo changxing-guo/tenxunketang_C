@@ -580,10 +580,51 @@ static void test_18_1()
     printf("ddouble = %.20f\n", ddouble);
 }
 
+// 18.2 printf格式化输出
+/*
+ * %c   字符型 [singed] char和unsigned char
+ * %d   有符号类型   [signed]int 以及[signed]int以下类型，如果无符号类型表示的范围没有超出int的整数范围，也可以用%d打印
+ * %u   无符号类型   unsigned int 以及unsigned int以下类型，如果有符号类型不是负数，也可以打印
+ * %ld  有符号长整形 [signed] long类型
+ * %lu  无符号长整形 unsigned long类型
+ * %lld 有符号长长整形 [signed] long long类型
+ * %llu 无符号长长整形 unsigned long long类型
+ * %f   单精度浮点类型 float类型
+ * %lf  双精度浮点类型 double类型
+ * %x   无符号整形（如果有符号是整数也可以，但不能打印负数），以16进制方式显示
+ * %lx  无符号长整形（如果有符号是整数也可以，但不能打印负数），以16进制方式显示
+ * %llx 无符号长长整形（如果有符号是整数也可以，但不能打印负数），以16进制方式显示
+ */
+static void test_18_2()
+{
+    // 测试
+    int test_int = 1;
+    unsigned int test_uint = 2;
+    printf("test_int = %d, test_uint = %u\n", test_int, test_uint);
+
+    long test_long = 3;
+    unsigned long test_ulong = 4;
+    printf("test_long = %ld, test_ulong = %lu\n", test_long, test_ulong);
+
+    long long test_llong = 5;
+    unsigned long long test_ullong = 6;
+    printf("test_llong = %lld, test_ullong = %llu\n", test_llong, test_ullong);
+
+    float test_float = 1.123456789;
+    double test_double = 1.123456789123456789;
+    printf("test_float = %0.7f, test_double = %0.15lf\n", test_float, test_double);
+
+    // %x, %lx, %llx, %u, %lu, %llu 这些都不能打印负数
+    // 带x的使用16进制打印出来，而且只能打印整形(unsinged)(short, int, long, long long)
+    printf("test_uint   = 0X%x\n", test_uint);
+    printf("test_ulong  = 0X%lx\n", test_ulong);
+    printf("test_ullong = 0X%llx\n", test_ullong);
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
-    test_18_1();
+    test_18_2();
     printf("\n########       程序结束        #########\n");
 
 }
