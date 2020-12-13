@@ -591,9 +591,9 @@ static void test_18_1()
  * %llu 无符号长长整形 unsigned long long类型
  * %f   单精度浮点类型 float类型
  * %lf  双精度浮点类型 double类型
- * %x   无符号整形（如果有符号是整数也可以，但不能打印负数），以16进制方式显示
- * %lx  无符号长整形（如果有符号是整数也可以，但不能打印负数），以16进制方式显示
- * %llx 无符号长长整形（如果有符号是整数也可以，但不能打印负数），以16进制方式显示
+ * %x   无符号整形（如果有符号是正数也可以，但不能打印负数），以16进制方式显示
+ * %lx  无符号长整形（如果有符号是正数也可以，但不能打印负数），以16进制方式显示
+ * %llx 无符号长长整形（如果有符号是正数也可以，但不能打印负数），以16进制方式显示
  */
 static void test_18_2()
 {
@@ -615,16 +615,62 @@ static void test_18_2()
     printf("test_float = %0.7f, test_double = %0.15lf\n", test_float, test_double);
 
     // %x, %lx, %llx, %u, %lu, %llu 这些都不能打印负数
-    // 带x的使用16进制打印出来，而且只能打印整形(unsinged)(short, int, long, long long)
+    // 带x的使用16进制打印出来，而且只能打印正数(unsinged)(short, int, long, long long)
     printf("test_uint   = 0X%x\n", test_uint);
     printf("test_ulong  = 0X%lx\n", test_ulong);
     printf("test_ullong = 0X%llx\n", test_ullong);
 }
 
+// 18.3 数据类型转换
+/*
+ * 1、正数常量类型
+ * （1）默认为int类型
+ * （2）超过int表示范围时默认为long long类型
+ * （3）可以使用后缀强制转换为某种类型
+ *  U unsigned int
+ *  L long 类型
+ *  UL unsigned long类型
+ *  LL long long 类型
+ *  ULL unsigned long long类型
+ *
+ * 2、小数常量类型
+ * （1）默认为double
+ * （2）可以使用后缀强制转换为float类型
+ *  F float类型
+ *
+ * 3、数据溢出：选择合适的数据类型，避免数据溢出
+ * （1）整数溢出
+ * （2）小数精度溢出
+ *
+ * 4、注意
+ * 平常使用不需要关注后缀，设置位操作的时候需要注意以下
+ */
+static void test_18_3()
+{
+    // 主要是了解一下有这回事就行
+    // 整数常量类型
+    printf("sizeif(1) = %d\n", sizeof (1));
+    printf("sizeif(1) = %d\n", sizeof (1U));
+    printf("sizeif(1) = %d\n", sizeof (1L));
+    printf("sizeif(1) = %d\n", sizeof (1UL));
+    printf("sizeif(1) = %d\n", sizeof (1LL));
+    printf("sizeif(1) = %d\n", sizeof (1ULL));
+
+    // 小数常量类型
+    printf("sizeif(1) = %d\n", sizeof (1.11F));
+    printf("sizeif(1) = %d\n", sizeof (1.11));
+
+    // 以下操作举例说明不同后缀
+    printf("~1 = %x\n", ~1);
+    printf("~1U = %x\n", ~1U);
+    printf("~1U = %llx\n", ~1U);        // 对4个字节取反
+    printf("~1ULL = %llx\n", ~1ULL);    // 对8个字节取反
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
-    test_18_2();
+    test_18_3();
     printf("\n########       程序结束        #########\n");
 
 }
