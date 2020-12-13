@@ -807,14 +807,24 @@ static int fun_2_to_10(char *str)
         str++;
     }
     printf("num  = %d\n", num);
+    return num;
 }
 
+// 18.10 十进制转为二进制
+static void fun_10_to_2(int num)
+{
+    if (num/2 != 0) {
+        fun_10_to_2(num/2);
+    }
+    putchar('0' + num%2);
+}
 
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
     //test_18_8();
-    fun_2_to_10("1010 1011");
+    fun_2_to_10("1010 1011");// 171
+    fun_10_to_2(171);
     printf("\n########       程序结束        #########\n");
 
 }
