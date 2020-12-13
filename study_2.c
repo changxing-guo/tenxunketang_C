@@ -819,12 +819,39 @@ static void fun_10_to_2(int num)
     putchar('0' + num%2);
 }
 
+// 18.11 八进制转和十进制之间转化
+static int fun_8_to_10(char *str)
+{
+    int num = 0;
+    while(*str != '\0') {
+        int i = *str - '0';
+        if (i>=0 && i<=7) {
+            // 这个如果看不懂就先用用10进制的想一下
+            // 要是在想不明白就从c入门到放弃吧
+            num = num *8 + i;
+        }
+        str++;
+    }
+    printf("num  = %d\n", num);
+    return num;
+}
+static void fun_10_to_8(int num)
+{
+    if (num/8 != 0) {
+        fun_10_to_8(num/8);
+    }
+    putchar('0' + num%8);
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
     //test_18_8();
-    fun_2_to_10("1010 1011");// 171
-    fun_10_to_2(171);
+    //fun_2_to_10("1010 1011");// 171
+    //fun_10_to_2(171);
+    fun_8_to_10("4567");    // 2423
+    fun_10_to_8(2423);
+
     printf("\n########       程序结束        #########\n");
 
 }
