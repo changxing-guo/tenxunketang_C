@@ -551,9 +551,39 @@ void test_17_14()
     list_deinit(&head_list);
 }
 
+// 项目18， 优化ip地址存储空间
+
+// 18.1 数据类型，占用字节
+static void test_18_1()
+{
+    // char -128 ~ 127， unsigned char 0 ~ 255;
+    printf("字符型 sizeof(char)                    = %d\n", (int)sizeof (char));
+    printf("字符型 sizeof(unsigned char)           = %d\n", (int)sizeof (unsigned char));
+    // short -32768~32767, unsigned short 0~65535;
+    printf("短整形 sizeof(short)                   = %d\n", (int)sizeof (short));
+    printf("短整形 sizeof(unsigned short)          = %d\n", (int)sizeof(unsigned short));
+    // int
+    printf("整形 sizeof(int)                       = %d\n", (int)sizeof (int));
+    printf("整形 sizeof(unsigned int)              = %d\n", (int)sizeof (unsigned int));
+    printf("长整形 sizeof(long)                    = %d\n", (int)sizeof (long));
+    printf("长整形 sizeof(unsigned long)           = %d\n", (int)sizeof (unsigned long));
+    printf("长长整形 sizeof(long long)             = %d\n", (int)sizeof (long long));
+    printf("长长整形 sizeof(unsigned long long)    = %d\n", (int)sizeof (unsigned long long));
+    printf("单精度 sizeof(float)                   = %d\n", (int)sizeof (float));
+    printf("双精度 sizeof(double)                  = %d\n", (int)sizeof (double));
+
+    // 单精度和双精度的区别
+    // 单精度保存小数点后6位有效小数，双精度保存小数点后14位有效小数
+    float ffloat = 1.1234567891234567;
+    double ddouble = 1.1234567891234567;
+    printf("ffloat  = %.20f\n", ffloat);
+    printf("ddouble = %.20f\n", ddouble);
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
-    test_17_14();
+    //test_17_14();
+    test_18_1();
     printf("\n########       程序结束        #########\n");
 
 }
