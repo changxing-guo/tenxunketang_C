@@ -721,13 +721,42 @@ static void test_18_4()
     double f = 1.123456789;
     float g = f;
     printf("f = %0.10lf, g = %0.10f\n", f, g);
+}
 
+// 18.5 原码/反码/补码
+/*
+ * 1、具体规则请参考res下面的18_5.png图片示例
+ * 2、计算机中以补码的方式存储数据
+ *      我们只需要注意负数的补码
+ *      因为正数以及无符号类型数值原码/反码/补码都是一样的
+ * 3、假如是char类型，则-0实际上是用来表示-128
+ *    假如是short类型，则-0实际上是用来表示-32768
+ *    这是计算机的一种规定，如果不去写汇编代码我们可以不去了解-0为什么标书有符号的最小值
+ */
+static void test_18_5()
+{
+    char a0 = 85;
+    char a1 = -85;
+    char b0 = 9;
+    char b1 = -9;
+    char c0 = 127;
+    char c1 = -127;
+
+    printf("a0 = 0x%x, a1 = 0x%x\n", a0, (unsigned char)a1);
+    // a0 = 0x55, a1 = 0xab
+    // 0xab为补码， ab -> 1010 1011(补码） -> 1010 1010(反码) ->1101 0101(原码) = -85
+    char d0 = 200;
+    printf("d0 = %d, d0 = 0x%x\n", d0, (unsigned char)d0);
+
+    // 超过取值范围都会以补码形式
+    char d1 = -200;
+    printf("d1 = %d, d1 = 0x%x\n", d1, (unsigned char)d1);
 }
 
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
-    test_18_4();
+    test_18_5();
     printf("\n########       程序结束        #########\n");
 
 }
