@@ -843,15 +843,52 @@ static void fun_10_to_8(int num)
     putchar('0' + num%8);
 }
 
+// 18.12 十进制转和十六进制之间转化
+static int fun_16_to_10(char *str)
+{
+    int num = 0;
+    while(*str != '\0') {
+        char ch = *str;
+        if (ch >= '0' && ch <= '9') {
+            num = num *16 + (ch - '0');
+        }
+        if (ch >= 'A' && ch <= 'F') {
+            num = num *16 + 10 + (ch - 'A');
+        }
+        if (ch >= 'a' && ch <= 'f') {
+            num = num *16 + 10 + (ch - 'a');
+        }
+        str++;
+    }
+    printf("num  = %d\n", num);
+    return num;
+}
+
+static void fun_10_to_16(int num)
+{
+    if (num/16 != 0) {
+        fun_10_to_16(num/16);
+    }
+    int i = num%16;
+    if (i < 10) {
+        putchar('0' + i);
+    } else {
+        putchar('a' + i - 10);
+    }
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
     //test_18_8();
     //fun_2_to_10("1010 1011");// 171
     //fun_10_to_2(171);
-    fun_8_to_10("4567");    // 2423
-    fun_10_to_8(2423);
+    //fun_8_to_10("4567");    // 2423
+    //fun_10_to_8(2423);
 
+    fun_16_to_10("ABCDEF");     // 11259375
+    fun_16_to_10("abcdef");
+    fun_10_to_16(11259375);
     printf("\n########       程序结束        #########\n");
 
 }
