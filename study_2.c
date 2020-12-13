@@ -770,10 +770,34 @@ static void test_18_5()
  * 7014 = 4*8^0 + 1*8^1 + 0*8^2 + 7*8^3 = 3596
  */
 
+// 18.8 10进制转为x进制
+/*
+ * 比如10进制value转为x进制，
+ * 第一位：a0 = value%x; value = int(value/x)
+ * 第二位：a1 = value%x; value = int(value/x)
+ * 第三位：a3 = value%x; value = int(value/x)
+ * 第四位：a4 = value%x; value = int(value/x)
+ * ........
+ */
+
+static void test_18_8()
+{
+    int value = 1234;
+    int x = 16;
+    int a0 ;
+    for (int i=0; i<4; i++) {
+        a0 = value % x;
+        value = (int)(value/x);
+        printf("a = %d\n", a0);
+    }
+    //a = 2 , a = 13, a = 4 , a = 0    -> 4D2 = 1234
+}
+
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
-    test_18_5();
+    test_18_8();
     printf("\n########       程序结束        #########\n");
 
 }
