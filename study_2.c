@@ -1035,6 +1035,7 @@ static void test_18_14()
 
 // 18.16 位操作实战1-2
 // 18.17 位操作实战3-4
+// 18.18 位操作实战3-5
 // 默认规则：设置bit，默认将bit设置为1，清除bit，将bit设置为0；
 // bit0 -- bit31(bit0为右边第一位）
 static void test_18_16()
@@ -1082,7 +1083,18 @@ static void test_18_16()
     printf("\n");
     a &= ~(0x1ff << 15);
     fun_10_to_2(a);
-    printf("\n题目3 a = 0x%x\n\n", a);
+    printf("\n题目4 a = 0x%x\n\n", a);
+
+    // 5、给定一个整型数a，取出a的bit3~bit8
+    // 0011 1111 = 0x3F
+    // 注意：要取出这个数，首先要把其他位清0；之后又一就可以得出那个数了
+    a = 0xc3057ad3;
+    a &= (0x3f << 3);
+    fun_10_to_2(a);
+    printf("\n");
+    a = a >> 3;
+    fun_10_to_2(a);
+    printf("\n题目5 a = 0x%x\n\n", a);
 
 }
 
