@@ -811,7 +811,7 @@ static int fun_2_to_10(char *str)
 }
 
 // 18.10 十进制转为二进制
-static void fun_10_to_2(int num)
+static void fun_10_to_2(unsigned int num)
 {
     if (num/2 != 0) {
         fun_10_to_2(num/2);
@@ -1034,8 +1034,9 @@ static void test_18_14()
 
 
 // 18.16 位操作实战1-2
+// 18.17 位操作实战3-4
 // 默认规则：设置bit，默认将bit设置为1，清除bit，将bit设置为0；
-// bit0 -- bit31
+// bit0 -- bit31(bit0为右边第一位）
 static void test_18_16()
 {
     unsigned int a = 0xc3057ad3;
@@ -1064,8 +1065,25 @@ static void test_18_16()
     a |= (0xf<<4);
     printf("题目2 a = 0x%x\n", a);
 
-    // 3、给定一个整型数a，清除a的bit5，保证其他位不变
+    // 3、给定一个整型数a，清除a的bit14，保证其他位不变
+    // 1111 1111 1111 1111 0111 1111 1111 1111  ~(1<<15)
+    // 0000 0000 0000 0000 1000 0000 0000 0000  取反的操作 (1<<15)
+    a = 0xc3057ad3;
+    fun_10_to_2(a);
+    printf("\n");
+    a &= ~(1 << 14);
+    fun_10_to_2(a);
+    printf("\n题目3 a = 0x%x\n\n", a);
+
     // 4、给定一个整型数a，清除a的bit15~bit23，保证其他位不变
+    // 15-23 = 1 1111 1111 = 0x1ff
+    a = 0xc3057ad3;
+    fun_10_to_2(a);
+    printf("\n");
+    a &= ~(0x1ff << 15);
+    fun_10_to_2(a);
+    printf("\n题目3 a = 0x%x\n\n", a);
+
 }
 
 void test_study_2(void) {
