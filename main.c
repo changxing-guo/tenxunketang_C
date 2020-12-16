@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
+
 #ifndef STUDY_1_H
 #include "study_1.h"
 #endif
@@ -18,7 +20,8 @@ static int port_num = 0;                // 端口个数
 typedef struct port {
     char name[16];
     int status;                         // 1 激活 0 禁止
-    char ip[16];
+    //char ip[16];
+    uint32_t ip;
     char type[4];                       // wan , lan
 }port_t;
 
@@ -30,27 +33,62 @@ typedef struct list_node {
     struct list_node *next;             // 指向下一个节点
 }list_node_t;
 
+// 字符串转整数
+void ip_str_to_uint(char *str_ip, uint32_t *uint_ip)
+{
+    char *endprt = NULL;
+    int count = 0;
+    uint8_t temp = 0;
+    uint32_t temp_ip = 0;
+    do {
+        temp = (uint8_t)strtoul(str_ip, &endprt, 10);
+        temp_ip |= temp;
+        printf("temp_ip = 0x%x, temp = 0x%x\n",temp_ip, temp);
+        if (++count >= 4) {
+            break;
+        }
+        temp_ip <<= 8;
+        str_ip = 1 + endprt;
+    } while(1);
+    *uint_ip = temp_ip;
+}
+
+// 整数转字符串
+void ip_uint_to_str(uint32_t uint_ip, char *str_ip)
+{
+    // 假设是15.15.15.15   总共32bit
+    //       0f 0f 0f 0f
+    sprintf(str_ip, "%u.%u.%u.%u", (uint_ip >> 24) & 0xff,
+            (uint_ip >> 16) & 0xff,
+            (uint_ip >> 8) & 0xff,
+            uint_ip & 0xff);
+}
+
 // 显示端口数据
 static void show_port(port_t *port)
 {
-    printf("name:%-16s\t status:%s\t ip:%-16s\t type:%-4s \n",
+    char str_ip[16];
+    ip_uint_to_str(port->ip, str_ip);
+    printf("name:%-10s\t status:%s\t ip:%-16s\t type:%-4s \n",
            port->name,
            port->status ? "激活" : "禁止",
-           port->ip,
+           str_ip,
            port->type);
 }
 
 // 设置端口数据
 static void set_port(elem_t port)
 {
+    char str_ip[16];
     printf("请输入端口的名称：");
     scanf("%s", port->name);
     printf("请输入端口的状态[0:禁止, 1:激活]：");
     scanf("%d", &(port->status));
     printf("请输入端口的ip：");
-    scanf("%s", port->ip);
+    scanf("%s", str_ip);
     printf("请输入端口的类型[lan:wan]：");
     scanf("%s", port->type);
+    ip_str_to_uint(str_ip, &port->ip);
 }
 
 // 释放端口申请的内存
