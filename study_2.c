@@ -1114,6 +1114,24 @@ static void test_18_16()
 }
 
 // 19.1 结构体膨胀
+// 19.2 内存对齐1
+/*
+ * 内存对齐原因
+ *      在用sizeof运算符求算某结构体所占空间时，并不是简单的将结构体中所有元素各自占
+ *   的空间相加，这里涉及到内存字节对齐的问题。
+ *      从理论上讲，对任何变量的访问都可以从任何地址开始访问。但是事实上不是如此，实际上
+ *    访问特定类型的变量只能在特定的地址访问，这就需要各个变量在空间上按一定的规则排列，
+ *    而不是简单的顺序排列，这就是内存对齐。
+ *
+ * 结构体对齐规则
+ *  （0）变量起始地址是自身字节数的整数倍
+ *  （1）结构体成员在内存中顺序存放，所占内存地址一次增高，第一个成员处在最低某处，最后一个
+ *   成员处在高地址处，但结构体成员之间的内存分配不一定是连续的。
+ *  （2）对于n个字节的元素，他的首地址要能被n整除
+ *  （3）对待每个成员，类似于对待单个n字节元素一样，依次为每个元素找一个合适的首地址，使其能
+ *   符合第一条对齐原则。
+ */
+
 struct data1{
     char a;
 };
@@ -1156,6 +1174,13 @@ struct data6{
     int f;
 };
 
+struct data7{
+    char a;
+    int b;
+    char c;
+    double d;
+};
+
 void test_19_1()
 {
     printf("data1   sizeof = %d\n", (unsigned int)sizeof (struct data1));
@@ -1165,6 +1190,14 @@ void test_19_1()
     printf("data4   sizeof = %d\n", (unsigned int)sizeof (struct data4));
     printf("data5   sizeof = %d\n", (unsigned int)sizeof (struct data5));
     printf("data6   sizeof = %d\n", (unsigned int)sizeof (struct data6));
+
+    struct data7 t7;
+    printf("sizeof      = %d\n", sizeof (t7));
+    printf("t7          = 0x%p\n", &t7);
+    printf("char a      = 0x%p\n", &t7.a);
+    printf("int b       = 0x%p\n", &t7.b);
+    printf("char c      = 0x%p\n", &t7.c);
+    printf("double d    = 0x%p\n", &t7.d);
 }
 
 void test_study_2(void) {
