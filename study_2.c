@@ -1113,6 +1113,60 @@ static void test_18_16()
 
 }
 
+// 19.1 结构体膨胀
+struct data1{
+    char a;
+};
+struct data2{
+    char a;
+    int b;
+};
+
+struct data3{
+    char a;
+    char b;
+    int c;
+};
+struct data3_1{
+    char a;
+    int c;
+    char b;
+};
+
+struct data4{
+    char a;
+    char b;
+    int c;
+};
+
+struct data5{
+    char a;
+    char b;
+    char c;
+    char d;
+    int e;
+};
+
+struct data6{
+    char a;
+    char b;
+    char c;
+    char d;
+    char e;
+    int f;
+};
+
+void test_19_1()
+{
+    printf("data1   sizeof = %d\n", (unsigned int)sizeof (struct data1));
+    printf("data2   sizeof = %d\n", (unsigned int)sizeof (struct data2));
+    printf("data3   sizeof = %d\n", (unsigned int)sizeof (struct data3));
+    printf("data3_1 sizeof = %d\n", (unsigned int)sizeof (struct data3_1));
+    printf("data4   sizeof = %d\n", (unsigned int)sizeof (struct data4));
+    printf("data5   sizeof = %d\n", (unsigned int)sizeof (struct data5));
+    printf("data6   sizeof = %d\n", (unsigned int)sizeof (struct data6));
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
@@ -1126,7 +1180,8 @@ void test_study_2(void) {
     fun_16_to_10("abcdef");
     fun_10_to_16(11259375);
     */
-    test_18_16();
+    //test_18_16();
+    test_19_1();
     printf("\n########       程序结束        #########\n");
 
 }
