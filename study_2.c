@@ -1244,6 +1244,72 @@ void test_19_1()
  * 值得整数倍”中的N用N= min(sizeof(成员类型), X)中的N。
  */
 
+// 项目20 提高专题sizeof和strlen的联系与区别
+/*
+ * sizeof
+ *    sizeof 是运算符，在头文件中typedef中未unsigned int，其值在编译时即计算好了，参数可以是数组，指针，对象，函数等
+ *    他的功能是：获取保证能容纳实现所建立的最大对象的字节大小。
+ *    由于它在编译时计算，因为sizeof不能返回动态分类的内存空间的大小。实际上，用sizeof来返回类型以及静态分配的对象、结构体
+ * 或数组所占的空间，返回值跟对象，结构，数组所存储的内容没有关系。
+ *    具体而言，当参数如下时，sizeof返回的值的表示的含义如下：
+ *        数组：编译时分配的数组空间的大小
+ *        指针：存储该指针所用的空间大小（存储指针的地址的长度，是长整形，应该为4）
+ *        类型：该类型所占的空间大小
+ *        对象：对象的实际占用空间大小
+ *        函数：函数的返回类型所占的空间大小，函数的返回类型不能是void
+ *  谨记：要算数组的大小的时候，我们只需要传入数组名就行了
+ *
+ * strlen
+ *   strlen是函数，要在运行时才能计算，参数必须是字符型指针（char *)。当数组名作为参数传入时，实际上数据就退化成指针了
+ *   它的功能是：返回字符画串的长度。该字符串可能是自己定义的，也可能是内存中随机的，该函数实际完成的功能是从代表该字符串的第一
+ * 的第一个地址开始遍历，知道遇到结束符'\0'，返回的长度大小不包括'\0'
+ */
+
+struct data20{
+    char a;
+    int b;
+};
+
+long long test_20()
+{
+    return 1ll;
+}
+
+void test_20_1()
+{
+    char c1[10];
+    printf("sizeof(c1) = %d\n", sizeof (c1));
+    char *p_c1 = c1;
+    char *p_c2 = (char *)malloc(10);
+    printf("sizeof(p_c1) = %d\n", sizeof (p_c1));
+    printf("sizeof(p_c2) = %d\n", sizeof (p_c2));
+    free(p_c2);
+
+    long c3;
+    printf("sizeof(c3) = %d\n", sizeof (c3));
+
+    struct data20 c4;
+    printf("sizeof(c4) = %d\n", sizeof (c4));
+    printf("sizeof(c5) = %d\n", sizeof (test_20()));
+
+    int a = 0;
+    printf("请输入一个整数值：");
+    scanf("%d", &a);
+    char c6[a];
+    printf("sizeof(c6) = %d\n", sizeof (c6));
+
+    char c7[] = "123456";
+    char *p_c7 = c7;
+    printf("sizeof(c7) = %d\n", sizeof (c7));
+    printf("strlen(c7) = %d\n", strlen (c7));
+    printf("strlen(p_c7) = %d\n", strlen (p_c7));
+
+    char c8[] = "123456";
+    c8[3] = '\0';
+    printf("strlen(c8) = %d\n", strlen (c8));
+    printf("c8 = %s\n", c8);
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
@@ -1258,7 +1324,8 @@ void test_study_2(void) {
     fun_10_to_16(11259375);
     */
     //test_18_16();
-    test_19_1();
+    //test_19_1();
+    test_20_1();
     printf("\n########       程序结束        #########\n");
 
 }
