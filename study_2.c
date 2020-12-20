@@ -1529,6 +1529,29 @@ void test_22_2()
     }
 }
 
+// 22.3 二级指针
+/*
+ * 通过指针访问变量称为间接访问。由于指针变量直接指向变量，所以称为一级指针，
+ * 而吐过通过指针的指针变量来访问变量则构成“二级指针”
+ */
+void test_22_3()
+{
+    int a = 10;
+    int *p = &a;
+    int **q = &p;
+
+    printf("&a      = %p\n", (void *)&a);
+    printf("p       = %p\n", (void *)p);
+    printf("&p      = %p\n", (void *)&p);
+    printf("q       = %p\n", (void *)q);
+    printf("&q      = %p\n", (void *)&q);
+    printf("*q      = %p\n", (void *)*q);
+    printf("**q     = %d\n", **q);
+
+    // 给了一个地址你，通过*的方式就可以访问到内容
+    printf("a = %d\n", *((int *)0x62FD8C));
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
@@ -1544,6 +1567,7 @@ void test_study_2(void) {
     */
     //test_18_16();
     //test_19_1();
-    test_22_2();
+    //test_22_2();
+    test_22_3();
     printf("\n########       程序结束        #########\n");
 }
