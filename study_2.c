@@ -1318,6 +1318,7 @@ void test_20_1()
  */
 
 // 21.1 const修饰变量和指针
+void test_21_2_1(int a[], int len);
 void test_21_1()
 {
     //1、修饰常量时：此时数组的值为只读模式，不能修改
@@ -1347,6 +1348,24 @@ void test_21_1()
     printf("p_int3 = %d , int3 = %d\n", *p_int3, int3);
     //p_int3 = &int3    // 不允许
     // *p_int3 = 30;    // 不允许
+
+    test_21_2_1(noch, 3);
+    printf("noch[0] = %d\n", noch[0]);
+}
+
+// 21.2 const修饰变量和指针-下
+void test_21_2_1(int a[], int len)
+{
+    if (len >= 1) {
+        a[0] = 100;
+    }
+}
+// 如果不想传入进来的数组被改变，可以加const去限制
+void test_21_2_2(const int a[], int len)
+{
+    if (len >= 1) {
+        //a[0] = 100;   // 不能改变其值
+    }
 }
 
 void test_study_2(void) {
