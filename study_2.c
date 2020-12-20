@@ -1399,6 +1399,73 @@ void test_21_3()
     printf("mount = %d\n", mounth);
 }
 
+// 项目22 指针和数组的纠缠
+
+// 22.1 数组名和指针的联系与区别
+void test_22_1(void)
+{
+    int array[] = {1, 2, 3, 4, 5};
+    int *p_array = array;
+    int len = sizeof (array) / sizeof (array[0]);
+
+    printf("----数组名和指针之间的联系----\n");
+    printf("数组方式输出:\n");
+    for (int i = 0; i < len; i++) {
+        printf("%d ", array[i]);
+    }
+
+    printf("\n\n指针当成数组来使用:\n");
+    for (int i = 0; i < len; i++) {
+        printf("%d ", p_array[i]);
+    }
+
+    printf("\n\n以指针的方式使用:\n");
+    for (int i = 0; i < len; i++) {
+        printf("%d ", *p_array++);
+    }
+
+    printf("----\n\n数组名和指针之间的区别1----\n");
+    p_array = array;    // 先前有++操作，此时重新赋值
+    printf("&p_array      = %p\n", &p_array);
+    printf("&p_array[0]   = %p\n", &p_array[0]);
+    printf("p_array       = %p\n", p_array);
+
+    printf("&array        = %p\n", &array);
+    printf("&array[0]     = %p\n", &array[0]);
+    printf("array         = %p\n", array);
+
+    // 变量三要素：变量自己的地址，变量的值，变量名称
+    /*
+     *  区别1：（1）数组名取地址得到的地址是数组名所致元素的地址
+     *         （2）对指针取地址得到是指针变量自身的地址
+     *  区别2：（1）数组是固定大小的，数组一经定义，那么数组名就是一个指向数组首元素的
+     *          常量指针，也就是说数组名是不允许更改的，而指针可以更改
+     *         （2）数组名是常量指针，指针是变量指针
+     *  区别3：（1）当对数组名使用sizeof时，得到的时数组元素的个数乘元素类型的字节数，对于
+     *         （2）指针sizeof得到的是指针类型的字节数
+     */
+
+    printf("\n数组名和指针之间的区别3\n");
+    printf("sizeof(array) = %d\n", sizeof (array));
+    printf("sizeof(p_array) = %d\n", sizeof (p_array));
+
+    printf("&p_array        = %p\n", &p_array);
+    printf("&p_array + 1    = %p\n", &p_array + 1); //加的是指针本身的大小
+    printf("&array          = %p\n", &array);
+    printf("&array + 1      = %p\n", &array + 1);   //加的是数组本身的大小
+
+    printf("&array[0]       = %p\n", &array[0]);
+    printf("&array[0] + 1   = %p\n", &array[0] + 1);
+
+    /*
+     * 总结：
+     *  （1）数组名代表了一个指向数组首元素的变量指针，一经定义，不可更改，数组名作为常量指针。
+     * 其类型与数组元素类型相同
+     *  （2）当初先sizeof和&操作符是，数组名不再当成一个指向一个元素的常量指针来使用，而指针扔
+     * 可以当成指向一个元素的变量指针来使用。
+     */
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
@@ -1414,6 +1481,6 @@ void test_study_2(void) {
     */
     //test_18_16();
     //test_19_1();
-    test_21_3();
+    test_22_1();
     printf("\n########       程序结束        #########\n");
 }
