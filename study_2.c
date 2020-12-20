@@ -1368,6 +1368,37 @@ void test_21_2_2(const int a[], int len)
     }
 }
 
+// 21.3 对全局变量使用const
+/* 回忆一下使用全局变量被认为是一种冒险的方法，因为他暴露了数据，
+ * 使程序的任何部分偶读可以错误的修改数据。如果数据是const的，这种危险就不存在了
+ *
+ * 多个文件中使用了加const修饰的全局变量，用法的不加const是一样的，也是要遵循：在一个文件中
+ * 进行定义声明，在其他文件中进行引用声明。
+ */
+// (1) 定义和声明的文件内都不允许修改改变变量，则都要加上const
+//     如果定义的时候有加const，引用的时候也要加const
+extern const int noch[3];
+
+// (2) 定义的文件里面可以修改，但是引用声明的文件不能修改。
+//     引用的时候加上const，原定义文件不加const
+extern const int mounth;
+extern void modify(int a);
+
+// (3) 错误的引用方式，定义的时候加const，引用的时候不加const，会导致代码运行异常
+void test_21_3()
+{
+    // noch[0] = 100; // 不能这样做，加了const为只读模式
+    for(int i=0; i<3; i++) {
+        printf("noch[%d] = %d  ", i+1, noch[i]);
+    }
+    printf("\n");
+
+    //mounth = 20;   // 非法操作
+    printf("mount = %d\n", mounth);
+    modify(20);
+    printf("mount = %d\n", mounth);
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
@@ -1383,7 +1414,6 @@ void test_study_2(void) {
     */
     //test_18_16();
     //test_19_1();
-    test_21_1();
+    test_21_3();
     printf("\n########       程序结束        #########\n");
-
 }

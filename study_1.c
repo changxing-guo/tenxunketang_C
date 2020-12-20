@@ -1065,3 +1065,13 @@ void studyTest1()
 {
     test_switch2();
 }
+
+// 针对gcc编译器不会报错。可以被外部引用
+const int noch[3] = {1,2,3};
+// 对于c++编译器，加了const默认该变量就是static，要被外部引用则要显示加extern修饰
+// extern const int noch[3] = {1,2,3};
+int mounth = 12;
+void modify(int a)
+{
+    mounth = a;
+}
