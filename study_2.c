@@ -1310,6 +1310,45 @@ void test_20_1()
     printf("c8 = %s\n", c8);
 }
 
+// 项目21 提高专题-变量不再变（const使用）
+/*
+ * const定义
+ * 如果变量在声明中带有关键字const，则不能通过赋值/增值/减值等方式改变变量的值
+ * 然而
+ */
+
+// 21.1 const修饰变量和指针
+void test_21_1()
+{
+    //1、修饰常量时：此时数组的值为只读模式，不能修改
+    const int noch[3] = {1,2,3};
+    for(int i=0; i<3; i++) {
+        printf("noch[%d] = %d  ", i+1, noch[i]);
+    }
+    printf("\n");
+
+    //2、修饰指针时：
+    //   主要看const在*的前后，在前则指针指向的内容为常量，在后则指针本身为常量；
+    const int *p_int1;  // 下面的声明表示p_int1指向的值必须是不变的，但是p_int1可以指向其他变量
+    int int1 = 20;
+    p_int1 = &int1;
+    printf("p_nit1 = %d , int1 = %d\n", *p_int1, int1);
+    //*p_int1 = 30;   // 不允许改变其值
+
+    int int2 = 20;
+    int *const p_int2 = &int2;  // 表示p_int2本身的值不能改变,但是可以改变指针指向的变量的值
+    printf("p_int2 = %d , int2 = %d\n", *p_int2, int2);
+    *p_int2 = 30;
+    printf("p_int2 = %d , int2 = %d\n", *p_int2, int2);
+
+    // （3）p_int3必须总是指向同一个位置，并且他所指向位置存储的值也是不能改变的
+    int int3 = 20;
+    const int *const p_int3 = &int3;
+    printf("p_int3 = %d , int3 = %d\n", *p_int3, int3);
+    //p_int3 = &int3    // 不允许
+    // *p_int3 = 30;    // 不允许
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
@@ -1325,7 +1364,7 @@ void test_study_2(void) {
     */
     //test_18_16();
     //test_19_1();
-    test_20_1();
+    test_21_1();
     printf("\n########       程序结束        #########\n");
 
 }
