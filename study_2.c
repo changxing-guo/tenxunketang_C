@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static void printf_static()
 {
@@ -1552,6 +1553,40 @@ void test_22_3()
     printf("a = %d\n", *((int *)0x62FD8C));
 }
 
+// 22.4 二级指针做形参输出特性
+int get_mem(char **p)
+{
+    if (NULL == p) {
+        return -1;
+    }
+    printf("get_mem p  = %x\n", p);
+    printf("get_mem *p = %x\n", *p);
+
+    char *temp = (char *)malloc(100);
+    printf("get_mem temp = %x\n", temp);
+    if (!temp) {
+        return -2;
+    }
+    strcpy(temp, "12345678");
+    *p = temp;
+    printf("get_mem **p = %x\n", **p);
+    printf("get_mem *p = %s\n", *p);
+    return 0;
+}
+void test_22_4()
+{
+    char *p = (char *)0x12345678;
+    int ret = 0;
+    printf("test_22_4 &p = %x\n", &p);
+    ret = get_mem(&p);
+    if (ret == 0) {
+        printf("test_22_4 p  = %x\n", p);
+        printf("test_22_4 *p = %c\n", *p);
+        printf("test_22_4  p = %s\n", p);
+    }
+
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
@@ -1568,6 +1603,6 @@ void test_study_2(void) {
     //test_18_16();
     //test_19_1();
     //test_22_2();
-    test_22_3();
+    test_22_4();
     printf("\n########       程序结束        #########\n");
 }
