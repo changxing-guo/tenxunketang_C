@@ -1587,6 +1587,49 @@ void test_22_4()
 
 }
 
+// 22.5 二级指针做形参输入特性
+
+void test_22_5_1(char **p, int n)
+{
+    for (int i=0; i<n; i++) {
+        //此时（char**)p++每次加8个字节，因为一个char*类型有8个字节
+        printf("[%d] = %p\n", i, p + i);    //打印数组元素本身的地址
+        //printf("[%d] = %p\n", i, p[i]);     //打印数组元素指向的地址
+        printf("[%d] = %p\n", i, *(p + i)); //和上一个等价
+        printf("[%d] = %s\n", i, *(p + i));
+    }
+}
+
+void test_22_5_2(char *p, int n)
+{
+    for (int i=0; i<n; i++) {
+        //此时p++每次只能加1个字节，因为一个char类型只有一个字节
+        printf("[%d] = %p\n", i, p + i);    //打印数组元素本身的地址
+        //printf("[%d] = %p\n", i, p[i]);     //打印数组元素指向的地址
+        //printf("[%d] = %p\n", i, *(p + i)); //和上一个等价
+        //printf("[%d] = %s\n", i, *(p + i));
+    }
+}
+
+void test_22_5()
+{
+    char *p[] = {
+        "1111", "2222", "3333", "4444", "5555"
+    };
+    int n = sizeof (p) / sizeof (p[0]);
+    printf("sizeof(p) =  %d, sizeof(p0) = %d\n",
+           sizeof (p), sizeof (p[0]));
+    for (int i=0; i<n; i++) {
+        printf("[%d] = %p\n", i, p + i);    //打印数组元素本身的地址
+        printf("[%d] = %p\n", i, p[i]);     //打印数组元素指向的地址
+        printf("[%d] = %p\n", i, *(p + i)); //和上一个等价
+        printf("[%d] = %s\n", i, *(p + i));
+    }
+    test_22_5_1(p, n);
+    //为什么不用一级指针呢？下面看下这个例子
+    test_22_5_2(p, n);
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
@@ -1603,6 +1646,6 @@ void test_study_2(void) {
     //test_18_16();
     //test_19_1();
     //test_22_2();
-    test_22_4();
+    test_22_5();
     printf("\n########       程序结束        #########\n");
 }
