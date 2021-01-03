@@ -1650,15 +1650,15 @@ char **get_strings(int n)
 
 void free_buf(char **p, int n)
 {
-   for (int i=0; i<n; i++) {
-       free(p[i]);
-       p[i] = NULL;
-   }
-   if (p) {
-       free(p);
-       p = NULL;
-       printf("buff addr = %p\n", p);
-   }
+    for (int i=0; i<n; i++) {
+        free(p[i]);
+        p[i] = NULL;
+    }
+    if (p) {
+        free(p);
+        p = NULL;
+        printf("buff addr = %p\n", p);
+    }
 }
 
 void test_22_6()
@@ -1678,6 +1678,71 @@ void test_22_6()
     printf("buff addr = %p\n", p);
 }
 
+
+// 23.2 无参数宏定义
+/*
+ * 基本概念
+ *  在代码中，允许一个标识符（宏名）来表示另一段符号，就是所谓宏定义
+ *  这里所说的一段符号，可以是数字，字符，字符串，表达式，等等
+ *  c语言中：“宏”分为：（1）无参数的宏，（2）有参数的宏
+ *
+ * 无参数的宏定义
+ *  例子：#define PI 3.1415926
+ *  在编译预处理时，将程序中在该语句以后出现的所有PI都用3.1415926代替
+ *  这种方法能用一个简单的名字代替一段长的符号。
+ *  在预编译时将宏名替换成一段符号的过程称为“宏展开”
+ *  例子：#define TRACHER "MARTAIN 老师"
+ *
+ * 为什么要使用宏？
+ *  方便修改和管理，不用一个一个的许修改，这个就是宏定义的用处
+ *
+ * 总结：
+ *  1）宏名一般用大写，以便于与变量区别
+ *  2）宏定义可以是常数，表达式等
+ *  3）宏定义不做语法检查，只有在编译被宏展开后的源程序才会报错
+ *  4）宏定义不是c语言，不再行尾将分号
+ *  5）宏名有效范围为从定义到本源文件结束
+ *  6）可以用#undef命令终止宏定义的作用域
+ *  7）在宏定义中，可以引用以定义的宏名，注意使用小括号()将引用部分括起来
+ */
+
+/*
+ * 向前复制当前行：Ctrl + Alt + up (向上箭头)
+ * 向后复制当前行：Ctrl + Alt + down(向下箭头)
+ * 补充一个：Ctrl + shift + up/down  将当前行上下移动， 在notepad里也适用。
+ */
+// 测试总结7
+#define PI      3.14
+#define PI_1    PI
+#define PI_2    PI + 1
+#define PI_3    (PI + 1)
+void test_23_2_1()
+{
+    double radius = 10.0;
+    double area     = PI * radius * radius;
+    double area1    = PI_1 * radius * radius;
+    double area2    = PI_2 * radius * radius;
+    // 3.14 + 1 * radius * radius = 103.140000
+    double area3    = PI_3 * radius * radius;
+    // (3.14 + 1) * radius * radius = 414.000000
+
+    //总结：只会替换，不会自动做一些逻辑判断
+
+    printf("test PI   area = %lf\n", area);
+    printf("test PI_1 area = %lf\n", area1);
+    printf("test PI_2 area = %lf\n", area2);
+    printf("test PI_3 area = %lf\n", area3);
+    /*
+    test PI   area = 314.000000
+    test PI_1 area = 314.000000
+    test PI_2 area = 103.140000
+    test PI_3 area = 414.000000
+    */
+}
+void test_23_2()
+{
+    test_23_2_1();
+}
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
@@ -1694,6 +1759,6 @@ void test_study_2(void) {
     //test_18_16();
     //test_19_1();
     //test_22_2();
-    test_22_6();
+    test_23_2();
     printf("\n########       程序结束        #########\n");
 }
