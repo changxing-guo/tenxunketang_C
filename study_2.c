@@ -1817,6 +1817,16 @@ void test_23_4()
 #endif
 }
 
+// 23.5 特殊的预定义宏
+void test_23_5()
+{
+    printf("文件名： %s\n", __FILE__);
+    printf("函数名： %s\n", __FUNCTION__);
+    printf("行  号： %d\n", __LINE__);     // 行号用%d
+    printf("文件名： %s\n", __DATE__);
+    printf("日  期： %s\n", __TIME__);
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
@@ -1833,6 +1843,6 @@ void test_study_2(void) {
     //test_18_16();
     //test_19_1();
     //test_22_2();
-    test_23_4();
+    test_23_5();
     printf("\n########       程序结束        #########\n");
 }
