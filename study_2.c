@@ -1630,6 +1630,54 @@ void test_22_5()
     test_22_5_2(p, n);
 }
 
+// 22.6 堆区数组指针
+//假如你在一个函数里面要产生n个字符串，那怎么返回给调用者
+char **get_strings(int n)
+{
+    char **buff = (char **)malloc(n * sizeof (char *));
+    printf("buff addr = %p\n", buff);
+    if (!buff) {
+        return NULL;
+    }
+    for (int i=0; i<n; i++) {
+        buff[i] = (char *) malloc(100 * sizeof (char));
+        char str[100];
+        sprintf(str, "string%d", i);
+        strcpy(buff[i], str);
+    }
+    return buff;
+}
+
+void free_buf(char **p, int n)
+{
+   for (int i=0; i<n; i++) {
+       free(p[i]);
+       p[i] = NULL;
+   }
+   if (p) {
+       free(p);
+       p = NULL;
+       printf("buff addr = %p\n", p);
+   }
+}
+
+void test_22_6()
+{
+    int n = 4;
+    // 申请了资源后，结束程序后要释放掉
+    char **p = get_strings(n);
+    if(p) {
+        test_22_5_1(p, n);
+    }
+    //释放内存
+    free_buf(p, n);
+    // 为什么不能在函数内部将p指向NULL
+    // 因为此时传入的是p的指向，而不是p的地址
+    printf("buff addr = %p\n", p);
+    p = NULL;
+    printf("buff addr = %p\n", p);
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
@@ -1646,6 +1694,6 @@ void test_study_2(void) {
     //test_18_16();
     //test_19_1();
     //test_22_2();
-    test_22_5();
+    test_22_6();
     printf("\n########       程序结束        #########\n");
 }
