@@ -1743,6 +1743,27 @@ void test_23_2()
 {
     test_23_2_1();
 }
+
+// 23.3 带参数宏定义
+
+#define NULTIPLY(x,y) (x*y)         // 错误写法
+#define NULTIPLY_2(x,y) ((x)*(y))   // 正确写法。如果是表达式一定要用括号括起来
+
+void test_23_3()
+{
+    printf("NULTIPLY(2,3)       = %d\n", NULTIPLY(2,3));
+    int a = 2;
+    int b = 3;
+    // NULTIPLY(a,b) = 2 * 3 = 6
+    printf("NULTIPLY(a,b)       = %d\n", NULTIPLY(a,b));
+    // NULTIPLY(a+1,b) = 2 + 1 * 3 = 5
+    printf("NULTIPLY(a+1,b)     = %d\n", NULTIPLY(a+1,b));
+
+    printf("NULTIPLY_2(a,b)     = %d\n", NULTIPLY_2(a,b));
+    printf("NULTIPLY_2(a+1,b)   = %d\n", NULTIPLY_2(a+1,b));
+
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
@@ -1759,6 +1780,6 @@ void test_study_2(void) {
     //test_18_16();
     //test_19_1();
     //test_22_2();
-    test_23_2();
+    test_23_3();
     printf("\n########       程序结束        #########\n");
 }
