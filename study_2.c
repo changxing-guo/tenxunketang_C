@@ -1764,6 +1764,59 @@ void test_23_3()
 
 }
 
+// 23.4 条件编译
+/*
+ * 基本概念
+ *  一般情况下，源程序中所有的行都参加编译。但有时希望对部分源程序只在满足一定条件时才编译。
+ *  即对这部分源程序行指定编译条件
+ *
+ * 条件编译的作用
+ *  1）防止头文件被重复包含引用
+ *      增加编译工作的工作量
+ *      引起错误，比如在头文件中定义了全局变量。这种方式不推荐
+ *  2）软件裁剪
+ *      同样的c源代码，条件选项不同编译出不同的可执行文件
+ *  3）一些特殊的预订宏
+ */
+
+#define BIG
+#define TEST2 0
+
+void test_23_4()
+{
+    // 测试存在
+    char str[] = "Hello World, C";
+    char ch;
+    int i = 0;
+    printf("%s\n", str);
+    while ((ch = str[i++]) != '\0')
+    {
+#ifdef BIG   // 对于ifdef 只要有定义就可以
+        if (ch >= 'a' && ch <= 'z') {
+            ch = ch - 32;
+        }
+#else
+        if (ch >= 'A' && ch <= 'Z') {
+            ch = ch + 32;
+        }
+#endif
+        printf("%c", ch);
+    }
+    printf("\nifdef test is over\n\n");
+    // 测试不存在
+#ifndef TEST1   // 和ifdef相反
+    printf("test1\n");
+#else
+    printf("error1\n");
+#endif
+    // 根据表达式定义
+#if TEST2   // 对于if， 要有定义和赋值，0是假
+    printf("test2\n");
+#else
+    printf("error2\n");
+#endif
+}
+
 void test_study_2(void) {
     printf("\n########       程序开始        #########\n");
     //test_17_14();
@@ -1780,6 +1833,6 @@ void test_study_2(void) {
     //test_18_16();
     //test_19_1();
     //test_22_2();
-    test_23_3();
+    test_23_4();
     printf("\n########       程序结束        #########\n");
 }
